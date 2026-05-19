@@ -1,0 +1,15 @@
+{
+  "name": "rivr-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "RIVR — motion-heavy marketing site for the booking-systems agency. Static site (React + Babel-standalone via CDN); no build step.",
+  "scripts": {
+    "dev": "serve -l 3000 .",
+    "start": "serve -l 3000 .",
+    "capture": "node scripts/capture-prototype.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0",
+    "serve": "^14.2.4"
+  }
+}

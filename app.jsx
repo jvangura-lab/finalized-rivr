@@ -351,7 +351,7 @@ function Footer() {
             <p className="footer-brand-name"><span className="mk">R</span> RIVR</p>
             <h4>Contact</h4>
             <ul>
-              <li><a href="mailto:hello@rivrsystems.com">hello@rivrsystems.com</a></li>
+              <li><a href="mailto:join@rivrsystems.com">join@rivrsystems.com</a></li>
             </ul>
             <address>
               RIVR Systems<br />
@@ -445,8 +445,8 @@ function Cursor() {
   return <div ref={dotRef} className={`rivr-cursor ${active ? "in" : ""} ${hover ? "hover" : ""}`} aria-hidden />;
 }
 
-// ── BrowserFrame: chrome around an image ─────────────────────────────────────
-function BrowserFrame({ src, alt, url, style = {}, className = "" }) {
+// ── BrowserFrame: chrome around an image or arbitrary children ───────────────
+function BrowserFrame({ src, alt, url, style = {}, className = "", children }) {
   return (
     <div className={`browser ${className}`.trim()} style={style}>
       <div className="bar">
@@ -454,9 +454,109 @@ function BrowserFrame({ src, alt, url, style = {}, className = "" }) {
         {url && <span className="u">{url}</span>}
       </div>
       <div className="body">
-        <img src={src} alt={alt} loading="lazy" />
+        {children || <img src={src} alt={alt} loading="lazy" />}
       </div>
     </div>
+  );
+}
+
+// ── PrototypeModal — full-screen iframe modal for the Lumera prototype ───────
+const PROTOTYPE_URL = "https://lumera-aesthetics.vercel.app/";
+
+function usePrototypeModal() {
+  const [open, setOpen] = useState(false);
+  const openModal = useCallback(() => setOpen(true), []);
+  const closeModal = useCallback(() => setOpen(false), []);
+  return { open, openModal, closeModal };
+}
+
+function PrototypeModal({ open, onClose }) {
+  const [mounted, setMounted] = useState(false);
+  const [isOpenClass, setIsOpenClass] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const closeBtnRef = useRef(null);
+  const prevFocusRef = useRef(null);
+
+  // Mount on open. Delay unmount to let exit animation play.
+  useEffect(() => {
+    if (open) { setMounted(true); return; }
+    if (!mounted) return;
+    const t = setTimeout(() => { setMounted(false); setIframeLoaded(false); }, 600);
+    return () => clearTimeout(t);
+  }, [open, mounted]);
+
+  // Toggle .is-open after mount so transitions trigger (instead of starting at final state).
+  useLayoutEffect(() => {
+    if (!mounted) { setIsOpenClass(false); return; }
+    if (open) {
+      const id = requestAnimationFrame(() => setIsOpenClass(true));
+      return () => cancelAnimationFrame(id);
+    }
+    setIsOpenClass(false);
+  }, [mounted, open]);
+
+  // Scroll lock, ESC, focus restore — while mounted.
+  useEffect(() => {
+    if (!mounted) return;
+    prevFocusRef.current = document.activeElement;
+    const prevOverflow = document.body.style.overflow;
+    const prevPaddingRight = document.body.style.paddingRight;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+    const focusId = requestAnimationFrame(() => {
+      if (closeBtnRef.current) closeBtnRef.current.focus();
+    });
+    const onKey = (e) => {
+      if (e.key === "Escape") { e.preventDefault(); onClose(); }
+    };
+    document.addEventListener("keydown", onKey);
+
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      cancelAnimationFrame(focusId);
+      document.body.style.overflow = prevOverflow;
+      document.body.style.paddingRight = prevPaddingRight;
+      const prev = prevFocusRef.current;
+      if (prev && typeof prev.focus === "function") {
+        try { prev.focus(); } catch (_) { /* no-op */ }
+      }
+    };
+  }, [mounted, onClose]);
+
+  if (!mounted) return null;
+
+  return ReactDOM.createPortal(
+    <div className={`proto-modal ${isOpenClass ? "is-open" : ""}`} aria-hidden={!open}>
+      <div className="proto-modal-backdrop" onClick={onClose} />
+      <div className="proto-modal-panel" role="dialog" aria-modal="true" aria-label="Lumera Aesthetics live prototype">
+        {!iframeLoaded && (
+          <div className="proto-modal-skeleton" aria-hidden>
+            <span className="mk">R</span>
+          </div>
+        )}
+        <iframe
+          src={PROTOTYPE_URL}
+          title="Lumera Aesthetics live prototype"
+          className="proto-modal-iframe"
+          onLoad={() => setIframeLoaded(true)}
+          allow="clipboard-write; fullscreen"
+        />
+        <button
+          ref={closeBtnRef}
+          type="button"
+          className="proto-modal-close"
+          onClick={onClose}
+          aria-label="Close prototype"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden focusable="false">
+            <path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
+    </div>,
+    document.body
   );
 }
 
@@ -474,7 +574,7 @@ function ClosingCTA() {
           as="h2"
           className="text-display-2"
           lines={[
-            <>Thirty minutes, one screen share,</>,
+            <>Fifteen minutes, one screen share,</>,
             <> <span className="serif">no pitch deck</span>.</>,
           ]}
           baseDelay={80}
@@ -486,7 +586,7 @@ function ClosingCTA() {
         </Reveal>
         <Reveal delay={420}>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 48 }}>
-            <Button href="book.html" variant="primary">Book a 30-min walkthrough</Button>
+            <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
           </div>
         </Reveal>
         <Reveal delay={520}>
@@ -495,11 +595,9 @@ function ClosingCTA() {
             gap: "12px 24px", fontSize: "0.75rem", letterSpacing: "0.12em",
             textTransform: "uppercase", color: "var(--color-text-muted-inverse)", listStyle: "none"
           }}>
-            <li>30 minutes</li>
+            <li>15 minutes</li>
             <li aria-hidden style={{ color: "var(--color-rule-dark)" }}>·</li>
             <li>Google Meet</li>
-            <li aria-hidden style={{ color: "var(--color-rule-dark)" }}>·</li>
-            <li>No follow-up unless you ask</li>
           </ul>
         </Reveal>
       </div>
@@ -512,11 +610,13 @@ function ClosingCTA() {
 // =============================================================================
 Object.assign(window, {
   // hooks
-  useReveal, useScrollProgress, useStickyProgress, useMousePos, useCountUp,
+  useReveal, useScrollProgress, useStickyProgress, useMousePos, useCountUp, usePrototypeModal,
   // utils
   clamp, lerp, mix, easeRivr, EASE_RIVR,
   // components
-  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor,
+  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor, PrototypeModal,
+  // constants
+  PROTOTYPE_URL,
 });
 
 // ── Defensive: if the page's animation frame loop is frozen (some preview

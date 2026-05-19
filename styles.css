@@ -521,62 +521,19 @@ img { display: block; max-width: 100%; }
 .pipe-frame.active { opacity: 1; transform: scale(1); pointer-events: auto; }
 .pipe-frame.past { opacity: 0; transform: scale(1.04); }
 
-/* Step 1: design surface — booking page artboard */
-.pipe-design {
-  display: grid; grid-template-columns: 60px 1fr; gap: 12px;
-  padding: 18px; background: #F4F4F4;
+/* Step 1 & Step 3 now render imagery/product-step-{1,3}.png — single rule
+   for the image fills the frame and matches its corner radius. */
+.pipe-design img,
+.pipe-handoff img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top left;
+  display: block; border-radius: inherit;
 }
-.pipe-design .toolbar {
-  background: #fff; border: 1px solid var(--color-rule); border-radius: 10px;
-  display: flex; flex-direction: column; gap: 10px; padding: 10px;
-  font-size: 0.6875rem; color: var(--color-text-muted);
-  text-align: center;
-}
-.pipe-design .toolbar .tool {
-  width: 36px; height: 36px; border-radius: 8px;
-  background: #FAFAFA;
-  display: grid; place-items: center; margin: 0 auto;
-  border: 1px solid var(--color-rule);
-}
-.pipe-design .toolbar .tool.on { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
-.pipe-design .artboard {
-  position: relative;
-  background: #fff; border-radius: 10px;
-  box-shadow: 0 8px 24px -16px rgba(0, 0, 0, 0.15);
+.pipe-design, .pipe-handoff {
+  background: #fff;
+  border-radius: 12px;
   overflow: hidden;
-  padding: 16px;
-  display: flex; flex-direction: column; gap: 14px;
-}
-.pipe-design .artboard .head {
-  font-family: var(--font-serif); font-style: italic; font-size: 1.5rem;
-  color: var(--color-text-primary);
-  animation: typeIn 1.2s var(--ease-rivr) forwards;
-}
-.pipe-design .ph {
-  background: #F5F5F5; border-radius: 6px; height: 12px;
-}
-.pipe-design .ph.w-1 { width: 70%; }
-.pipe-design .ph.w-2 { width: 50%; }
-.pipe-design .ph.h-large { height: 90px; background: #FAFAFA; border: 1px dashed var(--color-rule); }
-.pipe-design .row { display: flex; gap: 8px; }
-.pipe-design .row > .pill {
-  flex: 1; height: 36px; border-radius: 8px;
-  background: #FAFAFA; border: 1px solid var(--color-rule);
-}
-.pipe-design .row > .pill.on { background: var(--color-accent); border-color: var(--color-accent); }
-.pipe-design .cursor-ghost {
-  position: absolute; left: 56%; top: 70%;
-  width: 14px; height: 18px;
-  color: var(--color-text-primary);
-  animation: drawCursor 4s var(--ease-rivr) infinite;
-}
-
-@keyframes drawCursor {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-22%, -36%); }
-  50% { transform: translate(8%, -12%); }
-  75% { transform: translate(-12%, 8%); }
-  100% { transform: translate(0, 0); }
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.20);
 }
 
 /* Step 2: integration — pipes flowing from booking → calendar */
@@ -621,54 +578,6 @@ img { display: block; max-width: 100%; }
   animation: dash 1.2s linear infinite;
 }
 @keyframes dash { to { stroke-dashoffset: -24; } }
-
-/* Step 3: handoff — domain swap */
-.pipe-handoff {
-  background: #fff;
-  padding: 24px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
-}
-.pipe-handoff .url-pill {
-  display: flex; align-items: center; gap: 10px;
-  background: #FAFAFA; border: 1px solid var(--color-rule);
-  border-radius: 999px; padding: 10px 18px;
-  font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 0.875rem;
-}
-.pipe-handoff .url-pill .lock { color: var(--color-accent); }
-.pipe-handoff .url-pill .swap {
-  display: inline-block; min-width: 200px; text-align: left;
-  color: var(--color-text-primary);
-  transition: opacity 200ms var(--ease-rivr);
-}
-.pipe-handoff .browser {
-  width: 100%; max-width: 460px;
-  transform: scale(0.96);
-  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.25);
-}
-.pipe-handoff .browser-body {
-  aspect-ratio: 16 / 10;
-  background: linear-gradient(180deg, #fff 0%, #FAFAFA 100%);
-  display: grid; place-items: center;
-  padding: 24px;
-}
-.pipe-handoff .live-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(40, 200, 64, 0.1);
-  color: #1D7A2D;
-  border: 1px solid rgba(40, 200, 64, 0.3);
-  padding: 6px 12px; border-radius: 999px;
-  font-size: 0.75rem; font-weight: 600;
-}
-.pipe-handoff .live-badge .pulse {
-  width: 7px; height: 7px; background: #28C840; border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(40, 200, 64, 0.7);
-  animation: pulse 1.8s infinite var(--ease-rivr);
-}
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(40, 200, 64, 0.7); }
-  70% { box-shadow: 0 0 0 12px rgba(40, 200, 64, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(40, 200, 64, 0); }
-}
 
 /* Step 4: support — text conversation */
 .pipe-support {
@@ -1016,6 +925,36 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.22);
 }
 .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+.about-photo--split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  background: var(--color-rule);
+}
+.about-photo--split figure {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+.about-photo--split figure img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+}
+.about-photo--split figcaption {
+  position: absolute; top: 18px; left: 20px;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+@media (max-width: 720px) {
+  .about-photo--split { grid-template-columns: 1fr 1fr; }
+  .about-photo--split figcaption { font-size: 1rem; top: 12px; left: 14px; }
+}
 .founders {
   display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
 }
@@ -1042,6 +981,23 @@ img { display: block; max-width: 100%; }
   width: 80px; height: 80px; border-radius: 10px; overflow: hidden; flex-shrink: 0;
 }
 .founder-card .av img { width: 100%; height: 100%; object-fit: cover; }
+.founder-card .av--stack {
+  width: auto;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+  overflow: visible;
+}
+.founder-card .av--stack img {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+  object-fit: cover;
+  object-position: center 25%;
+}
+.founder-card .av--stack img + img { margin-left: -18px; }
 .founder-card .name { font-size: 0.9375rem; font-weight: 600; }
 .founder-card .sub { font-size: 0.875rem; color: var(--color-text-muted); }
 
@@ -1267,4 +1223,184 @@ img { display: block; max-width: 100%; }
   .benefits-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
   .demo-grid { grid-template-columns: 1fr !important; }
   .wedge-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ========================================================================
+   Prototype modal — full-screen iframe with backdrop, fade+scale entrance
+   ======================================================================== */
+.proto-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+}
+.proto-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-rivr);
+  pointer-events: auto;
+}
+.proto-modal.is-open .proto-modal-backdrop { opacity: 1; }
+.proto-modal-panel {
+  position: absolute;
+  top: 24px; right: 24px; bottom: 24px; left: 24px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--color-bg);
+  box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.55);
+  transform: scale(0.96);
+  opacity: 0;
+  transition: transform var(--dur-base) var(--ease-rivr), opacity var(--dur-base) var(--ease-rivr);
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+}
+.proto-modal.is-open .proto-modal-panel { transform: scale(1); opacity: 1; }
+.proto-modal-iframe {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: var(--color-bg);
+}
+.proto-modal-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 44px; height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.78);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: background var(--dur-fast) var(--ease-rivr), transform var(--dur-fast) var(--ease-rivr);
+  z-index: 3;
+}
+.proto-modal-close:hover { background: var(--color-accent); transform: scale(1.05); }
+.proto-modal-close:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+.proto-modal-skeleton {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  z-index: 1;
+}
+.proto-modal-skeleton .mk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px; height: 56px;
+  border-radius: 12px;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  animation: rivr-skeleton-pulse 1600ms var(--ease-rivr) infinite;
+}
+@keyframes rivr-skeleton-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.96); }
+  50%      { opacity: 1;   transform: scale(1); }
+}
+@media (max-width: 720px) {
+  .proto-modal-panel { top: 0; right: 0; bottom: 0; left: 0; border-radius: 0; }
+  .proto-modal-close { top: 12px; right: 12px; width: 40px; height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .proto-modal-panel { transform: none; transition: opacity 150ms linear; }
+  .proto-modal-backdrop { transition: opacity 150ms linear; }
+  .proto-modal-skeleton .mk { animation: none; }
+}
+
+/* ========================================================================
+   Hero video frame — iframe rendered directly (no BrowserFrame wrapper),
+   reduced-motion fallback to a static poster image.
+   ======================================================================== */
+.hero-video-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: transparent;
+  overflow: visible;
+}
+.hero-video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: transparent;
+}
+.hero-video-frame .fallback-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-frame iframe { display: none; }
+  .hero-video-frame .fallback-img { display: block; }
+}
+
+/* ========================================================================
+   Book page — booking widget iframe sits in the right column of .book-grid
+   (replaces the old mock CalendarWidget / .calendar-placeholder card).
+   ======================================================================== */
+.book-widget-wrap {
+  position: relative;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--color-rule);
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.16);
+}
+.book-widget-iframe {
+  width: 100%;
+  border: 0;
+  display: block;
+  background: #fff;
+  transition: opacity var(--dur-base) var(--ease-rivr);
+}
+.book-widget-skeleton {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-rivr);
+}
+.book-widget-skeleton.is-hidden { opacity: 0; }
+.book-widget-skeleton .mk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px; height: 56px;
+  border-radius: 12px;
+  background: var(--color-accent);
+  color: #fff;
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  animation: rivr-skeleton-pulse 1600ms var(--ease-rivr) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .book-widget-skeleton .mk { animation: none; }
 }

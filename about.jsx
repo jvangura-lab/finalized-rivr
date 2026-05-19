@@ -52,14 +52,21 @@ function FoundersSection() {
   return (
     <section ref={secRef} className="section">
       <div className="container">
-        {/* Photo with image mask reveal */}
-        <div ref={imgRef} className="about-photo img-mask" style={{
+        {/* Photo pair with image mask reveal */}
+        <div ref={imgRef} className="about-photo about-photo--split img-mask" style={{
           transform: `translateY(${imgY}px) rotate(${tilt * 0.4}deg)`,
           willChange: "transform, clip-path",
         }}>
-          <img src="imagery/rivr-founders-team.png" alt="Thor Gyulai and Jonas Vangura at work" />
+          <figure>
+            <img src="imagery/jonas-headshot.jpg" alt="Jonas Vangura, co-founder of RIVR" />
+            <figcaption>Jonas</figcaption>
+          </figure>
+          <figure>
+            <img src="imagery/thor-headshot.jpg" alt="Thor Gyulai, co-founder of RIVR" />
+            <figcaption>Thor</figcaption>
+          </figure>
           <div style={{
-            position: "absolute", left: 24, bottom: 24,
+            position: "absolute", left: 24, bottom: 24, zIndex: 2,
             background: "rgba(0,0,0,0.55)", backdropFilter: "blur(10px)",
             color: "#fff", padding: "10px 16px", borderRadius: 999,
             fontSize: "0.75rem", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 600,
@@ -74,15 +81,14 @@ function FoundersSection() {
             <div className="founder">
               <p className="label">Co-founder</p>
               <h2>Jonas Vangura</h2>
-              <p className="title">Engineering and operations</p>
               <p>
-                Jonas leads the engineering side of RIVR. The booking pages run on his code, the calendar integrations are his pipes, and the on-call line goes to his phone when a deploy needs to land at 11pm.
+                I'm one of the co-founders behind RIVR. I started it because I kept seeing the same gap, every booking platform on the market expects medspas to migrate to new software, and most medspas already have a good EMR or scheduler they'd built their whole operation around. Asking them to reset their software was the wrong ask. So I built booking that adapts to whatever you're already running, we do the adapting not you.
               </p>
               <p>
-                Before RIVR, Jonas spent years building integration-heavy web products and watching small practices wrestle with booking platforms designed for chains a hundred times their size. The thing that pulled him into this problem was simple: the gap between what a small med spa actually needs and what the big platforms force on them.
+                Day to day, Thor and I both work across the whole product: engineering, designing, implementing, customer calls, walkthroughs, etc.
               </p>
               <p>
-                He answers texts faster than email and prefers shipping something working over decking a meeting about shipping something working.
+                Outside of my work at RIVR, I study at Florida International University's Honors College and train Muay Thai. The training keeps my head clear and my body in shape, and it's the thing that balances out the hours at a screen, time studying at University, and building at RIVR.
               </p>
             </div>
           </FadeUp>
@@ -90,15 +96,14 @@ function FoundersSection() {
             <div className="founder">
               <p className="label">Co-founder</p>
               <h2>Thor Gyulai</h2>
-              <p className="title">Design and customer</p>
               <p>
-                Thor leads the design and customer side of RIVR. The visual language of every booking page, the way it reads on a patient's phone at 11pm, the conversation we have with a med spa owner on the walkthrough call, all his work.
+                I'm a co-founder at RIVR. I co-founded RIVR because I saw many online booking systems that weren't actually built around how medspas sell and how patients buy. Most booking platforms were just copy-pasting the same template onto every client. So at RIVR, we build every new client's booking page from scratch, based on their requirements and brand. Anywhere from consultation bookings to membership funnels.
               </p>
               <p>
-                Before RIVR, Thor designed booking and conversion flows for aesthetic and wellness brands. He kept hearing the same thing from operators: the patient experience and the front-desk experience could be calm, branded, and quietly excellent, but no one was building it that way. So we did.
+                Day to day, Jonas and I both work across everything, running checks through each others work ensuring all deliverables surpass the standards.
               </p>
               <p>
-                He answers the phone, walks every prospect through their own site live, and would rather lose a deal than ship a booking page he is not proud of.
+                Outside of RIVR, I'm a professional volleyball player. I compete in South Africa and I'm near qualifying for the Olympics.
               </p>
             </div>
           </FadeUp>
@@ -215,8 +220,8 @@ function Location() {
           <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 14, marginTop: 32, fontSize: "1.125rem" }}>
             <li>
               Email{" "}
-              <a href="mailto:hello@rivrsystems.com" style={{ color: "var(--color-accent)", textDecoration: "underline", textUnderlineOffset: 4 }}>
-                hello@rivrsystems.com
+              <a href="mailto:join@rivrsystems.com" style={{ color: "var(--color-accent)", textDecoration: "underline", textUnderlineOffset: 4 }}>
+                join@rivrsystems.com
               </a>
             </li>
             <li style={{ color: "var(--color-text-muted)" }}>
@@ -226,7 +231,7 @@ function Location() {
         </Reveal>
         <Reveal delay={420}>
           <div style={{ marginTop: 36 }}>
-            <Button href="book.html" variant="primary">Book a 30-min walkthrough</Button>
+            <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
           </div>
         </Reveal>
       </div>

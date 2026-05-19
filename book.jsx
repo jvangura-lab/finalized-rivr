@@ -1,5 +1,7 @@
 // =============================================================================
-// BOOK page — Hero with agenda + interactive calendar widget, FAQ
+// BOOK page — hero (copy + founder card + agenda) on the left,
+// rivr-booking widget iframe on the right (replaces old mock CalendarWidget),
+// then the FAQ section. Same page chrome (nav, footer, cursor) as before.
 // =============================================================================
 const { useState: useStateB, useEffect: useEffectB, useRef: useRefB } = React;
 const {
@@ -8,103 +10,53 @@ const {
   Reveal, FadeUp, RevealLines, Nav, Button, Footer, ClosingCTA, Cursor,
 } = window;
 
+const BOOKING_URL = "https://rivr-booking-914650990846.us-central1.run.app/";
+const BOOKING_ORIGIN = "https://rivr-booking-914650990846.us-central1.run.app";
+
 const AGENDA = [
-  "We show you the booking page we would build for your practice.",
-  "We walk through how it would talk to your existing calendar.",
-  "You get the mockup whether or not we move forward.",
+  "We walk through how our booking systems work and connect to your schedule.",
+  "We discuss the booking system we would build for your practice.",
+  "You confirm and we begin building your online booking immediately. Ready in a week. No obligations.",
 ];
 
 const FAQ_B = [
   { q: "What if my current setup is a mess?", a: "That is the most common case. We will not judge it. We will show you which piece does the heaviest lifting and which piece you can leave alone." },
-  { q: "Do you sign an NDA?", a: "Yes, before the call if you send one over. By default we treat anything you share as confidential to your practice." },
-  { q: "Is this a sales call?", a: "Only if you want it to be. The 30 minutes are a working session. If you ask us for next steps, we share what a build looks like. Otherwise we hang up and you keep the mockup." },
+  { q: "Do you sign a BAA?", a: "Yes. We sign a HIPAA Business Associate Agreement before any patient data flows through our systems, and we treat anything you share on the call as confidential to your practice by default." },
+  { q: "Is this a sales call?", a: "Only if you want it to be. The 15 minutes are a working session. If you ask us for next steps, we share what a build looks like. Otherwise we hang up and you keep the mockup." },
 ];
 
-// ─── Mini calendar widget ────────────────────────────────────────────────────
-function CalendarWidget() {
-  // Static days-in-may layout
-  const [selDate, setSelDate] = useStateB(22);
-  const [selTime, setSelTime] = useStateB(null);
+// ─── Booking widget iframe (sits in the right column where the old mock calendar lived) ───
+function BookingWidget() {
+  const [height, setHeight] = useStateB(820);
+  const [loaded, setLoaded] = useStateB(false);
+  const iframeRef = useRefB(null);
 
-  // Friday 22 May 2026 -> we'll show a typical month grid
-  // May 2026: 1 = Friday. So pad 5 cells (Sun-Thu) before day 1.
-  const daysInMonth = 31;
-  const firstDow = 5; // 0=Sun, 5=Fri
-  const today = 17;
-  const availableSet = new Set([18, 19, 20, 21, 22, 26, 27, 28, 29]);
-
-  const times = ["9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "1:00 PM", "1:30 PM", "2:00 PM"];
-
-  const cells = [];
-  for (let i = 0; i < firstDow; i++) cells.push({ muted: true, day: null, k: `pad-${i}` });
-  for (let d = 1; d <= daysInMonth; d++) {
-    cells.push({
-      muted: d < today,
-      available: availableSet.has(d),
-      day: d,
-      selected: d === selDate,
-      k: `d-${d}`,
-    });
-  }
+  useEffectB(() => {
+    function onMessage(e) {
+      if (e.origin !== BOOKING_ORIGIN) return;
+      const data = e.data;
+      if (!data || typeof data !== "object") return;
+      if (data.type === "rivr-booking:height" && typeof data.height === "number") {
+        setHeight(Math.max(560, Math.round(data.height)));
+      }
+    }
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
 
   return (
-    <div className="calendar-placeholder">
-      <div className="cal-mini-head">
-        <span className="month">May <span className="serif" style={{ fontSize: "1.1em" }}>2026</span></span>
-        <div className="nav-btns">
-          <button type="button" aria-label="Previous month">‹</button>
-          <button type="button" aria-label="Next month">›</button>
-        </div>
-      </div>
-
-      <div className="cal-grid-mini">
-        {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => <span key={i} className="dow">{d}</span>)}
-        {cells.map((c) => (
-          c.day === null
-            ? <span key={c.k} className="day-cell muted" />
-            : (
-              <button
-                key={c.k}
-                className={`day-cell ${c.muted ? "muted" : ""} ${c.available ? "available" : ""} ${c.selected ? "selected" : ""}`}
-                disabled={c.muted}
-                onClick={() => { setSelDate(c.day); setSelTime(null); }}
-                type="button"
-              >
-                {c.day}
-              </button>
-            )
-        ))}
-      </div>
-
-      <div className="times">
-        <p className="title">
-          {selDate ? `Available · Fri May ${selDate}` : "Pick a day"}
-        </p>
-        <div className="times-grid">
-          {times.map((t) => (
-            <button
-              type="button"
-              key={t}
-              className={`time-slot ${selTime === t ? "selected" : ""}`}
-              onClick={() => setSelTime(t)}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-        <div style={{ marginTop: 18, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-          <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
-            Times in your local zone · 30 minutes · Google Meet
-          </p>
-          <Button
-            href={selTime ? "#" : undefined}
-            onClick={selTime ? undefined : () => alert("Please pick a time first.")}
-            variant="primary"
-            className={selTime ? "" : "disabled"}
-          >
-            {selTime ? `Confirm · ${selTime}` : "Pick a time"}
-          </Button>
-        </div>
+    <div className="book-widget-wrap" style={{ minHeight: height }}>
+      <iframe
+        ref={iframeRef}
+        src={BOOKING_URL}
+        title="Book a walkthrough with RIVR"
+        className="book-widget-iframe"
+        style={{ height, opacity: loaded ? 1 : 0 }}
+        onLoad={() => setLoaded(true)}
+        allow="clipboard-write"
+      />
+      <div className={`book-widget-skeleton ${loaded ? "is-hidden" : ""}`} aria-hidden="true">
+        <span className="mk">R</span>
       </div>
     </div>
   );
@@ -128,18 +80,13 @@ function BookHero() {
           <div>
             <RevealLines
               as="h1" className="text-display-1" baseDelay={60}
-              lines={[<>Book a <span className="serif" style={{ color: "var(--color-accent)" }}>30-min</span></>, <>walkthrough.</>]}
+              lines={[<>Book a <span className="serif" style={{ color: "var(--color-accent)" }}>15-min</span></>, <>walkthrough.</>]}
             />
-            <Reveal delay={420}>
-              <p className="text-body-lg" style={{ marginTop: 32, marginBottom: 36, maxWidth: 540 }}>
-                Thirty minutes on Google Meet. We look at your current setup, show you the booking page we would build for your practice, and you keep the mockup whether or not we move forward.
-              </p>
-            </Reveal>
-
             <Reveal delay={520}>
               <div className="founder-card">
-                <div className="av">
-                  <img src="imagery/rivr-founders-team.png" alt="Thor and Jonas, RIVR co-founders" />
+                <div className="av av--stack">
+                  <img src="imagery/jonas-headshot.jpg" alt="Jonas Vangura, RIVR co-founder" />
+                  <img src="imagery/thor-headshot.jpg" alt="Thor Gyulai, RIVR co-founder" />
                 </div>
                 <div>
                   <p className="name">Thor Gyulai and Jonas Vangura</p>
@@ -160,15 +107,16 @@ function BookHero() {
               ))}
             </ul>
 
+            {/* RIVR-NOTE: book hero sub-line — parallel structure to home hero. */}
             <Reveal delay={1000}>
               <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
-                No slides. No sales deck. No follow-up unless you ask.
+                A short look at your setup. We show you the booking page we'd build. Fifteen minutes.
               </p>
             </Reveal>
           </div>
 
           <FadeUp delay={300}>
-            <CalendarWidget />
+            <BookingWidget />
           </FadeUp>
         </div>
       </div>
