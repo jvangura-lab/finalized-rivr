@@ -4,12 +4,12 @@
 // =============================================================================
 const { useState: useStateP, useEffect: useEffectP, useRef: useRefP } = React;
 const {
-  useReveal, useScrollProgress, useStickyProgress, useMousePos, useCountUp,
+  useReveal, useScrollProgress, useStickyProgress, useMousePos, useCountUp, usePrototypeModal,
   clamp, lerp, mix,
-  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor,
+  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor, PrototypeModal,
 } = window;
 
-const LUMERA_URL_P = "https://lumera-prototype-802456812494.us-central1.run.app/";
+const PrototypeModalContextP = React.createContext({ open: false, openModal: () => {}, closeModal: () => {} });
 
 // ─── Product hero ────────────────────────────────────────────────────────────
 function ProductHero() {
@@ -33,7 +33,7 @@ function ProductHero() {
           </Reveal>
           <Reveal delay={540}>
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <Button href="book.html" variant="primary">Book a 30-min walkthrough</Button>
+              <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
             </div>
           </Reveal>
         </div>
@@ -80,7 +80,11 @@ function LiveProto() {
 
         <FadeUp delay={320}>
           <div style={{ marginTop: 48, textAlign: "center" }}>
-            <Button href={LUMERA_URL_P} external variant="primary">Want one for your practice? Open the live prototype</Button>
+            <PrototypeModalContextP.Consumer>
+              {({ openModal }) => (
+                <Button onClick={openModal} variant="primary">Want one for your practice? Open the live prototype</Button>
+              )}
+            </PrototypeModalContextP.Consumer>
           </div>
         </FadeUp>
       </div>
@@ -120,27 +124,7 @@ function PipelineVisual({ kind, active }) {
   if (kind === "design") {
     return (
       <div className={`pipe-frame pipe-design ${active ? "active" : ""}`}>
-        <div className="toolbar">
-          <span className="tool on">+</span>
-          <span className="tool">T</span>
-          <span className="tool">▢</span>
-          <span className="tool">○</span>
-          <span className="tool">▢</span>
-          <span className="tool">―</span>
-        </div>
-        <div className="artboard">
-          <div className="head">Book your visit with Lumera.</div>
-          <div className="ph w-1" />
-          <div className="ph w-2" />
-          <div className="ph h-large" />
-          <div className="row">
-            <div className="pill on" />
-            <div className="pill" />
-            <div className="pill" />
-          </div>
-          <div className="ph w-2" />
-          <svg className="cursor-ghost" viewBox="0 0 24 24" fill="currentColor"><path d="M3 2 L21 11 L13 13 L10 22 Z" /></svg>
-        </div>
+        <img src="imagery/product-step-1.png" alt="Halcyon Med Spa booking page being designed" loading="lazy" />
       </div>
     );
   }
@@ -173,23 +157,9 @@ function PipelineVisual({ kind, active }) {
     );
   }
   if (kind === "handoff") {
-    const url = "booking.yourpractice.com";
     return (
       <div className={`pipe-frame pipe-handoff ${active ? "active" : ""}`}>
-        <div className="url-pill">
-          <span className="lock">🔒</span>
-          <span className="swap">{url}</span>
-        </div>
-        <div className="browser" style={{ width: "100%", maxWidth: 460 }}>
-          <div className="bar"><i /><i /><i /><span className="u">{url}</span></div>
-          <div className="browser-body" style={{ aspectRatio: "16/10", background: "linear-gradient(180deg, #fff 0%, #FAFAFA 100%)", display: "grid", placeItems: "center", padding: 24 }}>
-            <div style={{ textAlign: "center" }}>
-              <div className="live-badge"><span className="pulse" /> Now live</div>
-              <p className="serif" style={{ fontSize: "1.5rem", marginTop: 18, color: "var(--color-text-primary)" }}>Book your visit</p>
-              <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", marginTop: 6 }}>Real bookings, your domain.</p>
-            </div>
-          </div>
-        </div>
+        <img src="imagery/product-step-3.png" alt="Halcyon Med Spa live at booking.halcyonmedspa.com" loading="lazy" />
       </div>
     );
   }
@@ -541,8 +511,9 @@ function FAQSection() {
 
 // ─── Compose ─────────────────────────────────────────────────────────────────
 function Page() {
+  const modal = usePrototypeModal();
   return (
-    <>
+    <PrototypeModalContextP.Provider value={modal}>
       <Cursor />
       <Nav current="product" />
       <main>
@@ -556,7 +527,8 @@ function Page() {
         <ClosingCTA />
       </main>
       <Footer />
-    </>
+      <PrototypeModal open={modal.open} onClose={modal.closeModal} />
+    </PrototypeModalContextP.Provider>
   );
 }
 

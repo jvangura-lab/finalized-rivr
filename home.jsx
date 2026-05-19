@@ -5,16 +5,21 @@
 // =============================================================================
 const { useState: useStateH, useEffect: useEffectH, useRef: useRefH, useLayoutEffect: useLayoutEffectH } = React;
 const {
-  useReveal, useScrollProgress, useStickyProgress, useMousePos, useCountUp,
+  useReveal, useScrollProgress, useStickyProgress, useMousePos, useCountUp, usePrototypeModal,
   clamp, lerp, mix,
-  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor
+  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor, PrototypeModal,
 } = window;
 
-const LUMERA_URL = "https://lumera-prototype-802456812494.us-central1.run.app/";
+// Modal context — opened/closed once per page so multiple CTAs share state.
+const PrototypeModalContext = React.createContext({ open: false, openModal: () => {}, closeModal: () => {} });
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
 function Hero() {
-  const [stageRef, progress] = useScrollProgress();
+  const [stageRef, rawProgress] = useScrollProgress();
+  // useScrollProgress returns ~0.5 when the section sits at top-of-viewport
+  // (rect.top=0, rect.height≈vh). For the hero we want 0 at rest so the copy
+  // reads at full opacity on first paint, climbing only as the user scrolls out.
+  const progress = clamp((rawProgress - 0.5) * 2, 0, 1);
   const mouse = useMousePos({ smooth: 0.08 });
 
   // Drive the browser frame: as user scrolls down, it shifts up + scales down
@@ -49,8 +54,8 @@ function Hero() {
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <div style={{
           display: "grid",
-          gridTemplateColumns: "minmax(0, 1.1fr) minmax(0, 1fr)",
-          gap: 56,
+          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1.65fr)",
+          gap: 40,
           alignItems: "center"
         }} className="hero-grid">
           {/* Copy */}
@@ -85,14 +90,19 @@ function Hero() {
 
             <Reveal delay={540}>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 18, alignItems: "center", marginBottom: 24 }}>
-                <Button href="book.html" variant="primary">Book a 30-min walkthrough</Button>
-                <Button href={LUMERA_URL} external variant="secondary">See the live prototype</Button>
+                <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
+                <PrototypeModalContext.Consumer>
+                  {({ openModal }) => (
+                    <Button onClick={openModal} variant="secondary">See the live prototype</Button>
+                  )}
+                </PrototypeModalContext.Consumer>
               </div>
             </Reveal>
 
+            {/* RIVR-NOTE: hero sub-line — confirm or swap on review. */}
             <Reveal delay={640}>
               <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
-                No slides. No pitch deck. 30 minutes.
+                A short look at your setup. We show you what we'd build for your practice. Fifteen minutes.
               </p>
             </Reveal>
           </div>
@@ -112,12 +122,51 @@ function Hero() {
                   filter: "blur(28px)",
                   pointerEvents: "none"
                 }} />
-                <BrowserFrame
-                  src="imagery/lumera-hero.png"
-                  alt="Lumera Aesthetics booking page hero"
-                  url="lumera-aesthetics.com / book"
-                  style={{ position: "relative" }} />
-                
+                {/* RIVR-NOTE: dropped BrowserFrame wrapper — the animation is a complete designed frame. */}
+                <div className="hero-video-frame" style={{ position: "relative" }}>
+                  <iframe
+                    src="imagery/hero-animation.html"
+                    title="Lumera Aesthetics booking page demo"
+                    aria-hidden="true"
+                    tabIndex={-1}
+                    onLoad={(e) => {
+                      // The bundled standalone uses display:grid on body, which leaves
+                      // the 1920x1080 #stage layout-positioned outside the iframe
+                      // viewport even after fitStage() scales it. Flex-center it.
+                      const doc = e.target.contentDocument;
+                      if (!doc) return;
+                      const inject = () => {
+                        if (doc.getElementById("__rivr-fit")) return;
+                        const s = doc.createElement("style");
+                        s.id = "__rivr-fit";
+                        // RIVR-NOTE: html+body+#stage transparent so the
+                        // animation's mockup floats on the parent page —
+                        // no surrounding panel. .frame/#viewport are part of
+                        // the animation's own browser-window design; left alone.
+                        s.textContent =
+                          "html,body{margin:0;padding:0;overflow:hidden;background:transparent!important;width:100%;height:100%;}" +
+                          "body{display:flex!important;align-items:center!important;justify-content:center!important;}" +
+                          "#stage{position:relative!important;flex:0 0 auto;background:transparent!important;}" +
+                          "#stage::before{background:none!important;content:none!important;}" +
+                          "#stage .frame{box-shadow:none!important;}";
+                        doc.head && doc.head.appendChild(s);
+                        try { e.target.contentWindow.dispatchEvent(new Event("resize")); } catch (_) {}
+                      };
+                      // Bundler replaces document async; reinject across a few ticks.
+                      inject();
+                      setTimeout(inject, 100);
+                      setTimeout(inject, 500);
+                      setTimeout(inject, 1500);
+                    }}
+                  />
+                  <img
+                    src="imagery/lumera-hero.png"
+                    alt="Lumera Aesthetics booking page hero"
+                    className="fallback-img"
+                    loading="lazy"
+                  />
+                </div>
+
               </div>
             </Reveal>
 
@@ -143,7 +192,7 @@ function Hero() {
               <span className="dot" />
               <div>
                 <p style={{ fontSize: "0.75rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--color-text-muted)", marginBottom: 2 }}>Synced to</p>
-                <p style={{ fontSize: "0.875rem", fontWeight: 600 }}>Google Calendar</p>
+                <p style={{ fontSize: "0.875rem", fontWeight: 600 }}>your calendar</p>
               </div>
             </div>
           </div>
@@ -294,7 +343,11 @@ function LiveDemo() {
           </FadeUp>
           <FadeUp delay={420}>
             <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
-              <Button href={LUMERA_URL} external variant="primary">Open the live prototype</Button>
+              <PrototypeModalContext.Consumer>
+                {({ openModal }) => (
+                  <Button onClick={openModal} variant="primary">Open the live prototype</Button>
+                )}
+              </PrototypeModalContext.Consumer>
             </div>
           </FadeUp>
         </div>
@@ -515,8 +568,9 @@ function SampleWork() {
 
 // ─── Compose page ────────────────────────────────────────────────────────────
 function Page() {
+  const modal = usePrototypeModal();
   return (
-    <>
+    <PrototypeModalContext.Provider value={modal}>
       <Cursor />
       <Nav current="home" />
       <main>
@@ -529,7 +583,8 @@ function Page() {
         <ClosingCTA />
       </main>
       <Footer />
-    </>);
+      <PrototypeModal open={modal.open} onClose={modal.closeModal} />
+    </PrototypeModalContext.Provider>);
 
 }
 
