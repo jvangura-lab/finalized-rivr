@@ -20,7 +20,7 @@ function ProductHero() {
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <div style={{ maxWidth: 880, margin: "0 auto", textAlign: "center" }}>
           <Reveal>
-            <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 22 }}>Product</p>
+            <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 22 }}>Product</p>
           </Reveal>
           <RevealLines
             as="h1" className="text-display-1" baseDelay={60}
@@ -61,7 +61,7 @@ function LiveProto() {
           />
           <FadeUp delay={320}>
             <p className="text-body-lg" style={{ marginTop: 24 }}>
-              This is the real prototype we built for Lumera Aesthetics, a Jacksonville Beach med spa. The whole flow is live.
+              This is the Lumera reference build — a complete booking flow we made to show the real thing end to end. Click around; the whole flow is live.
             </p>
           </FadeUp>
         </div>
@@ -206,7 +206,7 @@ function Pipeline() {
       <div className="pipeline-pin">
         <div className="container">
           <div style={{ textAlign: "center", marginBottom: 32 }}>
-            <FadeUp><p className="text-label-caps" style={{ color: "var(--color-accent)" }}>How it works</p></FadeUp>
+            <FadeUp><p className="text-label-caps" style={{ color: "var(--color-accent-strong)" }}>How it works</p></FadeUp>
             <FadeUp delay={120}>
               <p style={{ fontSize: "1.0625rem", color: "var(--color-text-muted)", marginTop: 12, maxWidth: 540, margin: "12px auto 0" }}>
                 Four steps from cold email to live booking page. Scroll to walk through it.
@@ -375,7 +375,7 @@ function CalendarShowcase() {
 
           <div>
             <Reveal>
-              <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 18 }}>Where bookings land</p>
+              <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 18 }}>Where bookings land</p>
             </Reveal>
             <RevealLines as="h2" className="text-display-2" baseDelay={120}
               lines={[<>Every booking flows into the</>, <>calendar you <span className="serif" style={{ color: "var(--color-accent)" }}>already use</span>.</>]}
@@ -474,7 +474,7 @@ function FAQSection() {
     <section className="section">
       <div className="container">
         <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <FadeUp><p className="text-label-caps" style={{ color: "var(--color-accent)" }}>Frequently asked</p></FadeUp>
+          <FadeUp><p className="text-label-caps" style={{ color: "var(--color-accent-strong)" }}>Frequently asked</p></FadeUp>
           <FadeUp delay={120}>
             <h2 className="text-display-2" style={{ marginTop: 16 }}>Questions before you book the call.</h2>
           </FadeUp>
@@ -485,23 +485,28 @@ function FAQSection() {
               <button
                 type="button"
                 onClick={() => setOpen(open === i ? -1 : i)}
+                aria-expanded={open === i}
+                aria-controls={`product-faq-${i}`}
                 style={{
                   width: "100%", textAlign: "left", padding: 0,
                   display: "flex", justifyContent: "space-between", gap: 24, alignItems: "flex-start",
                 }}
               >
                 <h3 style={{ marginBottom: 0 }}>{item.q}</h3>
-                <span style={{
+                <span aria-hidden style={{
                   flexShrink: 0, fontSize: "1.25rem", lineHeight: 1, color: "var(--color-accent)",
                   transform: open === i ? "rotate(45deg)" : "rotate(0)",
                   transition: "transform 400ms var(--ease-rivr)",
                 }}>+</span>
               </button>
-              <div style={{
-                maxHeight: open === i ? "320px" : "0",
-                overflow: "hidden",
-                transition: "max-height 600ms var(--ease-rivr)",
-              }}>
+              <div
+                id={`product-faq-${i}`}
+                role="region"
+                style={{
+                  maxHeight: open === i ? "320px" : "0",
+                  overflow: "hidden",
+                  transition: "max-height 600ms var(--ease-rivr)",
+                }}>
                 <p style={{ marginTop: 14, color: "var(--color-text-muted)", lineHeight: 1.6 }}>{item.a}</p>
               </div>
             </FadeUp>
@@ -518,7 +523,7 @@ function Page() {
   return (
     <PrototypeModalContextP.Provider value={modal}>
       <Nav current="product" />
-      <main>
+      <main id="main">
         <ProductHero />
         <LiveProto />
         <Pipeline />

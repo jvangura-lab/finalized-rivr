@@ -101,7 +101,7 @@ function BookHero() {
             </Reveal>
 
             <Reveal delay={620}>
-              <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 18 }}>What we cover</p>
+              <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 18 }}>What we cover</p>
             </Reveal>
             <ul className="agenda">
               {AGENDA.map((item, i) => (
@@ -136,7 +136,7 @@ function FAQSection() {
     <section className="section" style={{ borderBottom: 0 }}>
       <div className="container" style={{ maxWidth: 720 }}>
         <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <FadeUp><p className="text-label-caps" style={{ color: "var(--color-accent)" }}>Frequently asked</p></FadeUp>
+          <FadeUp><p className="text-label-caps" style={{ color: "var(--color-accent-strong)" }}>Frequently asked</p></FadeUp>
           <FadeUp delay={120}>
             <h2 className="text-display-2" style={{ marginTop: 16 }}>Common questions, answered.</h2>
           </FadeUp>
@@ -147,23 +147,28 @@ function FAQSection() {
               <button
                 type="button"
                 onClick={() => setOpen(open === i ? -1 : i)}
+                aria-expanded={open === i}
+                aria-controls={`book-faq-${i}`}
                 style={{
                   width: "100%", textAlign: "left", padding: 0,
                   display: "flex", justifyContent: "space-between", gap: 24, alignItems: "flex-start",
                 }}
               >
                 <h3 style={{ marginBottom: 0 }}>{item.q}</h3>
-                <span style={{
+                <span aria-hidden style={{
                   flexShrink: 0, fontSize: "1.25rem", lineHeight: 1, color: "var(--color-accent)",
                   transform: open === i ? "rotate(45deg)" : "rotate(0)",
                   transition: "transform 400ms var(--ease-rivr)",
                 }}>+</span>
               </button>
-              <div style={{
-                maxHeight: open === i ? "320px" : "0",
-                overflow: "hidden",
-                transition: "max-height 600ms var(--ease-rivr)",
-              }}>
+              <div
+                id={`book-faq-${i}`}
+                role="region"
+                style={{
+                  maxHeight: open === i ? "320px" : "0",
+                  overflow: "hidden",
+                  transition: "max-height 600ms var(--ease-rivr)",
+                }}>
                 <p style={{ marginTop: 14, color: "var(--color-text-muted)", lineHeight: 1.6 }}>{item.a}</p>
               </div>
             </FadeUp>
@@ -179,7 +184,7 @@ function Page() {
   return (
     <>
       <Nav current="home" />
-      <main>
+      <main id="main">
         <BookHero />
         <FAQSection />
       </main>

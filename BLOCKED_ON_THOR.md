@@ -11,3 +11,7 @@ Items I couldn't finish without your accounts/auth/decisions. Each is also marke
 - **Canonical production domain** — I assumed `https://rivrsystems.com` for canonical + OG `og:url`/`og:image` across all 4 HTML heads. Confirm that's the live domain (vs `www.` or a vercel.app domain) and correct if needed.
 - **Branded scheduler domain** — The book-page scheduler still uses the raw Cloud Run URL (`rivr-booking-...run.app`). I deliberately did NOT point it at the Lumera demo (that would break booking). Map it to `book.rivrsystems.com` (DNS + deploy) and update `BOOKING_URL`/`BOOKING_ORIGIN` in `book.jsx`.
 
+## DEFER batch (items 13–15)
+
+- **Business address (JSON-LD + footer)** — I used the existing footer address (`4016 South Third Street #1016, Jacksonville Beach, FL 32250`) in the LocalBusiness JSON-LD (`index.html`). Confirm this is the address you want public (the audit flagged it as a possible mailbox/iPostal1), and add a `telephone` field to the JSON-LD once the Google Voice number exists.
+

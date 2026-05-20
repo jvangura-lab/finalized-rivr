@@ -66,7 +66,7 @@ function Hero() {
             willChange: "transform, opacity"
           }}>
             <FadeUp>
-              <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 22 }}>
+              <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 22 }}>
                 Online booking systems for medical spas
               </p>
             </FadeUp>
@@ -631,7 +631,7 @@ function Page() {
   return (
     <PrototypeModalContext.Provider value={modal}>
       <Nav current="home" />
-      <main>
+      <main id="main">
         <Hero />
         <Marquee />
         <CredibilityStats />

@@ -284,12 +284,23 @@ function FadeUp({ delay = 0, children, className = "", as: As = "div", style = {
 // ── Nav (sticky pill, hash-link active state) ────────────────────────────────
 function Nav({ current = "home" }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Drawer: lock scroll + close on ESC while open.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => { if (e.key === "Escape") setMenuOpen(false); };
+    document.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = prev; document.removeEventListener("keydown", onKey); };
+  }, [menuOpen]);
 
   const links = [
     { label: "Home", href: "index.html", id: "home" },
@@ -299,6 +310,7 @@ function Nav({ current = "home" }) {
 
   return (
     <header className={`nav ${scrolled ? "scrolled" : ""}`}>
+      <a href="#main" className="skip-link">Skip to content</a>
       <div className="nav-inner">
         <a href="index.html" className="nav-brand">
           <span className="mk">R</span>
@@ -319,6 +331,35 @@ function Nav({ current = "home" }) {
           <span>Book a walkthrough</span>
           <span className="arr">→</span>
         </a>
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="nav-drawer"
+          onClick={() => setMenuOpen((o) => !o)}
+        >
+          <span /><span /><span />
+        </button>
+      </div>
+
+      <div id="nav-drawer" className={`nav-drawer ${menuOpen ? "is-open" : ""}`}>
+        <div className="nav-drawer-backdrop" onClick={() => setMenuOpen(false)} />
+        <nav className="nav-drawer-panel" aria-label="Mobile">
+          {links.map((l) => (
+            <a
+              key={l.id}
+              href={l.href}
+              className={`nav-link ${current === l.id ? "active" : ""}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              {l.label}
+            </a>
+          ))}
+          <a href="book.html" className="btn btn-primary" onClick={() => setMenuOpen(false)}>
+            <span>Book a walkthrough</span><span className="arr" aria-hidden>→</span>
+          </a>
+        </nav>
       </div>
     </header>
   );

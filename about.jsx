@@ -17,7 +17,7 @@ function AboutHero() {
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <div style={{ maxWidth: 760 }}>
           <Reveal>
-            <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 26 }}>About</p>
+            <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 26 }}>About</p>
           </Reveal>
           <RevealLines
             as="h1" className="text-display-1" baseDelay={60} gap={110}
@@ -121,7 +121,7 @@ function WhyWeBuilt() {
     <section ref={secRef} className="section">
       <div className="container" style={{ maxWidth: 760 }}>
         <Reveal>
-          <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 26 }}>Why we built this</p>
+          <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 26 }}>Why we built this</p>
         </Reveal>
         <RevealLines
           as="h2" className="text-display-2" baseDelay={60}
@@ -157,7 +157,7 @@ function WhatWeDo() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }} className="we-do-grid">
           <FadeUp>
             <div>
-              <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 20 }}>We do</p>
+              <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 20 }}>We do</p>
               <h3 style={{ fontSize: "1.5rem", fontWeight: 600, letterSpacing: "-0.018em", lineHeight: 1.18, marginBottom: 28 }}>
                 Build personalized booking pages.
               </h3>
@@ -204,7 +204,7 @@ function Location() {
     <section className="section">
       <div className="container" style={{ maxWidth: 760 }}>
         <Reveal>
-          <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 26 }}>Location</p>
+          <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 26 }}>Location</p>
         </Reveal>
         <RevealLines as="h2" className="text-display-2" baseDelay={60}
           lines={[<>Find us in <span className="serif" style={{ color: "var(--color-accent)" }}>Jacksonville Beach</span>.</>]}
@@ -252,7 +252,7 @@ function Page() {
   return (
     <>
       <Nav current="about" />
-      <main>
+      <main id="main">
         <AboutHero />
         <FoundersSection />
         <WhyWeBuilt />
