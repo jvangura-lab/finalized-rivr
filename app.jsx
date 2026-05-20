@@ -351,7 +351,9 @@ function Footer() {
             <p className="footer-brand-name"><span className="mk">R</span> RIVR</p>
             <h4>Contact</h4>
             <ul>
-              <li><a href="mailto:join@rivrsystems.com">join@rivrsystems.com</a></li>
+              <li><a href="mailto:hello@rivrsystems.com">hello@rivrsystems.com</a></li>
+              {/* TODO(thor): replace (phone TBD) with the real Google Voice number. See BLOCKED_ON_THOR.md. */}
+              <li><a href="sms:">Text us · (phone TBD)</a></li>
             </ul>
             <address>
               RIVR Systems<br />
@@ -372,19 +374,17 @@ function Footer() {
 
           <div>
             <h4>Legal</h4>
+            {/* TODO(thor): confirm these match the real Termly URLs. See BLOCKED_ON_THOR.md. */}
             <ul>
-              <li><a href="#">Privacy</a></li>
-              <li><a href="#">Terms</a></li>
-              <li><a href="#">Cookies</a></li>
+              <li><a href="https://rivrsystems.com/privacy">Privacy</a></li>
+              <li><a href="https://rivrsystems.com/terms">Terms</a></li>
+              <li><a href="https://rivrsystems.com/cookies">Cookies</a></li>
             </ul>
           </div>
         </div>
         <div className="footer-bottom">
           <p>© 2026 RIVR Systems</p>
-          <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">LinkedIn</a></li>
-          </ul>
+          {/* TODO(thor): add Instagram/LinkedIn links once handles exist. Removed dead href="#" links for now. See BLOCKED_ON_THOR.md. */}
         </div>
       </div>
       <span className="footer-watermark">RIVR</span>
@@ -461,7 +461,7 @@ function BrowserFrame({ src, alt, url, style = {}, className = "", children }) {
 }
 
 // ── PrototypeModal — full-screen iframe modal for the Lumera prototype ───────
-const PROTOTYPE_URL = "https://lumera-aesthetics.vercel.app/";
+const PROTOTYPE_URL = "https://lumera.rivrsystems.com";
 
 function usePrototypeModal() {
   const [open, setOpen] = useState(false);

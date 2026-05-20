@@ -10,13 +10,18 @@ const {
   Reveal, FadeUp, RevealLines, Nav, Button, Footer, ClosingCTA, Cursor,
 } = window;
 
+// NOTE: This is RIVR's OWN walkthrough-booking scheduler (the conversion point of
+// the whole funnel), NOT the Lumera demo. It must stay functional — do not point it
+// at lumera.rivrsystems.com. The raw Cloud Run URL is ugly but live; the fix is to map
+// it to a branded domain (e.g. book.rivrsystems.com), which needs DNS + deploy config.
+// TODO(thor): map this scheduler to book.rivrsystems.com and update both constants. See BLOCKED_ON_THOR.md.
 const BOOKING_URL = "https://rivr-booking-914650990846.us-central1.run.app/";
 const BOOKING_ORIGIN = "https://rivr-booking-914650990846.us-central1.run.app";
 
 const AGENDA = [
   "We walk through how our booking systems work and connect to your schedule.",
   "We discuss the booking system we would build for your practice.",
-  "You confirm and we begin building your online booking immediately. Ready in a week. No obligations.",
+  "You confirm and we begin building your online booking immediately. Ready in two to three weeks. No obligations.",
 ];
 
 const FAQ_B = [

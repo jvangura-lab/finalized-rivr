@@ -334,11 +334,11 @@ function LiveDemo() {
           <FadeUp><p className="text-label-caps">Live prototype</p></FadeUp>
           <RevealLines
             as="h2" className="text-display-2" baseDelay={120}
-            lines={[<>This is the booking page we built for <span className="serif" style={{ color: "var(--color-accent)" }}>Lumera Aesthetics</span>.</>]} />
-          
+            lines={[<>Meet <span className="serif" style={{ color: "var(--color-accent)" }}>Lumera</span>, a reference build.</>]} />
+
           <FadeUp delay={320}>
             <p className="text-body-lg" style={{ marginTop: 24 }}>
-              Lumera is a Jacksonville Beach med spa we partnered with. Click around, book a fake appointment, browse the practitioner cards, read the FAQ. The whole thing is live.
+              Lumera is a reference build — a complete booking flow we made to show how a multi-tier surgical and injectables practice books patients. Click around, book a fake appointment, browse the practitioner cards, read the FAQ. The whole thing is live.
             </p>
           </FadeUp>
           <FadeUp delay={420}>
@@ -447,28 +447,83 @@ function Benefits() {
 }
 
 // ─── SampleWork (horizontal scroll) ──────────────────────────────────────────
+// These are reference builds — live demos we use to show each booking pattern,
+// not client deployments. Each tile links to the deployed subdomain and
+// hover-cycles through three real screenshots.
 const TILES = [
 {
   label: "Consult-first booking",
-  brand: "Coastline Aesthetic Group",
-  image: "imagery/variant-coastline.png",
+  brand: "Lumera",
+  category: "Multi-tier surgical + injectables",
+  href: "https://lumera.rivrsystems.com",
+  // Real Lumera screenshots already in imagery/.
+  images: ["imagery/lumera-hero.png", "imagery/lumera-team.png", "imagery/lumera-calendar.png"],
   title: "The conversation comes first.",
-  body: "When the patient needs a provider to assess them before they buy, the booking page leads with a consult. Three lanes, one continue button, no upsell."
-},
-{
-  label: "Practitioner-first booking",
-  brand: "Studio Vela",
-  image: "imagery/variant-studio-vela.png",
-  title: "The practitioner comes first.",
-  body: "When the relationship sits with a specific provider, the booking page leads with a grid of practitioners. Avatars, credentials, first available, one tap to continue."
+  body: "For a multi-tier practice selling both surgical procedures and injectables, the page leads with a consult. Three lanes, one continue button, no upsell. A reference build we use to show the consult-first pattern."
 },
 {
   label: "Time-first booking",
-  brand: "Northline Skin Co.",
-  image: "imagery/variant-northline.png",
-  title: "The time comes first.",
-  body: "When the practice runs multiple locations, the booking page leads with availability across all of them. Calendar grid, color-coded slots, no double bookings."
+  brand: "Sela",
+  category: "Retail med spa, NP-led",
+  href: "https://sela.rivrsystems.com",
+  // Captured from the live build via `node scripts/capture-demos.mjs` (re-run to refresh).
+  images: ["imagery/sela-1.png", "imagery/sela-2.png", "imagery/sela-3.png"],
+  title: "The soonest opening comes first.",
+  body: "For a high-volume, NP-led retail med spa, the page leads with availability. Pick the next open slot, pick a provider, done. A reference build we use to show the time-first pattern."
+},
+{
+  label: "Practitioner-first booking",
+  brand: "Devereaux",
+  category: "Concierge surgical, founder-led",
+  href: "https://devereaux.rivrsystems.com",
+  // Captured from the live build via `node scripts/capture-demos.mjs` (re-run to refresh).
+  images: ["imagery/devereaux-1.png", "imagery/devereaux-2.png", "imagery/devereaux-3.png"],
+  title: "The practitioner comes first.",
+  body: "For a founder-led concierge practice, the page leads with the surgeon — one provider, their credentials, their first available. A reference build we use to show the practitioner-first pattern."
 }];
+
+// ── HoverCycle — fades through screenshots on hover (~1.2s/frame). Falls back
+// to a branded placeholder tile per image if a screenshot is missing.
+function HoverCycle({ images, label, alt }) {
+  const [idx, setIdx] = useStateH(0);
+  const [hovering, setHovering] = useStateH(false);
+  const [failed, setFailed] = useStateH({});
+  useEffectH(() => {
+    if (!hovering || images.length < 2) return;
+    const iv = setInterval(() => setIdx((i) => (i + 1) % images.length), 1200);
+    return () => clearInterval(iv);
+  }, [hovering, images.length]);
+  return (
+    <div
+      className="hover-cycle"
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => { setHovering(false); setIdx(0); }}
+    >
+      {images.map((src, i) =>
+        failed[i] ? (
+          <div key={i} className={`hover-cycle-ph ${i === idx ? "is-active" : ""}`} aria-hidden={i !== idx}>
+            <span>{label}</span>
+          </div>
+        ) : (
+          <img
+            key={i}
+            src={src}
+            alt={i === 0 ? alt : ""}
+            loading="lazy"
+            className={i === idx ? "is-active" : ""}
+            aria-hidden={i !== idx}
+            onError={() => setFailed((f) => ({ ...f, [i]: true }))}
+          />
+        )
+      )}
+      {images.length > 1 && (
+        <div className="hover-cycle-dots" aria-hidden>
+          {images.map((_, i) => <span key={i} className={i === idx ? "on" : ""} />)}
+        </div>
+      )}
+    </div>
+  );
+}
 
 
 function SampleWork() {
@@ -531,17 +586,18 @@ function SampleWork() {
             <article className="work-tile" key={i}>
                 <div className="head">
                   <i /><i /><i />
-                  <span className="brand-tag">{t.brand}</span>
+                  <span className="brand-tag">{t.brand} · Reference build</span>
                 </div>
                 <div className="preview">
-                  <img src={t.image} alt={t.title} loading="lazy" />
+                  <HoverCycle images={t.images} label={t.brand} alt={`${t.brand} booking page — ${t.title}`} />
                 </div>
                 <div className="meta">
                   <p className="label">{t.label}</p>
+                  <p className="category">{t.category}</p>
                   <h3>{t.title}</h3>
                   <p>{t.body}</p>
                   <div className="links">
-                    <a href="#" data-cursor="hover">See it live →</a>
+                    <a href={t.href} target="_blank" rel="noopener noreferrer" data-cursor="hover">See it live ↗</a>
                     <a href="book.html" data-cursor="hover">Book a call →</a>
                   </div>
                 </div>

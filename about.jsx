@@ -103,7 +103,7 @@ function FoundersSection() {
                 Day to day, Jonas and I both work across everything, running checks through each others work ensuring all deliverables surpass the standards.
               </p>
               <p>
-                Outside of RIVR, I'm a professional volleyball player. I compete in South Africa and I'm near qualifying for the Olympics.
+                On the build side, I own the booking funnels, the live demos, and the marketing site you're reading right now.
               </p>
             </div>
           </FadeUp>
@@ -220,8 +220,15 @@ function Location() {
           <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 14, marginTop: 32, fontSize: "1.125rem" }}>
             <li>
               Email{" "}
-              <a href="mailto:join@rivrsystems.com" style={{ color: "var(--color-accent)", textDecoration: "underline", textUnderlineOffset: 4 }}>
-                join@rivrsystems.com
+              <a href="mailto:hello@rivrsystems.com" style={{ color: "var(--color-accent)", textDecoration: "underline", textUnderlineOffset: 4 }}>
+                hello@rivrsystems.com
+              </a>
+            </li>
+            {/* TODO(thor): replace (phone TBD) with the real Google Voice number. See BLOCKED_ON_THOR.md. */}
+            <li>
+              Call or text{" "}
+              <a href="sms:" style={{ color: "var(--color-accent)", textDecoration: "underline", textUnderlineOffset: 4 }}>
+                (phone TBD)
               </a>
             </li>
             <li style={{ color: "var(--color-text-muted)" }}>

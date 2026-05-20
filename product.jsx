@@ -70,9 +70,9 @@ function LiveProto() {
               clipPath: `inset(${insetVal}px ${insetVal}px ${insetVal}px ${insetVal}px round 14px)`,
               transition: "clip-path 600ms var(--ease-rivr)",
             }}>
-              <div className="bar"><i /><i /><i /><span className="u">lumera-prototype.run.app</span></div>
+              <div className="bar"><i /><i /><i /><span className="u">lumera.rivrsystems.com</span><span className="preview-tag">Preview</span></div>
               <div className="body" style={{ aspectRatio: "16 / 10" }}>
-                <img src="imagery/lumera-hero.png" alt="Lumera Aesthetics live prototype" />
+                <img src="imagery/lumera-hero.png" alt="Preview of the Lumera reference build" />
               </div>
             </div>
           </div>
@@ -124,7 +124,7 @@ function PipelineVisual({ kind, active }) {
   if (kind === "design") {
     return (
       <div className={`pipe-frame pipe-design ${active ? "active" : ""}`}>
-        <img src="imagery/product-step-1.png" alt="Halcyon Med Spa booking page being designed" loading="lazy" />
+        <img src="imagery/product-step-1.png" alt="Lumera booking page being designed" loading="lazy" />
       </div>
     );
   }
@@ -159,7 +159,7 @@ function PipelineVisual({ kind, active }) {
   if (kind === "handoff") {
     return (
       <div className={`pipe-frame pipe-handoff ${active ? "active" : ""}`}>
-        <img src="imagery/product-step-3.png" alt="Halcyon Med Spa live at booking.halcyonmedspa.com" loading="lazy" />
+        <img src="imagery/product-step-3.png" alt="Lumera live at lumera.rivrsystems.com" loading="lazy" />
       </div>
     );
   }
