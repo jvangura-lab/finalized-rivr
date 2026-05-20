@@ -178,7 +178,6 @@ function FAQSection() {
 function Page() {
   return (
     <>
-      <Cursor />
       <Nav current="home" />
       <main>
         <BookHero />

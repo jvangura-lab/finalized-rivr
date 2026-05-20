@@ -6,7 +6,7 @@ const { useState: useStateP, useEffect: useEffectP, useRef: useRefP } = React;
 const {
   useReveal, useScrollProgress, useStickyProgress, useMousePos, useCountUp, usePrototypeModal,
   clamp, lerp, mix,
-  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor, PrototypeModal,
+  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor, PrototypeModal, CtaReassure,
 } = window;
 
 const PrototypeModalContextP = React.createContext({ open: false, openModal: () => {}, closeModal: () => {} });
@@ -35,6 +35,9 @@ function ProductHero() {
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
             </div>
+          </Reveal>
+          <Reveal delay={640}>
+            <CtaReassure hipaa center style={{ justifyContent: "center", alignItems: "center" }} />
           </Reveal>
         </div>
       </div>
@@ -514,7 +517,6 @@ function Page() {
   const modal = usePrototypeModal();
   return (
     <PrototypeModalContextP.Provider value={modal}>
-      <Cursor />
       <Nav current="product" />
       <main>
         <ProductHero />

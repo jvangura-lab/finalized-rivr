@@ -7,7 +7,7 @@ const { useState: useStateH, useEffect: useEffectH, useRef: useRefH, useLayoutEf
 const {
   useReveal, useScrollProgress, useStickyProgress, useMousePos, useCountUp, usePrototypeModal,
   clamp, lerp, mix,
-  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor, PrototypeModal,
+  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor, PrototypeModal, CtaReassure,
 } = window;
 
 // Modal context — opened/closed once per page so multiple CTAs share state.
@@ -97,6 +97,10 @@ function Hero() {
                   )}
                 </PrototypeModalContext.Consumer>
               </div>
+            </Reveal>
+
+            <Reveal delay={600}>
+              <CtaReassure />
             </Reveal>
 
             {/* RIVR-NOTE: hero sub-line — confirm or swap on review. */}
@@ -356,7 +360,6 @@ function LiveDemo() {
           <div className="demo-grid" style={{ marginTop: 56 }}>
             {DEMO_PANELS.map((p, i) =>
             <TiltCard key={i}>
-                <div className="head"><i /><i /><i /></div>
                 <div className="body"><img src={p.src} alt={p.alt} loading="lazy" /></div>
               </TiltCard>
             )}
@@ -627,7 +630,6 @@ function Page() {
   const modal = usePrototypeModal();
   return (
     <PrototypeModalContext.Provider value={modal}>
-      <Cursor />
       <Nav current="home" />
       <main>
         <Hero />

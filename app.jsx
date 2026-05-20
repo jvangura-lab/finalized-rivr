@@ -341,6 +341,18 @@ function Button({ href, onClick, variant = "primary", arrow = "right", children,
   return <a href={href} className={cls} {...rest}><span>{children}</span>{arr}</a>;
 }
 
+// ── CtaReassure — trust lines that sit beside a primary CTA. Surfaces the
+// risk-reversal (buried in ClosingCTA copy) and, optionally, the HIPAA/BAA line
+// (otherwise only on the book FAQ). ──────────────────────────────────────────
+function CtaReassure({ hipaa = false, center = false, style = {} }) {
+  return (
+    <ul className={`cta-reassure ${center ? "is-center" : ""}`.trim()} style={style}>
+      <li><span className="ck" aria-hidden>✓</span> You keep the mockup whether or not we move forward.</li>
+      {hipaa && <li><span className="ck" aria-hidden>✓</span> HIPAA-ready — we sign a BAA before any patient data flows.</li>}
+    </ul>
+  );
+}
+
 // ── Footer ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
@@ -543,6 +555,10 @@ function PrototypeModal({ open, onClose }) {
           onLoad={() => setIframeLoaded(true)}
           allow="clipboard-write; fullscreen"
         />
+        <a href="book.html" className="proto-modal-book">
+          <span>Want one for your practice?</span>
+          <strong>Book the walkthrough →</strong>
+        </a>
         <button
           ref={closeBtnRef}
           type="button"
@@ -614,7 +630,7 @@ Object.assign(window, {
   // utils
   clamp, lerp, mix, easeRivr, EASE_RIVR,
   // components
-  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor, PrototypeModal,
+  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor, PrototypeModal, CtaReassure,
   // constants
   PROTOTYPE_URL,
 });

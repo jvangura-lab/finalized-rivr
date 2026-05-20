@@ -6,7 +6,7 @@ const { useRef: useRefA, useEffect: useEffectA, useState: useStateA } = React;
 const {
   useReveal, useScrollProgress, useStickyProgress, useMousePos,
   clamp, lerp, mix,
-  Reveal, FadeUp, RevealLines, Nav, Button, Footer, ClosingCTA, Cursor,
+  Reveal, FadeUp, RevealLines, Nav, Button, Footer, ClosingCTA, Cursor, CtaReassure,
 } = window;
 
 // ─── About Hero ──────────────────────────────────────────────────────────────
@@ -239,6 +239,7 @@ function Location() {
         <Reveal delay={420}>
           <div style={{ marginTop: 36 }}>
             <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
+            <CtaReassure />
           </div>
         </Reveal>
       </div>
@@ -250,7 +251,6 @@ function Location() {
 function Page() {
   return (
     <>
-      <Cursor />
       <Nav current="about" />
       <main>
         <AboutHero />

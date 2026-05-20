@@ -16,7 +16,7 @@
   --color-rule-dark: #262626;
 
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-serif: "Instrument Serif", "Cormorant Garamond", "Times New Roman", serif;
+  --font-serif: "Cormorant Garamond", "Times New Roman", serif;
 
   --container-max: 1280px;
   --container-prose: 42rem;
@@ -232,6 +232,16 @@ img { display: block; max-width: 100%; }
 .btn-on-dark.btn-secondary { color: var(--color-text-primary-inverse); }
 .btn-on-dark.btn-secondary:hover { color: var(--color-accent); }
 
+/* CTA reassurance lines (risk-reversal + HIPAA/BAA) */
+.cta-reassure {
+  list-style: none; display: flex; flex-direction: column; gap: 7px;
+  margin-top: 18px; font-size: 0.8125rem; color: var(--color-text-muted);
+}
+.cta-reassure.is-center { align-items: center; }
+.cta-reassure li { display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+.cta-reassure .ck { color: var(--color-accent); font-weight: 700; flex-shrink: 0; }
+.section-dark .cta-reassure { color: var(--color-text-muted-inverse); }
+
 /* ========================================================================
    FOOTER
    ======================================================================== */
@@ -369,23 +379,8 @@ img { display: block; max-width: 100%; }
 .browser .body { position: relative; aspect-ratio: 16 / 10; background: #fff; }
 .browser .body img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 
-/* ========================================================================
-   Cursor (custom) — subtle accent dot that follows pointer
-   ======================================================================== */
-.rivr-cursor {
-  position: fixed; top: 0; left: 0;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  transform: translate(-50%, -50%);
-  pointer-events: none; z-index: 9999;
-  mix-blend-mode: difference;
-  opacity: 0;
-  transition: opacity 240ms var(--ease-rivr), width 320ms var(--ease-rivr), height 320ms var(--ease-rivr);
-}
-.rivr-cursor.in { opacity: 0.9; }
-.rivr-cursor.hover { width: 36px; height: 36px; background: rgba(201, 168, 117, 0.3); }
-@media (hover: none) { .rivr-cursor { display: none; } }
+/* Custom blend-mode cursor removed (de-AI pass, 2026-05-20) — read as
+   portfolio-gimmick and added nothing on touch. */
 
 /* ========================================================================
    Page heroes
@@ -1333,6 +1328,25 @@ img { display: block; max-width: 100%; }
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
+.proto-modal-book {
+  position: absolute;
+  left: 16px; bottom: 16px;
+  z-index: 3;
+  display: flex; flex-direction: column; gap: 1px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: var(--color-accent); color: #fff;
+  box-shadow: 0 8px 24px -8px rgba(201, 168, 117, 0.7), 0 0 0 1px rgba(184, 151, 95, 0.4);
+  transition: transform var(--dur-fast) var(--ease-rivr), background var(--dur-fast) var(--ease-rivr);
+}
+.proto-modal-book:hover { background: var(--color-accent-hover); transform: translateY(-1px); }
+.proto-modal-book span { font-size: 0.6875rem; letter-spacing: 0.04em; opacity: 0.85; }
+.proto-modal-book strong { font-size: 0.875rem; font-weight: 600; }
+@media (max-width: 720px) {
+  .proto-modal-book { left: 12px; bottom: 12px; padding: 8px 14px; }
+  .proto-modal-book span { display: none; }
+}
+
 .proto-modal-skeleton {
   position: absolute;
   inset: 0;
