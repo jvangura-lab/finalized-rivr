@@ -588,7 +588,6 @@ function SampleWork() {
             {TILES.map((t, i) =>
             <article className="work-tile" key={i}>
                 <div className="head">
-                  <i /><i /><i />
                   <span className="brand-tag">{t.brand} · Reference build</span>
                 </div>
                 <div className="preview">

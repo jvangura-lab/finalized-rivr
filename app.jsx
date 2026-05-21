@@ -445,59 +445,6 @@ function Footer() {
   );
 }
 
-// ── Cursor (custom dot follower) ─────────────────────────────────────────────
-function Cursor() {
-  const dotRef = useRef(null);
-  const target = useRef({ x: -100, y: -100 });
-  const current = useRef({ x: -100, y: -100 });
-  const rafRef = useRef(0);
-  const [hover, setHover] = useState(false);
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(hover: none)").matches) return;
-    const onMove = (e) => {
-      target.current.x = e.clientX;
-      target.current.y = e.clientY;
-      if (!active) setActive(true);
-      if (!rafRef.current) tick();
-    };
-    const onLeave = () => setActive(false);
-    const onOver = (e) => {
-      const t = e.target;
-      if (!t) return;
-      const interactive = t.closest("a, button, [data-cursor='hover']");
-      setHover(!!interactive);
-    };
-
-    const tick = () => {
-      current.current.x = lerp(current.current.x, target.current.x, 0.22);
-      current.current.y = lerp(current.current.y, target.current.y, 0.22);
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${current.current.x}px, ${current.current.y}px) translate(-50%, -50%)`;
-      }
-      const dx = Math.abs(current.current.x - target.current.x);
-      const dy = Math.abs(current.current.y - target.current.y);
-      if (dx > 0.2 || dy > 0.2) {
-        rafRef.current = requestAnimationFrame(tick);
-      } else {
-        rafRef.current = 0;
-      }
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("mouseleave", onLeave);
-    document.addEventListener("mouseover", onOver, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseleave", onLeave);
-      document.removeEventListener("mouseover", onOver);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
-  return <div ref={dotRef} className={`rivr-cursor ${active ? "in" : ""} ${hover ? "hover" : ""}`} aria-hidden />;
-}
-
 // ── BrowserFrame: chrome around an image or arbitrary children ───────────────
 function BrowserFrame({ src, alt, url, style = {}, className = "", children }) {
   return (
@@ -671,7 +618,7 @@ Object.assign(window, {
   // utils
   clamp, lerp, mix, easeRivr, EASE_RIVR,
   // components
-  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, Cursor, PrototypeModal, CtaReassure,
+  Reveal, FadeUp, RevealLines, Nav, Button, Footer, BrowserFrame, ClosingCTA, PrototypeModal, CtaReassure,
   // constants
   PROTOTYPE_URL,
 });
