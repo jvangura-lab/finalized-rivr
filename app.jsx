@@ -386,10 +386,13 @@ function Button({ href, onClick, variant = "primary", arrow = "right", children,
 // risk-reversal (buried in ClosingCTA copy) and, optionally, the HIPAA/BAA line
 // (otherwise only on the book FAQ). ──────────────────────────────────────────
 function CtaReassure({ hipaa = false, center = false, style = {} }) {
+  // Stream A (Category 3): the "You keep the mockup" check read as hook-bait and
+  // was removed. Only the HIPAA/BAA reassurance remains; renders nothing when
+  // not requested (so callers without `hipaa` produce no empty markup).
+  if (!hipaa) return null;
   return (
     <ul className={`cta-reassure ${center ? "is-center" : ""}`.trim()} style={style}>
-      <li><span className="ck" aria-hidden>✓</span> You keep the mockup whether or not we move forward.</li>
-      {hipaa && <li><span className="ck" aria-hidden>✓</span> HIPAA-ready — we sign a BAA before any patient data flows.</li>}
+      <li><span className="ck" aria-hidden>✓</span> HIPAA-ready — we sign a BAA before any patient data flows.</li>
     </ul>
   );
 }
@@ -574,6 +577,9 @@ function ClosingCTA() {
         <Reveal>
           <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 24 }}>Next step</p>
         </Reveal>
+        {/* TODO Stream C: "15 min / one screen share / no pitch deck" trio headline
+            deferred — rewrite with rendered typography + line-break control.
+            Stream A replaced only the meta caption below the CTA. */}
         <RevealLines
           as="h2"
           className="text-display-2"
@@ -585,7 +591,7 @@ function ClosingCTA() {
         />
         <Reveal delay={300}>
           <p className="text-body-lg" style={{ maxWidth: 620, margin: "32px auto 40px" }}>
-            We look at your current setup, show you the booking page we would build for your practice, and you keep the mockup we put together for your practice whether or not we move forward.
+            We look at your current setup and show you the booking page we would build for your practice.
           </p>
         </Reveal>
         <Reveal delay={420}>
@@ -599,9 +605,7 @@ function ClosingCTA() {
             gap: "12px 24px", fontSize: "0.75rem", letterSpacing: "0.12em",
             textTransform: "uppercase", color: "var(--color-text-muted-inverse)", listStyle: "none"
           }}>
-            <li>15 minutes</li>
-            <li aria-hidden style={{ color: "var(--color-rule-dark)" }}>·</li>
-            <li>Google Meet</li>
+            <li>15 min · no obligation</li>
           </ul>
         </Reveal>
       </div>

@@ -164,7 +164,7 @@ function WhatWeDo() {
               <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 16, fontSize: "1.0625rem", lineHeight: 1.55 }}>
                 <li style={listItemStyle}><span style={dotStyle("accent")} />Connect them to your existing calendar and tools.</li>
                 <li style={listItemStyle}><span style={dotStyle("accent")} />Host them on your domain.</li>
-                <li style={listItemStyle}><span style={dotStyle("accent")} />Stay on call when you need changes.</li>
+                <li style={listItemStyle}><span style={dotStyle("accent")} />Make changes after launch when you need them.</li>
               </ul>
             </div>
           </FadeUp>
@@ -232,14 +232,13 @@ function Location() {
               </a>
             </li>
             <li style={{ color: "var(--color-text-muted)" }}>
-              Available 9am to 7pm ET. Replies in under an hour during business hours.
+              We reply within 48 hours, Monday through Friday.
             </li>
           </ul>
         </Reveal>
         <Reveal delay={420}>
           <div style={{ marginTop: 36 }}>
             <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
-            <CtaReassure />
           </div>
         </Reveal>
       </div>

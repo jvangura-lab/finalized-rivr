@@ -99,10 +99,6 @@ function Hero() {
               </div>
             </Reveal>
 
-            <Reveal delay={600}>
-              <CtaReassure />
-            </Reveal>
-
             {/* RIVR-NOTE: hero sub-line — confirm or swap on review. */}
             <Reveal delay={640}>
               <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
@@ -231,25 +227,21 @@ function Marquee() {
 }
 
 // ─── Credibility Stats ───────────────────────────────────────────────────────
+// Stream A (Category 6): citation indices (`cite`) and the SOURCES list were
+// removed — evidence now lives behind the discrete "see evidence →" link, not
+// inline in the rendered stats. The statistics themselves are unchanged.
 const STATS = [
-{ n: 68, suffix: "%", label: "want online booking", body: "of patients want to schedule, change, or cancel healthcare appointments online.", cite: 1 },
-{ n: 80, suffix: "%", label: "use it to pick a provider", body: "of healthcare consumers say online scheduling influences which provider they choose.", cite: 2 },
-{ n: 38, suffix: "%", label: "fewer no-shows", body: "lower no-show rates when patients receive a text message appointment reminder.", cite: 3 },
-{ n: 25, suffix: "%", label: "abandon hard booking", body: "of consumers abandon the booking attempt if scheduling is not simple and convenient.", cite: 4, prefix: "~" }];
-
-
-const SOURCES = [
-{ n: 1, text: "Accenture, 2019 Digital Health Consumer Survey.", href: "https://www.ehidc.org/sites/default/files/resources/files/Accenture-2019-Digital-Health-Consumer-Survey.pdf" },
-{ n: 2, text: "Press Ganey, Online appointment scheduling: the last mile of patient access.", href: "https://www.pressganey.com/resources/blog/online-appointment-scheduling-last-mile/" },
-{ n: 3, text: "Pragmatic Randomized Study of Targeted Text Message Reminders. The Permanente Journal, 2022.", href: "https://pubmed.ncbi.nlm.nih.gov/35609163/" },
-{ n: 4, text: "Press Ganey, Online appointment scheduling: the last mile of patient access.", href: "https://www.pressganey.com/resources/blog/online-appointment-scheduling-last-mile/" }];
+{ n: 68, suffix: "%", label: "want online booking", body: "of patients want to schedule, change, or cancel healthcare appointments online." },
+{ n: 80, suffix: "%", label: "use it to pick a provider", body: "of healthcare consumers say online scheduling influences which provider they choose." },
+{ n: 38, suffix: "%", label: "fewer no-shows", body: "lower no-show rates when patients receive a text message appointment reminder." },
+{ n: 25, suffix: "%", label: "abandon hard booking", body: "of consumers abandon the booking attempt if scheduling is not simple and convenient.", prefix: "~" }];
 
 
 function StatCard({ stat }) {
   const [ref, text] = useCountUp(stat.n, { duration: 1700, prefix: stat.prefix || "", suffix: stat.suffix });
   return (
     <div className="stat-card">
-      <p className="n" ref={ref}>{text}<sup>{stat.cite}</sup></p>
+      <p className="n" ref={ref}>{text}</p>
       <p className="lbl">{stat.label}</p>
       <p className="body">{stat.body}</p>
     </div>);
@@ -261,13 +253,13 @@ function CredibilityStats() {
     <section className="section" style={{ paddingBlock: "120px" }}>
       <div className="container">
         <div className="section-header">
-          <FadeUp><p className="text-label-caps">Why this matters</p></FadeUp>
+          <FadeUp><p className="text-label-caps">The industry standard</p></FadeUp>
           <RevealLines
             as="h2"
             className="text-display-2"
             baseDelay={120}
             lines={[<>Online booking is no longer a <span className="serif" style={{ color: "var(--color-accent)" }}>nice-to-have</span>.</>]} />
-          
+
         </div>
 
         <FadeUp>
@@ -276,17 +268,12 @@ function CredibilityStats() {
           </div>
         </FadeUp>
 
-        <ol className="sources">
-          {SOURCES.map((src) =>
-          <li key={src.n}>
-              <span className="n">{src.n}.</span>
-              <span>
-                {src.text}{" "}
-                <a href={src.href} target="_blank" rel="noopener noreferrer">Source</a>
-              </span>
-            </li>
-          )}
-        </ol>
+        {/* Stream A (Category 6): inline citations removed from the visible copy.
+            Evidence lives behind a discrete link — routes to /evidence once it
+            exists (placeholder anchor for now). */}
+        <p className="stats-evidence">
+          <a href="/#evidence">see evidence →</a>
+        </p>
       </div>
     </section>);
 
@@ -333,6 +320,7 @@ function TiltCard({ children }) {
 function LiveDemo() {
   return (
     <section className="section" id="live-demo">
+      {/* TODO Stream C: restructure as single hover-animated screenshot — currently redundant with hero */}
       <div className="container">
         <div className="section-header">
           <FadeUp><p className="text-label-caps">Live prototype</p></FadeUp>
@@ -342,7 +330,7 @@ function LiveDemo() {
 
           <FadeUp delay={320}>
             <p className="text-body-lg" style={{ marginTop: 24 }}>
-              Lumera is a reference build — a complete booking flow we made to show how a multi-tier surgical and injectables practice books patients. Click around, book a fake appointment, browse the practitioner cards, read the FAQ. The whole thing is live.
+              Lumera is a reference build — a complete booking flow we made to show how a multi-tier surgical and injectables practice books patients. Click around, book a mock appointment, browse the practitioner cards, read the FAQ. The whole thing is live.
             </p>
           </FadeUp>
           <FadeUp delay={420}>
@@ -370,84 +358,11 @@ function LiveDemo() {
 
 }
 
-// ─── Benefits (dark) ─────────────────────────────────────────────────────────
-const BENEFITS = [
-{
-  icon:
-  <svg className="ico" viewBox="0 0 80 80" fill="none" aria-hidden>
-        <path d="M12 60 L12 12 M12 60 L68 60" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M20 50 L32 38 L42 46 L56 24" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" pathLength="1" className="ico-draw" />
-        <path d="M50 24 L56 24 L56 30" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="32" cy="38" r="2" fill="var(--color-accent)" />
-        <circle cx="42" cy="46" r="2" fill="var(--color-accent)" />
-      </svg>,
-
-  title: "Drive online bookings",
-  body: "Your patients book themselves on their phone at 11pm. The appointment lands in your calendar before your front desk gets in tomorrow. No phone tag, no manual entry."
-},
-{
-  icon:
-  <svg className="ico" viewBox="0 0 80 80" fill="none" aria-hidden>
-        <rect x="14" y="18" width="52" height="14" rx="2" stroke="var(--color-accent)" strokeWidth="1.5" />
-        <rect x="14" y="36" width="52" height="14" rx="2" stroke="var(--color-accent)" strokeWidth="1.5" />
-        <rect x="14" y="54" width="52" height="10" rx="2" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.45" />
-        <path d="M48 25 L52 28 L60 22" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M48 43 L52 46 L60 40" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>,
-
-  title: "No new system to adopt",
-  body: "We integrate with the calendar, EMR, and tools you already use. Nothing to install, nothing for your staff to learn, nothing to migrate. Your current system keeps running exactly the same."
-},
-{
-  icon:
-  <svg className="ico" viewBox="0 0 80 80" fill="none" aria-hidden>
-        <path d="M18 26 C18 21 22 18 26 18 L54 18 C58 18 62 21 62 26 L62 46 C62 51 58 54 54 54 L36 54 L26 62 L26 54 C22 54 18 51 18 46 Z" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinejoin="round" />
-        <circle cx="30" cy="36" r="2" fill="var(--color-accent)" />
-        <circle cx="40" cy="36" r="2" fill="var(--color-accent)" />
-        <circle cx="50" cy="36" r="2" fill="var(--color-accent)" />
-      </svg>,
-
-  title: "Real humans, immediate support",
-  body: "Questions go to Thor and Jonas directly. Not a ticket system, not a chatbot, not a level-1 support rep. Text the same number you'd text a friend."
-}];
-
-
-function Benefits() {
-  const [sectionRef, p] = useScrollProgress();
-  return (
-    <section ref={sectionRef} className="section section-dark" style={{ paddingBlock: "160px", position: "relative", overflow: "hidden" }}>
-      <span aria-hidden style={{
-        position: "absolute", left: "50%", top: "50%",
-        transform: `translate(-50%, ${-50 + (p - 0.5) * 40}%)`,
-        fontSize: "clamp(20rem, 50vw, 56rem)",
-        fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 600,
-        color: "rgba(201, 168, 117, 0.05)", letterSpacing: "-0.04em",
-        pointerEvents: "none", lineHeight: 0.85, whiteSpace: "nowrap"
-      }}>R</span>
-
-      <div className="container" style={{ position: "relative", zIndex: 2 }}>
-        <RevealLines
-          as="h2"
-          className="text-display-2"
-          baseDelay={60}
-          lines={[<>Built to grow your practice,</>, <><span className="serif" style={{ color: "var(--color-accent)" }}>not your tooling stack</span>.</>]}
-          style={{ textAlign: "center", maxWidth: 880, margin: "0 auto 80px" }} />
-        
-        <FadeUp>
-          <div className="benefits-grid">
-            {BENEFITS.map((b, i) =>
-            <div className="benefit" key={i}>
-                {b.icon}
-                <h3>{b.title}</h3>
-                <p>{b.body}</p>
-              </div>
-            )}
-          </div>
-        </FadeUp>
-      </div>
-    </section>);
-
-}
+// ─── Benefits (dark) — REMOVED in Stream A (Category 5) ──────────────────────
+// The "Built to grow your practice, not your tooling stack" three-icon-column
+// section was scoped for removal. Ripped here (and the matching <Benefits /> in
+// Page below). This also removed the "Real humans, immediate support" copy,
+// which read as an instant-response promise (Category 1).
 
 // ─── SampleWork (horizontal scroll) ──────────────────────────────────────────
 // These are reference builds — live demos we use to show each booking pattern,
@@ -635,7 +550,6 @@ function Page() {
         <Marquee />
         <CredibilityStats />
         <LiveDemo />
-        <Benefits />
         <SampleWork />
         <ClosingCTA />
       </main>

@@ -27,7 +27,7 @@ const AGENDA = [
 const FAQ_B = [
   { q: "What if my current setup is a mess?", a: "That is the most common case. We will not judge it. We will show you which piece does the heaviest lifting and which piece you can leave alone." },
   { q: "Do you sign a BAA?", a: "Yes. We sign a HIPAA Business Associate Agreement before any patient data flows through our systems, and we treat anything you share on the call as confidential to your practice by default." },
-  { q: "Is this a sales call?", a: "Only if you want it to be. The 15 minutes are a working session. If you ask us for next steps, we share what a build looks like. Otherwise we hang up and you keep the mockup." },
+  { q: "Is this a sales call?", a: "Only if you want it to be. The 15 minutes are a working session. If you ask us for next steps, we share what a build looks like. Otherwise we hang up — no pitch, no follow-up pressure." },
 ];
 
 // ─── Booking widget iframe (sits in the right column where the old mock calendar lived) ───

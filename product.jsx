@@ -57,7 +57,7 @@ function LiveProto() {
         <div className="section-header">
           <FadeUp><p className="text-label-caps">Live prototype</p></FadeUp>
           <RevealLines as="h2" className="text-display-2" baseDelay={120}
-            lines={[<>Click around. Book a <span className="serif" style={{ color: "var(--color-accent)" }}>fake appointment</span>.</>]}
+            lines={[<>Click around. Book a <span className="serif" style={{ color: "var(--color-accent)" }}>mock appointment</span>.</>]}
           />
           <FadeUp delay={320}>
             <p className="text-body-lg" style={{ marginTop: 24 }}>
@@ -115,12 +115,12 @@ const PIPELINE_STEPS = [
     body: "Live on your domain (booking.yourpractice.com or yourpractice.com/book). Embedded in your existing site, or standalone, your call.",
     visual: "handoff",
   },
-  {
-    n: "04",
-    title: <>We stay on <em>call</em>.</>,
-    body: "Text Thor or Jonas directly when something needs adjusting. No tickets, no chatbots, no level-1 support.",
-    visual: "support",
-  },
+  // Stream A (Category 3 + Category 1): step 04 "We stay on call" + the
+  // support-chat text-message artifact were removed. The "always on call"
+  // framing overpromised against the light maintenance posture, and the chat
+  // mockup advertised a support experience RIVR doesn't offer. Pipeline now
+  // runs three steps, ending at handoff (live). Numbering/ticks/height are
+  // derived from PIPELINE_STEPS.length, so they update automatically.
 ];
 
 function PipelineVisual({ kind, active }) {
@@ -166,32 +166,8 @@ function PipelineVisual({ kind, active }) {
       </div>
     );
   }
-  if (kind === "support") {
-    return (
-      <div className={`pipe-frame pipe-support ${active ? "active" : ""}`}>
-        <div className="msg you">
-          <span className="who">You · 8:42 AM</span>
-          Hey — can we add Tuesday evenings to the calendar? Starting next week.
-        </div>
-        <div className="msg">
-          <span className="who">Thor · 8:43 AM</span>
-          On it. 5:00pm – 7:30pm slots?
-        </div>
-        <div className="msg you">
-          <span className="who">You · 8:43 AM</span>
-          Yes — 30-min increments.
-        </div>
-        <div className="msg">
-          <span className="who">Thor · 8:46 AM</span>
-          <span className="typing"><i /><i /><i /></span>
-        </div>
-        <div className="msg">
-          <span className="who">Thor · 8:48 AM</span>
-          Live. Tuesday evenings are bookable starting May 28.
-        </div>
-      </div>
-    );
-  }
+  // Stream A: the "support" / text-message chat artifact was removed along with
+  // pipeline step 04 (see PIPELINE_STEPS above).
   return null;
 }
 
@@ -209,7 +185,7 @@ function Pipeline() {
             <FadeUp><p className="text-label-caps" style={{ color: "var(--color-accent-strong)" }}>How it works</p></FadeUp>
             <FadeUp delay={120}>
               <p style={{ fontSize: "1.0625rem", color: "var(--color-text-muted)", marginTop: 12, maxWidth: 540, margin: "12px auto 0" }}>
-                Four steps from cold email to live booking page. Scroll to walk through it.
+                Three steps from cold email to live booking page. Scroll to walk through it.
               </p>
             </FadeUp>
           </div>
@@ -397,65 +373,11 @@ function CalendarShowcase() {
   );
 }
 
-// ─── Benefits (dark) — reused from home but slightly different framing ───────
-const BENEFITS_P = [
-  { ico: "chart", title: "Drive online bookings", body: "Your patients book themselves on their phone at 11pm. The appointment lands in your calendar before your front desk gets in tomorrow. No phone tag, no manual entry." },
-  { ico: "stack", title: "No new system to adopt", body: "We integrate with the calendar, EMR, and tools you already use. Nothing to install, nothing for your staff to learn, nothing to migrate. Your current system keeps running exactly the same." },
-  { ico: "support", title: "Real humans, immediate support", body: "Questions go to Thor and Jonas directly. Not a ticket system, not a chatbot, not a level-1 support rep. Text the same number you'd text a friend." },
-];
-
-function BenefitIcon({ kind }) {
-  if (kind === "chart") return (
-    <svg className="ico" viewBox="0 0 80 80" fill="none" aria-hidden>
-      <path d="M12 60 L12 12 M12 60 L68 60" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M20 50 L32 38 L42 46 L56 24" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M50 24 L56 24 L56 30" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="32" cy="38" r="2" fill="var(--color-accent)" />
-      <circle cx="42" cy="46" r="2" fill="var(--color-accent)" />
-    </svg>
-  );
-  if (kind === "stack") return (
-    <svg className="ico" viewBox="0 0 80 80" fill="none" aria-hidden>
-      <rect x="14" y="18" width="52" height="14" rx="2" stroke="var(--color-accent)" strokeWidth="1.5" />
-      <rect x="14" y="36" width="52" height="14" rx="2" stroke="var(--color-accent)" strokeWidth="1.5" />
-      <rect x="14" y="54" width="52" height="10" rx="2" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.45" />
-      <path d="M48 25 L52 28 L60 22" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M48 43 L52 46 L60 40" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-  return (
-    <svg className="ico" viewBox="0 0 80 80" fill="none" aria-hidden>
-      <path d="M18 26 C18 21 22 18 26 18 L54 18 C58 18 62 21 62 26 L62 46 C62 51 58 54 54 54 L36 54 L26 62 L26 54 C22 54 18 51 18 46 Z" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinejoin="round" />
-      <circle cx="30" cy="36" r="2" fill="var(--color-accent)" />
-      <circle cx="40" cy="36" r="2" fill="var(--color-accent)" />
-      <circle cx="50" cy="36" r="2" fill="var(--color-accent)" />
-    </svg>
-  );
-}
-
-function Benefits() {
-  return (
-    <section className="section section-dark" style={{ paddingBlock: "160px" }}>
-      <div className="container">
-        <RevealLines as="h2" className="text-display-2" baseDelay={60}
-          lines={[<>Built to grow your practice,</>, <><span className="serif" style={{ color: "var(--color-accent)" }}>not your tooling stack</span>.</>]}
-          style={{ textAlign: "center", maxWidth: 880, margin: "0 auto 80px" }}
-        />
-        <FadeUp>
-          <div className="benefits-grid">
-            {BENEFITS_P.map((b, i) => (
-              <div className="benefit" key={i}>
-                <BenefitIcon kind={b.ico} />
-                <h3>{b.title}</h3>
-                <p>{b.body}</p>
-              </div>
-            ))}
-          </div>
-        </FadeUp>
-      </div>
-    </section>
-  );
-}
+// ─── Benefits (dark) — REMOVED in Stream A (Category 5) ──────────────────────
+// The "Built to grow your practice, not your tooling stack" three-icon-column
+// section was scoped for removal. Ripped here (and the matching <Benefits /> in
+// Page below). This also removed the "Real humans, immediate support" copy,
+// which read as an instant-response promise (Category 1).
 
 // ─── FAQ ─────────────────────────────────────────────────────────────────────
 const FAQ = [
@@ -465,7 +387,7 @@ const FAQ = [
   { q: "Who hosts the booking page?", a: "We do. The page lives on a subdomain of your choice (commonly booking.yourpractice.com) or as an embed inside your existing site. No new servers for you to manage, no SSL renewals to track." },
   { q: "What happens if a patient books a time we are not actually available?", a: "Cannot happen. Availability comes from your calendar in real time. The slots a patient sees are the slots your team has open. If you block off Friday afternoon, Friday afternoon disappears from the page within a minute." },
   { q: "Can I see the booking page on my phone the way patients will?", a: "Yes. Every booking page is mobile-first, and we send you a preview link the same day we start building. Walk through your own booking flow on your phone before any patient does." },
-  { q: "What if I need changes after launch?", a: "Text us. Most changes (new service, new practitioner, new pricing, new hours, copy tweak) go live within a day. Bigger redesigns we scope on a follow-up call." },
+  { q: "What if I need changes after launch?", a: "Text us. Maintenance covers two to three changes per quarter — copy edits, image swaps, service catalog updates, new hours. We respond within 48 hours, Monday through Friday. Bigger redesigns we scope on a follow-up call." },
 ];
 
 function FAQSection() {
@@ -529,7 +451,6 @@ function Page() {
         <Pipeline />
         <Wedge />
         <CalendarShowcase />
-        <Benefits />
         <FAQSection />
         <ClosingCTA />
       </main>
