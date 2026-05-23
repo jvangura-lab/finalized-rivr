@@ -1562,3 +1562,239 @@ img { display: block; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .book-widget-skeleton .mk { animation: none; }
 }
+
+/* ========================================================================
+   Stream C v1 — Three-tile hero (real demo screenshots), integration mockup,
+   and The Build page scroll-driven tiles.
+   ======================================================================== */
+
+/* Three-tile hero — sits below the hero copy section, replaces the old
+   iframe booking mockup. Each tile is a 4:5 portrait card whose screenshot
+   pans vertically on hover (4.5s ease-out forward, 1s ease-out return). */
+.work-hero { padding-block: 60px 100px; }
+.work-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  margin-top: 36px;
+}
+.work-hero-tile {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-bg-elevated);
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--color-rule);
+  transition: box-shadow 240ms var(--ease-rivr);
+}
+.work-hero-tile:hover {
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.25);
+}
+.work-hero-tile img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 0% 0%;
+  transition: object-position 1s ease-out;       /* return transition */
+  display: block;
+}
+.work-hero-tile:hover img {
+  object-position: 0% 80%;
+  transition: object-position 4.5s ease-out;     /* forward transition */
+}
+.work-hero-caption {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-top: 14px;
+  text-align: left;
+}
+.work-hero-mobile-cta {
+  display: none;
+  position: absolute;
+  bottom: 16px; right: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  pointer-events: none; /* parent tile is the link */
+}
+@media (hover: none), (max-width: 1024px) {
+  .work-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .work-hero-tile:hover img { object-position: 0% 0%; transition: none; }
+  .work-hero-mobile-cta { display: inline-block; }
+}
+
+/* Integration section — "It lives where your patients already are."
+   Mock browser frame holding a generic-practice site nav + an embedded
+   RIVR booking screenshot inside it. */
+.integration-section { padding-block: 120px; }
+.integration-mock {
+  max-width: 1100px;
+  margin: 56px auto 0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.28);
+  background: #fff;
+  border: 1px solid var(--color-rule);
+}
+.integration-mock .browser-chrome {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  background: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-rule);
+}
+.integration-mock .browser-chrome i {
+  display: block; width: 11px; height: 11px; border-radius: 50%;
+}
+.integration-mock .browser-chrome i:nth-child(1) { background: #FF5F57; }
+.integration-mock .browser-chrome i:nth-child(2) { background: #FEBC2E; }
+.integration-mock .browser-chrome i:nth-child(3) { background: #28C840; }
+.integration-mock .browser-chrome .url {
+  margin: 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  padding: 4px 14px;
+  border-radius: 6px;
+  min-width: 260px;
+  text-align: center;
+}
+.integration-mock .practice-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 36px;
+  background: #f4ede4; /* neutral practice-site warm cream — distinct from RIVR cream and from the three demos */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.integration-mock .practice-nav .brand {
+  font-family: Georgia, serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #2a2a2a;
+}
+.integration-mock .practice-nav .links {
+  display: flex; gap: 24px;
+  font-size: 0.875rem; letter-spacing: 0.04em;
+  color: #5a5a5a;
+}
+.integration-mock .practice-nav .links span { cursor: default; }
+.integration-mock .embed {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media (max-width: 720px) {
+  .integration-mock .practice-nav { padding: 16px 20px; }
+  .integration-mock .practice-nav .links { display: none; }
+  .integration-mock .browser-chrome .url { min-width: 0; font-size: 0.6875rem; padding: 3px 10px; }
+}
+
+/* The Build page — three stacked demo sections, each ~250vh tall with a
+   sticky-pinned tile whose screenshot pans by scroll progress. */
+.build-section { position: relative; padding-block: 80px 0; }
+.build-section + .build-section { border-top: 1px solid var(--color-rule); }
+.build-stage {
+  height: 250vh;
+  position: relative;
+}
+.build-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 56px;
+  align-items: center;
+  padding-block: 48px;
+}
+.build-copy {
+  max-width: 480px;
+}
+.build-copy .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent-strong);
+  margin-bottom: 10px;
+}
+.build-copy .sub-eyebrow {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 28px;
+}
+.build-copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+}
+.build-copy p {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  margin-bottom: 18px;
+}
+.build-copy .cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 24px;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem; font-weight: 600;
+  color: var(--color-accent-strong);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-accent);
+  padding-bottom: 4px;
+  transition: color 200ms var(--ease-rivr);
+}
+.build-copy .cta:hover { color: var(--color-accent); }
+.build-tile {
+  position: relative;
+  height: min(80vh, 720px);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-rule);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.25);
+}
+.build-tile img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+  will-change: transform;
+}
+@media (max-width: 1024px) {
+  .build-stage { height: auto; }
+  .build-pin {
+    position: static;
+    height: auto;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 48px;
+  }
+  .build-tile {
+    height: auto;
+    aspect-ratio: 4 / 5;
+  }
+  .build-tile img {
+    position: relative;
+    transform: none !important;          /* mobile: static, no scroll-driven motion */
+    height: auto;
+  }
+}
+

@@ -149,53 +149,33 @@ function WhyWeBuilt() {
   );
 }
 
-// ─── What we do (and do not) — split with line draw ──────────────────────────
+// ─── Scope — inline prose (Stream C v1 list→prose conversion) ────────────────
+// Replaces the previous "We do / We do not" two-column list. The substance of
+// every do-item (build personalized booking pages, connect to existing
+// calendar/tools, host on the practice's domain, make changes after launch)
+// and every don't-item (sell a platform you have to migrate to, per-staff seat
+// fees, lock patient data, ads/social/branding services) is preserved — woven
+// into a confident scope statement rather than a defensive checklist.
 function WhatWeDo() {
   return (
     <section className="section">
-      <div className="container">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }} className="we-do-grid">
-          <FadeUp>
-            <div>
-              <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 20 }}>We do</p>
-              <h3 style={{ fontSize: "1.5rem", fontWeight: 600, letterSpacing: "-0.018em", lineHeight: 1.18, marginBottom: 28 }}>
-                Build personalized booking pages.
-              </h3>
-              <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 16, fontSize: "1.0625rem", lineHeight: 1.55 }}>
-                <li style={listItemStyle}><span style={dotStyle("accent")} />Connect them to your existing calendar and tools.</li>
-                <li style={listItemStyle}><span style={dotStyle("accent")} />Host them on your domain.</li>
-                <li style={listItemStyle}><span style={dotStyle("accent")} />Make changes after launch when you need them.</li>
-              </ul>
-            </div>
-          </FadeUp>
-
-          <FadeUp delay={120}>
-            <div>
-              <p className="text-label-caps" style={{ color: "var(--color-text-muted)", marginBottom: 20 }}>We do not</p>
-              <h3 style={{ fontSize: "1.5rem", fontWeight: 600, letterSpacing: "-0.018em", lineHeight: 1.18, marginBottom: 28 }}>
-                Sell you a platform you have to migrate to.
-              </h3>
-              <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 16, fontSize: "1.0625rem", lineHeight: 1.55, color: "var(--color-text-muted)" }}>
-                <li style={listItemStyle}><span style={dotStyle("muted", true)} />Charge per-staff seat fees.</li>
-                <li style={listItemStyle}><span style={dotStyle("muted", true)} />Lock your patient data inside our system.</li>
-                <li style={listItemStyle}><span style={dotStyle("muted", true)} />Run ads, social media, or branding services.</li>
-              </ul>
-            </div>
-          </FadeUp>
-        </div>
+      <div className="container" style={{ maxWidth: 760 }}>
+        <FadeUp>
+          <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 26 }}>Scope</p>
+        </FadeUp>
+        <FadeUp delay={120}>
+          <div style={{ fontSize: "1.125rem", lineHeight: 1.7, color: "var(--color-text-primary)" }}>
+            <p style={{ marginBottom: 22 }}>
+              We build personalized booking pages for aesthetic medicine practices — consult, service, or membership flows that fit how a given practice actually books. We connect each one to the calendar and tools the team already runs, host it on the practice's own domain, and make changes after launch as the practice changes.
+            </p>
+            <p>
+              We don't sell a platform you have to migrate to. No per-staff seat fees, no locking your patient data inside our system, no ads, social media, or branding services on the side. When something falls outside the booking-funnel scope, we refer you to specialists we trust.
+            </p>
+          </div>
+        </FadeUp>
       </div>
     </section>
   );
-}
-
-const listItemStyle = { display: "flex", gap: 14, alignItems: "flex-start" };
-function dotStyle(kind, strike) {
-  return {
-    flexShrink: 0, marginTop: 10,
-    width: 18, height: 1,
-    background: kind === "accent" ? "var(--color-accent)" : "var(--color-text-muted)",
-    opacity: strike ? 0.6 : 1,
-  };
 }
 
 // ─── Location ────────────────────────────────────────────────────────────────

@@ -52,9 +52,13 @@ function Hero() {
       <div className="hero-spotlight" aria-hidden />
 
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
+        {/* Stream C v1: hero collapsed to single column. The right-column iframe
+            booking mockup (imagery/hero-animation.html + 2 floating chips) was
+            removed; the new "real demos" hero visual lives in the ThreeTileHero
+            section directly below. */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1.65fr)",
+          gridTemplateColumns: "minmax(0, 1fr)",
           gap: 40,
           alignItems: "center"
         }} className="hero-grid">
@@ -67,7 +71,7 @@ function Hero() {
           }}>
             <FadeUp>
               <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 22 }}>
-                Online booking systems for medical spas
+                A studio for aesthetic medicine booking
               </p>
             </FadeUp>
 
@@ -77,10 +81,10 @@ function Hero() {
               baseDelay={60}
               gap={90}
               lines={[
-              <>Booking pages that fit</>,
-              <>the system you <span className="serif" style={{ color: "var(--color-accent)" }}>already run</span>.</>]
+              <>Booking flows built around</>,
+              <>how you <span className="serif" style={{ color: "var(--color-accent)" }}>already work</span>.</>]
               } />
-            
+
 
             <Reveal delay={420}>
               <p className="text-body-lg" style={{ maxWidth: 540, margin: "28px 0 36px" }}>
@@ -107,95 +111,6 @@ function Hero() {
             </Reveal>
           </div>
 
-          {/* Visual — scroll-driven browser frame */}
-          <div style={{ position: "relative", minHeight: 420 }}>
-            <Reveal>
-              <div style={{
-                transform: `translateY(${frameY}px) scale(${frameScale}) rotate(${frameRotate}deg)`,
-                transition: "opacity 120ms linear",
-                willChange: "transform, opacity",
-                opacity: frameOpacity
-              }}>
-                <div style={{
-                  position: "absolute", inset: -28, borderRadius: 32,
-                  background: "radial-gradient(ellipse at center, rgba(201, 168, 117, 0.18), transparent 60%)",
-                  filter: "blur(28px)",
-                  pointerEvents: "none"
-                }} />
-                {/* RIVR-NOTE: dropped BrowserFrame wrapper — the animation is a complete designed frame. */}
-                <div className="hero-video-frame" style={{ position: "relative" }}>
-                  <iframe
-                    src="imagery/hero-animation.html"
-                    title="Lumera Aesthetics booking page demo"
-                    aria-hidden="true"
-                    tabIndex={-1}
-                    onLoad={(e) => {
-                      // The bundled standalone uses display:grid on body, which leaves
-                      // the 1920x1080 #stage layout-positioned outside the iframe
-                      // viewport even after fitStage() scales it. Flex-center it.
-                      const doc = e.target.contentDocument;
-                      if (!doc) return;
-                      const inject = () => {
-                        if (doc.getElementById("__rivr-fit")) return;
-                        const s = doc.createElement("style");
-                        s.id = "__rivr-fit";
-                        // RIVR-NOTE: html+body+#stage transparent so the
-                        // animation's mockup floats on the parent page —
-                        // no surrounding panel. .frame/#viewport are part of
-                        // the animation's own browser-window design; left alone.
-                        s.textContent =
-                          "html,body{margin:0;padding:0;overflow:hidden;background:transparent!important;width:100%;height:100%;}" +
-                          "body{display:flex!important;align-items:center!important;justify-content:center!important;}" +
-                          "#stage{position:relative!important;flex:0 0 auto;background:transparent!important;}" +
-                          "#stage::before{background:none!important;content:none!important;}" +
-                          "#stage .frame{box-shadow:none!important;}";
-                        doc.head && doc.head.appendChild(s);
-                        try { e.target.contentWindow.dispatchEvent(new Event("resize")); } catch (_) {}
-                      };
-                      // Bundler replaces document async; reinject across a few ticks.
-                      inject();
-                      setTimeout(inject, 100);
-                      setTimeout(inject, 500);
-                      setTimeout(inject, 1500);
-                    }}
-                  />
-                  <img
-                    src="imagery/lumera-hero.png"
-                    alt="Lumera Aesthetics booking page hero"
-                    className="fallback-img"
-                    loading="lazy"
-                  />
-                </div>
-
-              </div>
-            </Reveal>
-
-            {/* Floating chip: appointment confirmation */}
-            <div className="hero-chip hero-chip-confirm" style={{
-              right: -18, top: 36,
-              transform: `translate(${chip1X}px, ${chip1Y}px)`,
-              willChange: "transform"
-            }}>
-              <span className="dot" />
-              <div>
-                <p style={{ fontSize: "0.75rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--color-text-muted-inverse)", marginBottom: 2 }}>New booking</p>
-                <p style={{ fontSize: "0.875rem", fontWeight: 600 }}>HydraFacial · 2:30 PM</p>
-              </div>
-            </div>
-
-            {/* Floating chip: calendar */}
-            <div className="hero-chip" style={{
-              left: -28, bottom: 28,
-              transform: `translate(${chip2X}px, ${chip2Y}px)`,
-              willChange: "transform"
-            }}>
-              <span className="dot" />
-              <div>
-                <p style={{ fontSize: "0.75rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--color-text-muted)", marginBottom: 2 }}>Synced to</p>
-                <p style={{ fontSize: "0.875rem", fontWeight: 600 }}>your calendar</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -205,6 +120,117 @@ function Hero() {
       </div>
     </section>);
 
+}
+
+// ─── ThreeTileHero — three real demo screenshots, hover-scroll inside each ──
+// Stream C v1: replaces the old hero booking mockup. Each tile shows the full
+// home screenshot of a rebuilt demo, scaled to fit and cropped at the top via
+// object-fit:cover + object-position. On hover, object-position animates from
+// 0% to 80% over 4.5s (CSS ease-out) revealing more of the long-form home
+// page; on hover-end it returns to 0% over 1s. Mobile (≤1024px or no-hover)
+// disables the scroll and surfaces a "View live →" pill instead.
+const WORK_TILES = [
+  {
+    brand: "Devereaux",
+    caption: "DEVEREAUX · SURGICAL",
+    href: "https://devereaux.rivrsystems.com",
+    image: "imagery/demos/devereaux-home.jpg",
+    alt: "Devereaux Institute home page — editorial-magazine register with Dr. Devereaux portrait, practice statement, and studies gallery.",
+  },
+  {
+    brand: "Lumera",
+    caption: "LUMERA · MULTI-TIER",
+    href: "https://lumera.rivrsystems.com",
+    image: "imagery/demos/lumera-home.jpg",
+    alt: "Lumera Aesthetic Studio home page — photographic hero, PathFinder six-path chooser, rooms bento, team, and price menu.",
+  },
+  {
+    brand: "Sela",
+    caption: "SELA · RETAIL",
+    href: "https://sela.rivrsystems.com",
+    image: "imagery/demos/sela-home.jpg",
+    alt: "Sela Aesthetic Studio home page — \"Skin you live in.\" hero, full price-menu spine, membership, and team.",
+  },
+];
+
+function ThreeTileHero() {
+  return (
+    <section className="section work-hero" id="work-hero">
+      <div className="container">
+        <div className="section-header" style={{ marginBottom: 0 }}>
+          <FadeUp><p className="text-label-caps">The work</p></FadeUp>
+        </div>
+        <FadeUp delay={120}>
+          <div className="work-hero-grid">
+            {WORK_TILES.map((t) => (
+              <div key={t.brand}>
+                <a
+                  className="work-hero-tile"
+                  href={t.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${t.brand} — open the live demo in a new tab`}>
+                  <img src={t.image} alt={t.alt} loading="lazy" />
+                  <span className="work-hero-mobile-cta" aria-hidden>View live →</span>
+                </a>
+                <p className="work-hero-caption">{t.caption}</p>
+              </div>
+            ))}
+          </div>
+        </FadeUp>
+      </div>
+    </section>
+  );
+}
+
+// ─── IntegrationSection — "It lives where your patients already are." ────────
+// Stream C v1: shows the RIVR booking widget living inside a generic practice
+// website (mock browser chrome → mock practice nav → embedded booking flow
+// screenshot). Static for this pass; Stream C v2 may add scroll-driven motion.
+function IntegrationSection() {
+  return (
+    <section className="section integration-section">
+      <div className="container">
+        <div className="section-header">
+          <FadeUp><p className="text-label-caps">Integration</p></FadeUp>
+          <RevealLines
+            as="h2"
+            className="text-display-2"
+            baseDelay={120}
+            lines={[<>It lives where your patients <span className="serif" style={{ color: "var(--color-accent)" }}>already are</span>.</>]} />
+          <FadeUp delay={320}>
+            <p className="text-body-lg" style={{ marginTop: 24, maxWidth: 720, marginInline: "auto" }}>
+              Your booking funnel drops into your existing website as an embedded iframe. Your navigation, your branding, your CMS — all untouched. Patients see one familiar site with one new page that actually takes the booking.
+            </p>
+          </FadeUp>
+        </div>
+
+        <FadeUp delay={120}>
+          <div className="integration-mock" role="img" aria-label="Mock browser window showing the RIVR booking widget embedded inside a generic practice site.">
+            <div className="browser-chrome" aria-hidden>
+              <i /><i /><i />
+              <span className="url">destinmedspa.com/book</span>
+            </div>
+            <div className="practice-nav" aria-hidden>
+              <span className="brand">DESTIN MED SPA</span>
+              <span className="links">
+                <span>Services</span>
+                <span>Team</span>
+                <span>About</span>
+                <span>Book</span>
+              </span>
+            </div>
+            <img
+              className="embed"
+              src="imagery/demos/lumera-booking-flow.jpg"
+              alt=""
+              loading="lazy"
+            />
+          </div>
+        </FadeUp>
+      </div>
+    </section>
+  );
 }
 
 // ─── Marquee row ─────────────────────────────────────────────────────────────
@@ -368,14 +394,22 @@ function LiveDemo() {
 // These are reference builds — live demos we use to show each booking pattern,
 // not client deployments. Each tile links to the deployed subdomain and
 // hover-cycles through three real screenshots.
+// Stream C v1: images swapped to real demo screenshots from rivr-funnels Stream B.
+// Each tile cycles through 3 non-home-full screenshots (so they don't repeat the
+// hero tiles above). HoverCycle uses `firstAlt` for the first image; the cycle
+// fades through the others decoratively (their alts are intentionally empty).
 const TILES = [
 {
   label: "Consult-first booking",
   brand: "Lumera",
   category: "Multi-tier surgical + injectables",
   href: "https://lumera.rivrsystems.com",
-  // Real Lumera screenshots already in imagery/.
-  images: ["imagery/lumera-hero.png", "imagery/lumera-team.png", "imagery/lumera-calendar.png"],
+  images: [
+    "imagery/demos/lumera-pathfinder.jpg",
+    "imagery/demos/lumera-bento.jpg",
+    "imagery/demos/lumera-explore-treatments.jpg",
+  ],
+  firstAlt: "Lumera home — PathFinder section with six path-choice cards for triaging patients across the multi-tier practice.",
   title: "The conversation comes first.",
   body: "For a multi-tier practice selling both surgical procedures and injectables, the page leads with a consult. Three lanes, one continue button, no upsell. A reference build we use to show the consult-first pattern."
 },
@@ -384,8 +418,12 @@ const TILES = [
   brand: "Sela",
   category: "Retail med spa, NP-led",
   href: "https://sela.rivrsystems.com",
-  // Captured from the live build via `node scripts/capture-demos.mjs` (re-run to refresh).
-  images: ["imagery/sela-1.png", "imagery/sela-2.png", "imagery/sela-3.png"],
+  images: [
+    "imagery/demos/sela-hero.jpg",
+    "imagery/demos/sela-pricemenu.jpg",
+    "imagery/demos/sela-team.jpg",
+  ],
+  firstAlt: "Sela home — \"Skin you live in.\" hero strip with the start of the price-menu spine visible below.",
   title: "The soonest opening comes first.",
   body: "For a high-volume, NP-led retail med spa, the page leads with availability. Pick the next open slot, pick a provider, done. A reference build we use to show the time-first pattern."
 },
@@ -394,8 +432,12 @@ const TILES = [
   brand: "Devereaux",
   category: "Concierge surgical, founder-led",
   href: "https://devereaux.rivrsystems.com",
-  // Captured from the live build via `node scripts/capture-demos.mjs` (re-run to refresh).
-  images: ["imagery/devereaux-1.png", "imagery/devereaux-2.png", "imagery/devereaux-3.png"],
+  images: [
+    "imagery/demos/devereaux-hero.jpg",
+    "imagery/demos/devereaux-procedures-facelift.jpg",
+    "imagery/demos/devereaux-booking-flow.jpg",
+  ],
+  firstAlt: "Devereaux Institute home — editorial-magazine register with Dr. Devereaux portrait and practice statement.",
   title: "The practitioner comes first.",
   body: "For a founder-led concierge practice, the page leads with the surgeon — one provider, their credentials, their first available. A reference build we use to show the practitioner-first pattern."
 }];
@@ -506,7 +548,7 @@ function SampleWork() {
                   <span className="brand-tag">{t.brand} · Reference build</span>
                 </div>
                 <div className="preview">
-                  <HoverCycle images={t.images} label={t.brand} alt={`${t.brand} booking page — ${t.title}`} />
+                  <HoverCycle images={t.images} label={t.brand} alt={t.firstAlt} />
                 </div>
                 <div className="meta">
                   <p className="label">{t.label}</p>
@@ -547,6 +589,8 @@ function Page() {
       <Nav current="home" />
       <main id="main">
         <Hero />
+        <ThreeTileHero />
+        <IntegrationSection />
         <Marquee />
         <CredibilityStats />
         <LiveDemo />

@@ -304,7 +304,7 @@ function Nav({ current = "home" }) {
 
   const links = [
     { label: "Home", href: "index.html", id: "home" },
-    { label: "Product", href: "product.html", id: "product" },
+    { label: "The build", href: "the-build.html", id: "the-build" },
     { label: "About", href: "about.html", id: "about" },
   ];
 
@@ -422,7 +422,7 @@ function Footer() {
             <h4>Site</h4>
             <ul>
               <li><a href="index.html">Home</a></li>
-              <li><a href="product.html">Product</a></li>
+              <li><a href="the-build.html">The build</a></li>
               <li><a href="about.html">About</a></li>
               <li><a href="book.html">Book a call</a></li>
             </ul>
