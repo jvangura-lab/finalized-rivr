@@ -123,72 +123,96 @@ function Hero() {
 
 }
 
-// ─── ThreeTileHero — three real demo screenshots, hover-scroll inside each ──
-// Stream C v1: replaces the old hero booking mockup. Each tile shows the full
-// home screenshot of a rebuilt demo, scaled to fit and cropped at the top via
-// object-fit:cover + object-position. On hover, object-position animates from
-// 0% to 80% over 4.5s (CSS ease-out) revealing more of the long-form home
-// page; on hover-end it returns to 0% over 1s. Mobile (≤1024px or no-hover)
-// disables the scroll and surfaces a "View live →" pill instead.
-// Stream C v2 final: tile order Sela → Devereaux → Lumera (practice-type
-// progression: retail → concierge surgical → multi-tier). Each tile carries a
-// practice-type eyebrow above and a demo-URL caption below. The demo names
-// themselves move into the caption; the practice type is the primary identifier.
-const WORK_TILES = [
+// ─── ReferenceBuilds — combined demos showcase (Polish 3 / Task 2) ───────────
+// Replaces the previous two separate demo sections: ThreeTileHero (thumbnail
+// hover-pan grid at the top of the page) and SampleWork (horizontal-scroll
+// per-tile copy strip lower down). Both were showing the same three demos —
+// the page surfaced the demos visually four times in total. Polish 3 collapses
+// that to two surfaces: this section, and the IntegrationSection's Lumera
+// animation later on.
+//
+// Each tile carries the preview image (hover-pan from ThreeTileHero) AND the
+// per-practice headline + body + CTA row (from SampleWork). Tile order
+// locked: Sela → Devereaux → Lumera (practice-type progression: retail →
+// concierge surgical → multi-tier).
+const REFERENCE_TILES = [
   {
     brand: "Sela",
     eyebrow: "01 · RETAIL MED SPA",
-    caption: "demo: sela.rivrsystems.com",
-    href: "https://sela.rivrsystems.com",
     image: "imagery/demos/sela-home.jpg",
     alt: "Sela Aesthetic Studio home page — \"Skin you live in.\" hero, full price-menu spine, membership, and team.",
+    href: "https://sela.rivrsystems.com",
+    demoCaption: "demo: sela.rivrsystems.com",
+    headline: "The soonest opening comes first.",
+    body: "For a high-volume, NP-led retail med spa, the booking funnel leads with availability. Pick the next open slot, pick a provider, done. Time is the primary axis; everything else folds in around it.",
   },
   {
     brand: "Devereaux",
     eyebrow: "02 · CONCIERGE SURGICAL",
-    caption: "demo: devereaux.rivrsystems.com",
-    href: "https://devereaux.rivrsystems.com",
     image: "imagery/demos/devereaux-home.jpg",
     alt: "Devereaux Institute home page — editorial-magazine register with Dr. Devereaux portrait, practice statement, and studies gallery.",
+    href: "https://devereaux.rivrsystems.com",
+    demoCaption: "demo: devereaux.rivrsystems.com",
+    headline: "The practitioner comes first.",
+    body: "For a founder-led concierge practice, the booking funnel leads with the surgeon — one provider, their credentials, their first available. The relationship to the practitioner is the whole product.",
   },
   {
     brand: "Lumera",
     eyebrow: "03 · MULTI-TIER PRACTICE",
-    caption: "demo: lumera.rivrsystems.com",
-    href: "https://lumera.rivrsystems.com",
     image: "imagery/demos/lumera-home.jpg",
     alt: "Lumera Aesthetic Studio home page — photographic hero, PathFinder six-path chooser, rooms bento, team, and price menu.",
+    href: "https://lumera.rivrsystems.com",
+    demoCaption: "demo: lumera.rivrsystems.com",
+    headline: "The conversation comes first.",
+    body: "For a multi-tier practice selling both surgical procedures and injectables, the booking funnel leads with a consult. Three lanes, one continue button, no upsell — the coordinator routes from there.",
   },
 ];
 
-function ThreeTileHero() {
+function ReferenceBuilds() {
   return (
-    <section className="section work-hero" id="work-hero">
+    <section className="section reference-builds" id="reference-builds">
       <div className="container">
-        <div className="section-header" style={{ marginBottom: 0 }}>
-          <FadeUp><p className="text-label-caps">The work</p></FadeUp>
-          <FadeUp delay={120}>
-            <p className="text-body-lg work-hero-supporting" style={{ marginTop: 18, maxWidth: 620 }}>
-              Three reference builds. Find the one that looks like your practice.
+        <div className="section-header">
+          <FadeUp><p className="text-label-caps">Reference builds</p></FadeUp>
+          <RevealLines
+            as="h2"
+            className="text-display-2"
+            baseDelay={120}
+            lines={[
+              <>Three practices. Three booking patterns.</>,
+              <>One funnel <span className="serif" style={{ color: "var(--color-accent)" }}>system</span>.</>,
+            ]} />
+          <FadeUp delay={320}>
+            <p className="text-body-lg" style={{ marginTop: 22, maxWidth: 660, marginInline: "auto" }}>
+              We built three reference med spa sites to show how the funnel adapts. Each one fits a different practice type and a different way the practice makes money.
             </p>
           </FadeUp>
         </div>
+
         <FadeUp delay={180}>
-          <div className="work-hero-grid">
-            {WORK_TILES.map((t) => (
-              <div key={t.brand} className="work-hero-cell">
-                <p className="work-hero-eyebrow">{t.eyebrow}</p>
+          <div className="ref-grid">
+            {REFERENCE_TILES.map((t) => (
+              <article key={t.brand} className="ref-tile">
                 <a
-                  className="work-hero-tile"
+                  className="ref-tile-preview"
                   href={t.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${t.brand} — open the live demo in a new tab`}>
                   <img src={t.image} alt={t.alt} loading="lazy" />
-                  <span className="work-hero-mobile-cta" aria-hidden>View live →</span>
+                  <span className="ref-tile-mobile-cta" aria-hidden>View live →</span>
                 </a>
-                <p className="work-hero-caption">{t.caption}</p>
-              </div>
+                <div className="ref-tile-body">
+                  <p className="ref-tile-eyebrow">{t.eyebrow}</p>
+                  <h3 className="ref-tile-headline">{t.headline}</h3>
+                  <p className="ref-tile-copy">{t.body}</p>
+                  <p className="ref-tile-caption">{t.demoCaption}</p>
+                  <div className="ref-tile-cta">
+                    <a href={t.href} target="_blank" rel="noopener noreferrer">See it live ↗</a>
+                    <a href="book.html">Book a call →</a>
+                  </div>
+                </div>
+              </article>
             ))}
           </div>
         </FadeUp>
@@ -611,207 +635,37 @@ function CredibilityStats() {
 // Page below). This also removed the "Real humans, immediate support" copy,
 // which read as an instant-response promise (Category 1).
 
-// ─── SampleWork (horizontal scroll) ──────────────────────────────────────────
-// These are reference builds — live demos we use to show each booking pattern,
-// not client deployments. Each tile links to the deployed subdomain and
-// hover-cycles through three real screenshots.
-// Stream C v1: images swapped to real demo screenshots from rivr-funnels Stream B.
-// Each tile cycles through 3 non-home-full screenshots (so they don't repeat the
-// hero tiles above). HoverCycle uses `firstAlt` for the first image; the cycle
-// fades through the others decoratively (their alts are intentionally empty).
-const TILES = [
-{
-  label: "Consult-first booking",
-  brand: "Lumera",
-  category: "Multi-tier surgical + injectables",
-  href: "https://lumera.rivrsystems.com",
-  images: [
-    "imagery/demos/lumera-pathfinder.jpg",
-    "imagery/demos/lumera-bento.jpg",
-    "imagery/demos/lumera-explore-treatments.jpg",
-  ],
-  firstAlt: "Lumera home — PathFinder section with six path-choice cards for triaging patients across the multi-tier practice.",
-  title: "The conversation comes first.",
-  body: "For a multi-tier practice selling both surgical procedures and injectables, the page leads with a consult. Three lanes, one continue button, no upsell. A reference build we use to show the consult-first pattern."
-},
-{
-  label: "Time-first booking",
-  brand: "Sela",
-  category: "Retail med spa, NP-led",
-  href: "https://sela.rivrsystems.com",
-  images: [
-    "imagery/demos/sela-hero.jpg",
-    "imagery/demos/sela-pricemenu.jpg",
-    "imagery/demos/sela-team.jpg",
-  ],
-  firstAlt: "Sela home — \"Skin you live in.\" hero strip with the start of the price-menu spine visible below.",
-  title: "The soonest opening comes first.",
-  body: "For a high-volume, NP-led retail med spa, the page leads with availability. Pick the next open slot, pick a provider, done. A reference build we use to show the time-first pattern."
-},
-{
-  label: "Practitioner-first booking",
-  brand: "Devereaux",
-  category: "Concierge surgical, founder-led",
-  href: "https://devereaux.rivrsystems.com",
-  images: [
-    "imagery/demos/devereaux-hero.jpg",
-    "imagery/demos/devereaux-procedures-facelift.jpg",
-    "imagery/demos/devereaux-booking-flow.jpg",
-  ],
-  firstAlt: "Devereaux Institute home — editorial-magazine register with Dr. Devereaux portrait and practice statement.",
-  title: "The practitioner comes first.",
-  body: "For a founder-led concierge practice, the page leads with the surgeon — one provider, their credentials, their first available. A reference build we use to show the practitioner-first pattern."
-}];
-
-// ── HoverCycle — fades through screenshots on hover (~1.2s/frame). Falls back
-// to a branded placeholder tile per image if a screenshot is missing.
-function HoverCycle({ images, label, alt }) {
-  const [idx, setIdx] = useStateH(0);
-  const [hovering, setHovering] = useStateH(false);
-  const [failed, setFailed] = useStateH({});
-  useEffectH(() => {
-    if (!hovering || images.length < 2) return;
-    const iv = setInterval(() => setIdx((i) => (i + 1) % images.length), 1200);
-    return () => clearInterval(iv);
-  }, [hovering, images.length]);
+// ─── YoursNextCTA (Polish 3) — extracted from the old SampleWork trailing
+// card. The horizontal-scroll SampleWork was removed when its three
+// per-practice tiles consolidated into ReferenceBuilds above; the trailing
+// "What does your booking page lead with?" card was the SampleWork wrapper's
+// closing beat and is preserved as its own section between IntegrationSection
+// and ClosingCTA. The three echo lines now mirror ReferenceBuilds' tile order
+// (Sela → Devereaux → Lumera).
+function YoursNextCTA() {
   return (
-    <div
-      className="hover-cycle"
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => { setHovering(false); setIdx(0); }}
-    >
-      {images.map((src, i) =>
-        failed[i] ? (
-          <div key={i} className={`hover-cycle-ph ${i === idx ? "is-active" : ""}`} aria-hidden={i !== idx}>
-            <span>{label}</span>
-          </div>
-        ) : (
-          <img
-            key={i}
-            src={src}
-            alt={i === 0 ? alt : ""}
-            loading="lazy"
-            className={i === idx ? "is-active" : ""}
-            aria-hidden={i !== idx}
-            onError={() => setFailed((f) => ({ ...f, [i]: true }))}
-          />
-        )
-      )}
-      {images.length > 1 && (
-        <div className="hover-cycle-dots" aria-hidden>
-          {images.map((_, i) => <span key={i} className={i === idx ? "on" : ""} />)}
-        </div>
-      )}
-    </div>
-  );
-}
-
-
-function SampleWork() {
-  const [sectionRef, progress] = useStickyProgress();
-
-  // Calculate horizontal offset. Total scroll distance: 3 viewports worth
-  // We want the strip to slide from x=0 to x=-(totalWidth - viewportWidth)
-  const totalTiles = TILES.length;
-  // Each tile is ~540px + 32px gap = 572px on desktop, plus pad
-  // We translate the strip so all tiles pass through
-  const stripRef = useRefH(null);
-  const trackRef = useRefH(null);
-  const [stripX, setStripX] = useStateH(0);
-
-  useEffectH(() => {
-    const calc = () => {
-      const strip = stripRef.current;
-      const track = trackRef.current;
-      if (!strip || !track) return;
-      const stripW = strip.scrollWidth;
-      const viewW = window.innerWidth;
-      const maxTravel = Math.max(0, stripW - viewW + 64);
-      setStripX(-maxTravel * progress);
-    };
-    calc();
-    window.addEventListener("resize", calc);
-    return () => window.removeEventListener("resize", calc);
-  }, [progress]);
-
-  return (
-    <section className="section" style={{ borderBottom: 0, padding: 0 }} id="booking-types">
-      {/* Intro */}
-      <div className="container" style={{ paddingBlock: "120px 0" }}>
-        <div className="section-header" style={{ marginBottom: 0 }}>
-          <FadeUp><p className="text-label-caps">Three booking page types</p></FadeUp>
-          <RevealLines
-            as="h2" className="text-display-2" baseDelay={120}
-            lines={[<>Three different practices.</>, <><span className="serif" style={{ color: "var(--color-accent)" }}>Three booking pages, no two alike</span>.</>]} />
-          
-          <FadeUp delay={320}>
-            <p className="text-body-lg" style={{ marginTop: 24 }}>
-              Each tile is a real prototype. Click any one to open it in a popup and walk the first screen.
-            </p>
-          </FadeUp>
-        </div>
-      </div>
-
-      {/* Horizontal scroll track */}
-      <div
-        ref={sectionRef}
-        className="work-horizontal"
-        style={{ height: `${Math.max(200, 100 + totalTiles * 40)}vh`, position: "relative", borderBottom: "1px solid var(--color-rule)" }}>
-        
-        <div className="work-track" ref={trackRef}>
-          <div ref={stripRef} className="work-strip" style={{
-            transform: `translate3d(${stripX}px, 0, 0)`,
-            transition: "transform 80ms linear"
-          }}>
-            {TILES.map((t, i) =>
-            <article className="work-tile" key={i}>
-                <div className="head">
-                  <span className="brand-tag">{t.brand} · Reference build</span>
-                </div>
-                <div className="preview">
-                  <HoverCycle images={t.images} label={t.brand} alt={t.firstAlt} />
-                </div>
-                <div className="meta">
-                  <p className="label">{t.label}</p>
-                  <p className="category">{t.category}</p>
-                  <h3>{t.title}</h3>
-                  <p>{t.body}</p>
-                  <div className="links">
-                    <a href={t.href} target="_blank" rel="noopener noreferrer" data-cursor="hover">See it live ↗</a>
-                    <a href="book.html" data-cursor="hover">Book a call →</a>
-                  </div>
-                </div>
-              </article>
-            )}
-            {/* Trailing card — "yours next" closing tile. Echoes the three
-                preceding tile headlines (consult / time / practitioner) so the
-                strip ends with the prospect being asked the same question the
-                three reference builds already answered. Subtle grain texture
-                breaks the flat dark — keeps the section from reading minimal. */}
-            <div className="work-tile work-tile-yours">
-              <div className="yours-inner">
-                <p className="yours-caption">// CHOOSING YOUR PATTERN</p>
-                <ul className="yours-echoes" aria-hidden>
-                  <li>The conversation comes first.</li>
-                  <li>The soonest opening comes first.</li>
-                  <li>The practitioner comes first.</li>
-                </ul>
-                <span className="yours-divider" aria-hidden />
-                <h3 className="yours-headline serif">
-                  What does <em>your</em> booking page lead with?
-                </h3>
-                <div className="yours-cta">
-                  <Button href="book.html" variant="primary">Book a walkthrough</Button>
-                </div>
-              </div>
+    <section className="section yours-next">
+      <div className="container">
+        <div className="yours-next-card">
+          <div className="yours-inner">
+            <p className="yours-caption">// CHOOSING YOUR PATTERN</p>
+            <ul className="yours-echoes" aria-hidden>
+              <li>The soonest opening comes first.</li>
+              <li>The practitioner comes first.</li>
+              <li>The conversation comes first.</li>
+            </ul>
+            <span className="yours-divider" aria-hidden />
+            <h3 className="yours-headline">
+              What does <em>your</em> booking page lead with?
+            </h3>
+            <div className="yours-cta">
+              <Button href="book.html" variant="primary">Book a walkthrough</Button>
             </div>
           </div>
-
-          <div className="work-progress"><div className="fill" style={{ width: `${progress * 100}%` }} /></div>
         </div>
       </div>
-    </section>);
-
+    </section>
+  );
 }
 
 // ─── Compose page ────────────────────────────────────────────────────────────
@@ -822,11 +676,11 @@ function Page() {
       <Nav current="home" />
       <main id="main">
         <Hero />
-        <ThreeTileHero />
+        <ReferenceBuilds />
         <IntegrationSection />
         <Marquee />
         <CredibilityStats />
-        <SampleWork />
+        <YoursNextCTA />
         <ClosingCTA />
       </main>
       <Footer />
