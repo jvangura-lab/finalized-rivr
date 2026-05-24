@@ -198,29 +198,248 @@ function ThreeTileHero() {
 }
 
 // ─── IntegrationSection — "It lives where your patients already are." ────────
-// Stream C v2 final: uses Lumera (one of the three demos) as the integration
-// example, not a fictional Destin Med Spa. The browser frame shows
-// lumera.com/book with Lumera's own nav above the booking funnel.
-// Scroll-driven materialization gated behind prefers-reduced-motion.
+// Polish Pass 2: the static Service-step mock is replaced with a 5-state
+// animated loop showing a patient booking on Lumera's site. The funnel UI is
+// styled in LUMERA's actual brand (porcelain #ECEDE9 + petrol-teal #16494A +
+// Geist Sans/Mono — confirmed against C:\Users\thora\rivr-funnels\lumera\app\
+// globals.css) to demonstrate the core RIVR promise: every funnel is built to
+// match the client's brand, not a generic template dropped in.
+//
+// Sequence (~17s total): home → service → time → confirm → done → loop.
+// An animated cursor moves between targets and "clicks" at each step.
+// IntersectionObserver pauses the loop when the section scrolls out of view.
+// prefers-reduced-motion AND viewports ≤ 900px fall back to a static service
+// step rendering (the most information-dense single frame).
+const FLOW_STATES = [
+  { id: "home",    duration: 2500, url: "lumera.com",     stepIndex: -1, cursor: { x: "84%",  y: "11%" } },
+  { id: "service", duration: 3000, url: "lumera.com/book", stepIndex: 0, cursor: { x: "25%",  y: "55%" } },
+  { id: "time",    duration: 3000, url: "lumera.com/book", stepIndex: 1, cursor: { x: "39%",  y: "55%" } },
+  { id: "confirm", duration: 3000, url: "lumera.com/book", stepIndex: 2, cursor: { x: "62%",  y: "82%" } },
+  { id: "done",    duration: 3000, url: "lumera.com/book", stepIndex: 3, cursor: { x: "110%", y: "110%" } },
+];
+
+const FLOW_STEPS = ["Service", "Time", "Confirm", "Done"];
+
+function LumeraStepIndicator({ stepIndex }) {
+  return (
+    <ol className="lf-steps" aria-hidden>
+      <span className="lf-step-count">
+        {stepIndex >= 0 ? `STEP ${stepIndex + 1} OF 4` : "BOOK"}
+      </span>
+      {FLOW_STEPS.map((label, i) => {
+        const done = stepIndex > i;
+        const active = stepIndex === i;
+        return (
+          <li key={label} className={`${active ? "is-active" : ""} ${done ? "is-done" : ""}`.trim()}>
+            <span className="dot" aria-hidden>{done ? "✓" : ""}</span>
+            <span className="label">{label}</span>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+function LumeraHomePanel() {
+  return (
+    <div className="lh-panel" aria-hidden>
+      <div className="lh-eyebrow">AESTHETIC STUDIO · EST. 2018</div>
+      <h3 className="lh-headline">A practice built around the consultation.</h3>
+      <p className="lh-sub">
+        Surgical, injectables, skin. One coordinator, one calendar, one path to the right room.
+      </p>
+      <div className="lh-meta">
+        <span>Treatments</span>
+        <span className="lh-dot" />
+        <span>Team of 6 practitioners</span>
+        <span className="lh-dot" />
+        <span>Coral Gables, FL</span>
+      </div>
+    </div>
+  );
+}
+
+const SERVICE_CARDS = [
+  { name: "Injectables",       blurb: "Botox, fillers, biostimulators.",      price: "from $450" },
+  { name: "Skin",              blurb: "Facials, peels, skin-renewal.",        price: "from $180" },
+  { name: "Laser",             blurb: "Pigment, redness, resurfacing.",       price: "from $250" },
+  { name: "Body",              blurb: "Non-invasive contouring.",             price: "from $400" },
+  { name: "Wellness",          blurb: "IV therapy and vitamin protocols.",    price: "from $125" },
+  { name: "Surgical consult",  blurb: "15-min intro with a coordinator.",     price: "complimentary" },
+];
+
+function LumeraServicePanel({ pulseInjectables }) {
+  return (
+    <div className="lf-panel" aria-hidden>
+      <p className="lf-eyebrow">Step 1 — Service</p>
+      <h3 className="lf-heading">Select a service</h3>
+      <p className="lf-sub">Choose a category to see real-time availability.</p>
+      <div className="lf-cards">
+        {SERVICE_CARDS.map((c) => (
+          <article
+            key={c.name}
+            className={`lf-card ${pulseInjectables && c.name === "Injectables" ? "is-pulse" : ""}`.trim()}>
+            <h4>{c.name}</h4>
+            <p>{c.blurb}</p>
+            <p className="price">{c.price}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const TIME_SLOTS = [
+  { day: "Tue", time: "2:30 PM" },
+  { day: "Wed", time: "10:00 AM", target: true },
+  { day: "Wed", time: "3:15 PM" },
+  { day: "Thu", time: "11:45 AM" },
+  { day: "Thu", time: "4:00 PM" },
+  { day: "Fri", time: "9:30 AM" },
+];
+
+function LumeraTimePanel({ pulseTarget }) {
+  return (
+    <div className="lf-panel" aria-hidden>
+      <p className="lf-eyebrow">Step 2 — Time</p>
+      <h3 className="lf-heading">Pick a time</h3>
+      <p className="lf-sub">Showing earliest available this week.</p>
+      <div className="lf-times">
+        {TIME_SLOTS.map((s, i) => (
+          <button
+            key={i}
+            type="button"
+            tabIndex={-1}
+            className={`lf-slot ${pulseTarget && s.target ? "is-pulse" : ""}`.trim()}>
+            <span className="day">{s.day}</span>
+            <span className="time">{s.time}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LumeraConfirmPanel({ pulseButton }) {
+  return (
+    <div className="lf-panel" aria-hidden>
+      <p className="lf-eyebrow">Step 3 — Confirm</p>
+      <h3 className="lf-heading">Confirm your booking</h3>
+      <div className="lf-confirm-grid">
+        <dl className="lf-summary">
+          <div><dt>Service</dt><dd>Injectables</dd></div>
+          <div><dt>Time</dt><dd>Wed 10:00 AM</dd></div>
+          <div><dt>Duration</dt><dd>45 min</dd></div>
+          <div><dt>Provider</dt><dd>Sofia Reyes, NP</dd></div>
+        </dl>
+        <div className="lf-fields">
+          <label><span>Name</span><input type="text" tabIndex={-1} readOnly /></label>
+          <label><span>Email</span><input type="email" tabIndex={-1} readOnly /></label>
+          <label><span>Phone</span><input type="tel" tabIndex={-1} readOnly /></label>
+        </div>
+      </div>
+      <button
+        type="button"
+        tabIndex={-1}
+        className={`lf-confirm-btn ${pulseButton ? "is-pulse" : ""}`.trim()}>
+        Confirm booking
+      </button>
+    </div>
+  );
+}
+
+function LumeraDonePanel() {
+  return (
+    <div className="lf-panel lf-panel-done" aria-hidden>
+      <svg className="lf-check" viewBox="0 0 32 32" width="44" height="44" aria-hidden>
+        <circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.4" />
+        <path d="M9 16.5 L14 21.5 L23 11.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      <h3 className="lf-heading lf-heading-done">You're booked.</h3>
+      <p className="lf-sub">
+        Wednesday, 10:00 AM with Sofia Reyes. Confirmation sent to your email.
+      </p>
+    </div>
+  );
+}
+
+function LumeraCursor({ state, clicking }) {
+  return (
+    <div
+      className={`lf-cursor ${clicking ? "is-clicking" : ""}`.trim()}
+      style={{ left: state.cursor.x, top: state.cursor.y }}
+      aria-hidden>
+      <svg width="22" height="22" viewBox="0 0 22 22">
+        <path
+          d="M4 2 L4 17 L8 13.5 L10.5 19 L13 18 L10.5 12.5 L16 12 Z"
+          fill="#1E2220"
+          stroke="#ECEDE9"
+          strokeWidth="0.8"
+          strokeLinejoin="round" />
+      </svg>
+    </div>
+  );
+}
+
 function IntegrationSection() {
   const mockRef = useRefH(null);
   const [inView, setInView] = useStateH(false);
+  const [staticMode, setStaticMode] = useStateH(false);
+  const [stateIdx, setStateIdx] = useStateH(0);
+  const [clicking, setClicking] = useStateH(false);
 
+  // Detect reduced-motion or small viewport → static fallback (service step).
+  useEffectH(() => {
+    const evalStatic = () => {
+      const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const small = window.matchMedia && window.matchMedia("(max-width: 900px)").matches;
+      return reduce || small;
+    };
+    const update = () => {
+      const s = evalStatic();
+      setStaticMode(s);
+      if (s) setStateIdx(1); // service step is the most info-dense single frame
+    };
+    update();
+    const m1 = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
+    const m2 = window.matchMedia && window.matchMedia("(max-width: 900px)");
+    if (m1 && m1.addEventListener) { m1.addEventListener("change", update); m2.addEventListener("change", update); }
+    return () => {
+      if (m1 && m1.removeEventListener) { m1.removeEventListener("change", update); m2.removeEventListener("change", update); }
+    };
+  }, []);
+
+  // IntersectionObserver gates both the materialize-on-scroll + the animation loop.
   useEffectH(() => {
     const el = mockRef.current;
     if (!el) return;
-    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) { setInView(true); return; }
     if (typeof IntersectionObserver === "undefined") { setInView(true); return; }
     const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) { setInView(true); io.disconnect(); } });
-      },
+      (entries) => entries.forEach((e) => setInView(e.isIntersecting)),
       { threshold: 0.18 }
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  // Drive the loop while inView and animation is enabled.
+  useEffectH(() => {
+    if (!inView || staticMode) return;
+    let advanceTimer;
+    let clickTimer;
+    const current = FLOW_STATES[stateIdx];
+    // Schedule a click-pulse 320ms before the state ends (so the target visibly
+    // pulses just before the next state crossfades in).
+    clickTimer = setTimeout(() => setClicking(true), Math.max(0, current.duration - 320));
+    advanceTimer = setTimeout(() => {
+      setClicking(false);
+      setStateIdx((i) => (i + 1) % FLOW_STATES.length);
+    }, current.duration);
+    return () => { clearTimeout(advanceTimer); clearTimeout(clickTimer); };
+  }, [stateIdx, inView, staticMode]);
+
+  const state = FLOW_STATES[staticMode ? 1 : stateIdx];
+  const activeId = state.id;
 
   return (
     <section className="section integration-section">
@@ -241,12 +460,12 @@ function IntegrationSection() {
 
         <div
           ref={mockRef}
-          className={`integration-mock ${inView ? "is-in" : ""}`}
+          className={`integration-mock ${inView ? "is-in" : ""} ${staticMode ? "is-static" : ""}`.trim()}
           role="img"
-          aria-label="Mock browser window showing the RIVR booking funnel embedded inside Lumera Aesthetic Studio's site.">
+          aria-label="Mock browser window showing a patient booking on Lumera Aesthetic Studio's site. The funnel UI is styled in Lumera's brand — porcelain background, petrol-teal accent, Geist typography.">
           <div className="browser-chrome" aria-hidden>
             <i /><i /><i />
-            <span className="url">lumera.com/book</span>
+            <span className="url" data-state={activeId}>{state.url}</span>
           </div>
           <div className="practice-nav" aria-hidden>
             <span className="brand">LUMERA</span>
@@ -254,84 +473,48 @@ function IntegrationSection() {
               <span>Treatments</span>
               <span>Team</span>
               <span>About</span>
-              <span>Book</span>
+              <span className={`book-link ${activeId === "home" && clicking ? "is-pulse" : ""}`.trim()}>Book</span>
             </span>
           </div>
-          {/* Funnel embed — inline HTML mock of the booking funnel's "Service"
-              step. Replaces a broken lumera-booking-flow.jpg that captured
-              only the step-indicator chrome with a blank body. Inline mock
-              is more durable than a screenshot — survives demo redeploys.
-              Visual register intentionally departs from the host nav above:
-              host nav is tracked-uppercase serif (Lumera's site styling);
-              the funnel inside is clean sans-serif + hairline cards (RIVR's
-              clinical aesthetic). */}
-          <div className="embed funnel-embed" aria-hidden>
-            <div className="funnel-chrome">
-              <span className="funnel-back" aria-hidden>‹</span>
-              <span className="funnel-brand">
-                <strong>Lumera</strong>
-                <span className="funnel-brand-sub">AESTHETIC STUDIO</span>
-              </span>
-              <span className="funnel-signin">Already a patient? Sign in →</span>
-              <span className="funnel-close" aria-hidden>✕</span>
-            </div>
-            <ol className="funnel-steps">
-              <li className="is-active">
-                <span className="dot" />
-                <span className="label">Service</span>
-              </li>
-              <li>
-                <span className="dot" />
-                <span className="label">Time</span>
-              </li>
-              <li>
-                <span className="dot" />
-                <span className="label">Confirm</span>
-              </li>
-              <li>
-                <span className="dot" />
-                <span className="label">Done</span>
-              </li>
-              <span className="step-count">STEP 1 OF 4</span>
-            </ol>
-            <div className="funnel-body">
-              <p className="funnel-eyebrow">Step 1 — Service</p>
-              <h3 className="funnel-h">Select a service</h3>
-              <p className="funnel-sub">Choose a category to see real-time availability.</p>
-              <div className="funnel-cards">
-                <article className="funnel-card">
-                  <h4>Injectables</h4>
-                  <p>Botox, fillers, biostimulators.</p>
-                  <p className="price">from $450</p>
-                </article>
-                <article className="funnel-card">
-                  <h4>Skin</h4>
-                  <p>Facials, peels, skin-renewal treatments.</p>
-                  <p className="price">from $180</p>
-                </article>
-                <article className="funnel-card">
-                  <h4>Laser</h4>
-                  <p>Pigment, redness, hair, resurfacing.</p>
-                  <p className="price">from $250</p>
-                </article>
-                <article className="funnel-card">
-                  <h4>Body</h4>
-                  <p>Non-invasive contouring & tightening.</p>
-                  <p className="price">from $400</p>
-                </article>
-                <article className="funnel-card">
-                  <h4>Wellness</h4>
-                  <p>IV therapy and vitamin protocols.</p>
-                  <p className="price">from $125</p>
-                </article>
-                <article className="funnel-card">
-                  <h4>Surgical consult</h4>
-                  <p>15-min intro with a surgeon's coordinator.</p>
-                  <p className="price">complimentary</p>
-                </article>
+
+          <div className="embed lumera-embed" aria-hidden>
+            {staticMode ? (
+              /* Static fallback: render only the service step inline — no absolute
+                 stacking, no crossfade, container height grows with content. */
+              <div className="lf-state-funnel is-static">
+                <LumeraStepIndicator stepIndex={0} />
+                <div className="lf-panels lf-panels-static">
+                  <LumeraServicePanel pulseInjectables={false} />
+                </div>
               </div>
-            </div>
+            ) : (
+              <>
+                {/* All five panels stack and crossfade via .is-active. */}
+                <div className={`lf-state ${activeId === "home" ? "is-active" : ""}`.trim()}>
+                  <LumeraHomePanel />
+                </div>
+                <div className={`lf-state lf-state-funnel ${activeId !== "home" ? "is-active" : ""}`.trim()}>
+                  <LumeraStepIndicator stepIndex={state.stepIndex} />
+                  <div className="lf-panels">
+                    <div className={`lf-state-inner ${activeId === "service" ? "is-active" : ""}`.trim()}>
+                      <LumeraServicePanel pulseInjectables={activeId === "service" && clicking} />
+                    </div>
+                    <div className={`lf-state-inner ${activeId === "time" ? "is-active" : ""}`.trim()}>
+                      <LumeraTimePanel pulseTarget={activeId === "time" && clicking} />
+                    </div>
+                    <div className={`lf-state-inner ${activeId === "confirm" ? "is-active" : ""}`.trim()}>
+                      <LumeraConfirmPanel pulseButton={activeId === "confirm" && clicking} />
+                    </div>
+                    <div className={`lf-state-inner ${activeId === "done" ? "is-active" : ""}`.trim()}>
+                      <LumeraDonePanel />
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
+
+          {!staticMode && <LumeraCursor state={state} clicking={clicking} />}
         </div>
         <p className="integration-caption">demo: lumera.rivrsystems.com</p>
       </div>

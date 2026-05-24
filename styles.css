@@ -1911,199 +1911,425 @@ img { display: block; max-width: 100%; }
   text-align: left;
 }
 
-/* Funnel embed — inline HTML mock of the RIVR booking funnel "Service" step
-   that sits inside the IntegrationSection's mock browser frame. Visual
-   register is intentionally distinct from the host nav above: clean
-   sans-serif (General Sans body font), hairline cards, sage active dot,
-   near-white cream background. Reads as "RIVR funnel embedded inside
-   Lumera's site," which is the story. */
-.funnel-embed {
-  background: #f3efe7;
-  padding: 0;
-  font-family: var(--font-body);
-  color: #1d1d1b;
-}
-/* Funnel-chrome row — host-branded inside the embedded funnel
-   (mirrors how a real white-labeled RIVR booking page renders). */
-.funnel-chrome {
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
-  align-items: center;
-  gap: 16px;
-  padding: 18px 36px;
-  background: #f3efe7;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-.funnel-back {
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: #5a5a5a;
-  cursor: default;
-  line-height: 1;
-}
-.funnel-brand {
-  justify-self: center;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 10px;
-  font-family: Georgia, serif;
-}
-.funnel-brand strong {
-  font-size: 1.375rem;
-  font-weight: 500;
-  color: #1d1d1b;
-  letter-spacing: 0;
-}
-.funnel-brand-sub {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  color: #5a5a5a;
-}
-.funnel-signin {
-  font-size: 0.8125rem;
-  color: #5a5a5a;
-}
-.funnel-close {
-  font-size: 1rem;
-  color: #5a5a5a;
-  cursor: default;
-  padding-left: 14px;
-  border-left: 1px solid rgba(0, 0, 0, 0.12);
-  line-height: 1;
+/* ============================================================================
+   Lumera-styled animated booking flow (PP2)
+   ----------------------------------------------------------------------------
+   The funnel UI inside the IntegrationSection's mock browser frame is rendered
+   in LUMERA's actual brand tokens — confirmed against the Lumera demo repo at
+   C:\Users\thora\rivr-funnels\lumera\app\globals.css:
+     porcelain canvas  #ECEDE9   surface  #FBFBF9   hairline  #D9DAD4
+     graphite ink      #1E2220   slate    #6B7270   accent    #16494A
+     accent-deep       #0F3536   radius 4px
+     Geist Sans (body) + Geist Mono (eyebrows, prices, step indicator)
+   That's the point: each RIVR funnel is built to match the client's brand.
+   ============================================================================ */
+.lumera-embed {
+  --lm-canvas: #ECEDE9;
+  --lm-surface: #FBFBF9;
+  --lm-ink: #1E2220;
+  --lm-slate: #6B7270;
+  --lm-accent: #16494A;
+  --lm-accent-deep: #0F3536;
+  --lm-hairline: #D9DAD4;
+
+  position: relative;
+  background: var(--lm-canvas);
+  color: var(--lm-ink);
+  font-family: "Geist", system-ui, sans-serif;
+  /* Fixed aspect for cursor positioning + cross-state crossfade. */
+  height: 540px;
+  overflow: hidden;
 }
 
-/* Step indicator row — sage active dot, dashed connectors */
-.funnel-steps {
+/* State stack — every state element fills the embed, fades on .is-active. */
+.lf-state {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 380ms var(--ease-rivr);
+  pointer-events: none;
+  display: flex; flex-direction: column;
+}
+.lf-state.is-active { opacity: 1; }
+
+/* Funnel-state contains the step indicator + the four inner panels. */
+.lf-state-funnel { display: flex; flex-direction: column; }
+.lf-panels { position: relative; flex: 1; min-height: 0; }
+.lf-state-inner {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 320ms var(--ease-rivr);
+  display: flex; flex-direction: column;
+}
+.lf-state-inner.is-active { opacity: 1; }
+
+/* ── Step indicator (mono, hairline-connected, petrol-teal dot) ───────────── */
+.lf-steps {
   list-style: none;
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-auto-flow: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  padding: 18px 36px;
+  gap: 14px;
+  padding: 16px 32px;
   margin: 0;
-  background: #f3efe7;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: var(--lm-canvas);
+  border-bottom: 1px solid var(--lm-hairline);
   position: relative;
-  font-family: var(--font-mono);
+  font-family: "Geist Mono", ui-monospace, monospace;
   font-size: 0.6875rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  color: var(--lm-slate);
 }
-.funnel-steps li {
+.lf-step-count {
+  position: absolute;
+  left: 32px; top: 50%;
+  transform: translateY(-50%);
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lm-slate);
+}
+.lf-steps li {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: #8a8a8a;
+  gap: 8px;
+  color: var(--lm-slate);
+  transition: color 320ms var(--ease-rivr);
 }
-.funnel-steps li:not(:last-of-type)::after {
+.lf-steps li + li::before {
   content: "";
   display: inline-block;
-  width: 56px;
-  height: 1px;
-  margin-left: 18px;
-  background: #c8c4bb;
+  width: 32px; height: 1px;
+  background: var(--lm-hairline);
+  margin-right: 8px;
 }
-.funnel-steps .dot {
-  width: 18px; height: 18px;
+.lf-steps .dot {
+  width: 14px; height: 14px;
   border-radius: 50%;
-  border: 1px solid #c8c4bb;
-  background: #f3efe7;
+  border: 1px solid var(--lm-hairline);
+  background: var(--lm-canvas);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.5625rem;
+  color: var(--lm-canvas);
+  transition: background 320ms var(--ease-rivr), border-color 320ms var(--ease-rivr), color 320ms var(--ease-rivr);
 }
-.funnel-steps li.is-active {
-  color: #1d1d1b;
-  font-weight: 500;
+.lf-steps li.is-active { color: var(--lm-ink); }
+.lf-steps li.is-active .dot {
+  background: var(--lm-accent);
+  border-color: var(--lm-accent);
 }
-.funnel-steps li.is-active .dot {
-  background: #2b5d54;
-  border-color: #2b5d54;
-}
-.funnel-steps .step-count {
-  position: absolute;
-  left: 36px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #8a8a8a;
+.lf-steps li.is-done { color: var(--lm-ink); }
+.lf-steps li.is-done .dot {
+  background: var(--lm-accent);
+  border-color: var(--lm-accent);
+  color: var(--lm-canvas);
 }
 
-/* Body — "Select a service" + service category cards */
-.funnel-body {
-  padding: 48px 56px 56px;
-  background: #f3efe7;
+/* ── Shared panel layout ──────────────────────────────────────────────────── */
+.lf-panel {
+  padding: 36px 48px 40px;
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column;
+  background: var(--lm-canvas);
 }
-.funnel-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #2b5d54;
-  margin: 0 0 12px;
+.lf-eyebrow {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.6875rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--lm-accent);
+  margin: 0 0 10px;
 }
-.funnel-h {
-  font-family: Georgia, serif;
-  font-size: 1.875rem;
+.lf-heading {
+  font-family: "Geist", system-ui, sans-serif;
+  font-style: normal;
+  font-size: 1.625rem;
   font-weight: 500;
-  letter-spacing: -0.005em;
-  color: #1d1d1b;
-  margin: 0 0 8px;
+  letter-spacing: -0.012em;
+  color: var(--lm-ink);
+  margin: 0 0 6px;
   line-height: 1.2;
 }
-.funnel-sub {
-  font-size: 0.9375rem;
-  color: #5a5a5a;
-  margin: 0 0 32px;
+.lf-sub {
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 0.875rem;
+  color: var(--lm-slate);
+  margin: 0 0 22px;
+  line-height: 1.5;
 }
-.funnel-cards {
+
+/* ── State 1 — Lumera home preview panel ──────────────────────────────────── */
+.lh-panel {
+  flex: 1; min-height: 0;
+  padding: 60px 56px;
+  background: var(--lm-canvas);
+  display: flex; flex-direction: column;
+  justify-content: center;
+}
+.lh-eyebrow {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.6875rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--lm-accent);
+  margin-bottom: 18px;
+}
+.lh-headline {
+  font-family: "Geist", system-ui, sans-serif;
+  font-style: normal;
+  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  color: var(--lm-ink);
+  line-height: 1.12;
+  margin: 0 0 18px;
+  max-width: 520px;
+}
+.lh-sub {
+  font-size: 0.9375rem;
+  color: var(--lm-slate);
+  margin: 0 0 28px;
+  max-width: 520px;
+  line-height: 1.55;
+}
+.lh-meta {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--lm-slate);
+}
+.lh-dot {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: var(--lm-slate);
+  opacity: 0.5;
+}
+
+/* ── State 2 — Service grid ───────────────────────────────────────────────── */
+.lf-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 10px;
 }
-.funnel-card {
-  border: 1px solid rgba(0, 0, 0, 0.10);
-  background: #fafaf7;
-  padding: 22px 22px 18px;
+.lf-card {
+  border: 1px solid var(--lm-hairline);
+  background: var(--lm-surface);
+  padding: 18px 18px 16px;
   border-radius: 4px;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: 10px;
-  min-height: 132px;
+  gap: 8px;
+  min-height: 112px;
+  transition: border-color 200ms var(--ease-rivr), transform 200ms var(--ease-rivr), background 200ms var(--ease-rivr);
 }
-.funnel-card h4 {
-  font-family: var(--font-body);
-  font-size: 1rem;
+.lf-card h4 {
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: 0;
-  color: #1d1d1b;
+  color: var(--lm-ink);
   margin: 0;
 }
-.funnel-card p {
+.lf-card p {
   font-size: 0.8125rem;
-  color: #5a5a5a;
-  line-height: 1.5;
+  color: var(--lm-slate);
+  line-height: 1.45;
   margin: 0;
 }
-.funnel-card .price {
-  font-family: var(--font-mono);
+.lf-card .price {
+  font-family: "Geist Mono", ui-monospace, monospace;
   font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  color: #2b5d54;
+  letter-spacing: 0.04em;
+  color: var(--lm-accent);
   margin: 0;
 }
+.lf-card.is-pulse {
+  border-color: var(--lm-accent);
+  background: rgba(22, 73, 74, 0.04);
+  animation: lf-pulse 320ms var(--ease-rivr);
+}
+
+/* ── State 3 — Time grid ──────────────────────────────────────────────────── */
+.lf-times {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.lf-slot {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+  padding: 16px 18px;
+  border: 1px solid var(--lm-hairline);
+  background: var(--lm-surface);
+  border-radius: 4px;
+  cursor: default;
+  text-align: left;
+  font-family: inherit;
+  transition: border-color 200ms var(--ease-rivr), background 200ms var(--ease-rivr);
+}
+.lf-slot .day {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--lm-slate);
+}
+.lf-slot .time {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.9375rem; font-weight: 500;
+  color: var(--lm-ink);
+  letter-spacing: 0.02em;
+}
+.lf-slot.is-pulse {
+  border-color: var(--lm-accent);
+  background: rgba(22, 73, 74, 0.06);
+  animation: lf-pulse 320ms var(--ease-rivr);
+}
+
+/* ── State 4 — Confirm ────────────────────────────────────────────────────── */
+.lf-confirm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.lf-summary {
+  border: 1px solid var(--lm-hairline);
+  background: var(--lm-surface);
+  border-radius: 4px;
+  padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.lf-summary > div {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px;
+}
+.lf-summary dt {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--lm-slate);
+}
+.lf-summary dd {
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 0.875rem; font-weight: 500;
+  color: var(--lm-ink);
+}
+.lf-fields { display: flex; flex-direction: column; gap: 10px; }
+.lf-fields label {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.lf-fields label span {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.625rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--lm-slate);
+}
+.lf-fields label input {
+  border: 1px solid var(--lm-hairline);
+  background: var(--lm-surface);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font: inherit; font-size: 0.875rem;
+  color: var(--lm-ink);
+  outline: none;
+}
+.lf-confirm-btn {
+  align-self: flex-end;
+  padding: 12px 22px;
+  border-radius: 4px;
+  background: var(--lm-accent);
+  color: var(--lm-canvas);
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  cursor: default;
+  border: 0;
+  transition: background 200ms var(--ease-rivr), transform 200ms var(--ease-rivr);
+}
+.lf-confirm-btn.is-pulse {
+  background: var(--lm-accent-deep);
+  animation: lf-pulse 320ms var(--ease-rivr);
+}
+
+/* ── State 5 — Done ───────────────────────────────────────────────────────── */
+.lf-panel-done {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 48px;
+}
+.lf-check {
+  color: var(--lm-accent);
+  margin-bottom: 18px;
+  animation: lf-check-draw 480ms var(--ease-rivr);
+}
+.lf-heading-done {
+  font-size: 1.75rem;
+  margin-bottom: 10px;
+}
+.lf-panel-done .lf-sub { max-width: 420px; margin: 0 auto; }
+
+/* ── Click-target pulse keyframe (shared) ─────────────────────────────────── */
+@keyframes lf-pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+@keyframes lf-check-draw {
+  0%   { transform: scale(0.6); opacity: 0; }
+  60%  { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Animated cursor (graphite, porcelain stroke for contrast) ───────────── */
+.lf-cursor {
+  position: absolute;
+  width: 22px; height: 22px;
+  z-index: 5;
+  pointer-events: none;
+  transform: translate(-2px, -2px) scale(1);
+  transition: left 720ms var(--ease-rivr), top 720ms var(--ease-rivr), transform 200ms var(--ease-rivr);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
+}
+.lf-cursor.is-clicking {
+  transform: translate(-2px, -2px) scale(0.86);
+}
+
+/* BOOK link pulse — when cursor "clicks" the host nav. */
+.integration-mock .practice-nav .links .book-link {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: border-color 200ms var(--ease-rivr), color 200ms var(--ease-rivr), background 200ms var(--ease-rivr);
+}
+.integration-mock .practice-nav .links .book-link.is-pulse {
+  border-color: var(--lm-accent, #16494A);
+  color: var(--lm-accent, #16494A);
+  animation: lf-pulse 320ms var(--ease-rivr);
+}
+
+/* Static / reduced-motion fallback — hide cursor, JS renders the single
+   service state inline (see .lf-state-funnel.is-static below). */
+.integration-mock.is-static .lf-cursor { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .lf-cursor { display: none; }
+  .lf-state, .lf-state-inner { transition: none; }
+}
+
+/* Static fallback flow — drop the absolute stacking the animation relies on. */
+.lumera-embed:has(.is-static),
+.integration-mock.is-static .lumera-embed { height: auto; }
+.lf-state-funnel.is-static { position: static; opacity: 1; }
+.lf-panels-static { position: static; }
+.lf-panels-static .lf-panel { position: static; }
+
 @media (max-width: 900px) {
-  .funnel-chrome { padding: 14px 18px; gap: 10px; }
-  .funnel-signin { display: none; }
-  .funnel-steps { padding: 14px 18px; gap: 10px; }
-  .funnel-steps li:not(:last-of-type)::after { width: 18px; margin-left: 10px; }
-  .funnel-steps .step-count { display: none; }
-  .funnel-body { padding: 28px 20px 32px; }
-  .funnel-cards { grid-template-columns: 1fr; }
+  .lumera-embed { height: auto; min-height: 0; }
+  .lf-panel { padding: 24px 20px 28px; }
+  .lh-panel { padding: 32px 20px; }
+  .lf-cards, .lf-times { grid-template-columns: 1fr 1fr; }
+  .lf-confirm-grid { grid-template-columns: 1fr; }
+  .lf-steps { padding: 14px 18px; gap: 8px; font-size: 0.625rem; }
+  .lf-step-count { display: none; }
+  .lf-steps li + li::before { width: 16px; margin-right: 4px; }
+  .lf-cursor { display: none; }
 }
 .integration-mock .browser-chrome {
   display: flex; align-items: center; gap: 8px;
@@ -2130,22 +2356,24 @@ img { display: block; max-width: 100%; }
 }
 .integration-mock .practice-nav {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 22px 36px;
-  background: #fafaf7; /* Stream C v2 final: Lumera's near-white nav register */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 18px 32px;
+  /* Lumera's surface register — confirmed against lumera/app/globals.css. */
+  background: #FBFBF9;
+  border-bottom: 1px solid #D9DAD4;
 }
 .integration-mock .practice-nav .brand {
-  font-family: Georgia, serif;
-  font-size: 1.25rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  color: #1d1d1b;
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: #1E2220;
 }
 .integration-mock .practice-nav .links {
-  display: flex; gap: 28px;
-  font-size: 0.8125rem; letter-spacing: 0.06em;
+  display: flex; align-items: center; gap: 26px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.6875rem; letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #5a5a5a;
+  color: #6B7270;
 }
 .integration-mock .practice-nav .links span { cursor: default; }
 .integration-mock .embed {
