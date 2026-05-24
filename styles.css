@@ -34,7 +34,7 @@
 
   /* ---- Typography (rivr-web spec) ---- */
   --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-body: 'General Sans', 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
   /* ---- Spacing & rhythm (rivr-web spec) ---- */
@@ -933,6 +933,7 @@ img { display: block; max-width: 100%; }
   padding-block: 160px;
   overflow: hidden;
 }
+@media (max-width: 900px) { .closing-cta { padding-block: 100px; } }
 .closing-mark {
   position: absolute; left: 50%; top: 50%;
   transform: translate(-50%, -50%);
@@ -1572,6 +1573,7 @@ img { display: block; max-width: 100%; }
    iframe booking mockup. Each tile is a 4:5 portrait card whose screenshot
    pans vertically on hover (4.5s ease-out forward, 1s ease-out return). */
 .work-hero { padding-block: 60px 100px; }
+@media (max-width: 900px) { .work-hero { padding-block: 60px var(--space-section-mobile); } }
 .work-hero-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1605,14 +1607,29 @@ img { display: block; max-width: 100%; }
   object-position: 0% 80%;
   transition: object-position 4.5s ease-out;     /* forward transition */
 }
+/* Stream C v2 final: practice-type eyebrow sits above each tile; mono URL
+   caption (mixed-case, not all-caps) sits below. Tracking matches the
+   canonical eyebrow pattern (.text-label-caps, 0.12em). */
+.work-hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-strong);
+  margin: 0 0 14px;
+  text-align: left;
+}
 .work-hero-caption {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--color-text-muted);
   margin-top: 14px;
   text-align: left;
+}
+.work-hero-supporting {
+  color: var(--color-text-muted);
 }
 .work-hero-mobile-cta {
   display: none;
@@ -1638,6 +1655,7 @@ img { display: block; max-width: 100%; }
    Mock browser frame holding a generic-practice site nav + an embedded
    RIVR booking screenshot inside it. */
 .integration-section { padding-block: 120px; }
+@media (max-width: 900px) { .integration-section { padding-block: var(--space-section-mobile); } }
 .integration-mock {
   max-width: 1100px;
   margin: 56px auto 0;
@@ -1646,6 +1664,45 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.28);
   background: #fff;
   border: 1px solid var(--color-rule);
+  /* Stream C v2 final: materialize on scroll-in. Frame slides up + fades;
+     the embedded widget materializes ~240ms after the frame. Gated by
+     prefers-reduced-motion in JS (sets is-in immediately on reduced motion). */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 720ms var(--ease-rivr), transform 720ms var(--ease-rivr);
+  will-change: opacity, transform;
+}
+.integration-mock.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.integration-mock .embed {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 640ms var(--ease-rivr) 240ms, transform 640ms var(--ease-rivr) 240ms;
+}
+.integration-mock.is-in .embed {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .integration-mock,
+  .integration-mock.is-in,
+  .integration-mock .embed,
+  .integration-mock.is-in .embed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+.integration-caption {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  margin: 16px auto 0;
+  max-width: 1100px;
+  text-align: left;
 }
 .integration-mock .browser-chrome {
   display: flex; align-items: center; gap: 8px;
@@ -1673,19 +1730,20 @@ img { display: block; max-width: 100%; }
 .integration-mock .practice-nav {
   display: flex; align-items: center; justify-content: space-between;
   padding: 22px 36px;
-  background: #f4ede4; /* neutral practice-site warm cream — distinct from RIVR cream and from the three demos */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fafaf7; /* Stream C v2 final: Lumera's near-white nav register */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 .integration-mock .practice-nav .brand {
   font-family: Georgia, serif;
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  color: #2a2a2a;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  color: #1d1d1b;
 }
 .integration-mock .practice-nav .links {
-  display: flex; gap: 24px;
-  font-size: 0.875rem; letter-spacing: 0.04em;
+  display: flex; gap: 28px;
+  font-size: 0.8125rem; letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: #5a5a5a;
 }
 .integration-mock .practice-nav .links span { cursor: default; }
@@ -1721,16 +1779,22 @@ img { display: block; max-width: 100%; }
 .build-copy {
   max-width: 480px;
 }
+/* Stream C v2 final: tracking unified with the canonical eyebrow pattern
+   (.text-label-caps, 0.12em). Sub-eyebrow unified with .work-hero-caption /
+   .integration-caption — mono URL caption, mixed-case. */
 .build-copy .eyebrow {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  letter-spacing: 0.18em;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-accent-strong);
   margin-bottom: 10px;
 }
 .build-copy .sub-eyebrow {
-  font-size: 0.8125rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
   color: var(--color-text-muted);
   letter-spacing: 0.04em;
   margin-bottom: 28px;

@@ -130,27 +130,34 @@ function Hero() {
 // 0% to 80% over 4.5s (CSS ease-out) revealing more of the long-form home
 // page; on hover-end it returns to 0% over 1s. Mobile (≤1024px or no-hover)
 // disables the scroll and surfaces a "View live →" pill instead.
+// Stream C v2 final: tile order Sela → Devereaux → Lumera (practice-type
+// progression: retail → concierge surgical → multi-tier). Each tile carries a
+// practice-type eyebrow above and a demo-URL caption below. The demo names
+// themselves move into the caption; the practice type is the primary identifier.
 const WORK_TILES = [
   {
+    brand: "Sela",
+    eyebrow: "01 · RETAIL MED SPA",
+    caption: "demo: sela.rivrsystems.com",
+    href: "https://sela.rivrsystems.com",
+    image: "imagery/demos/sela-home.jpg",
+    alt: "Sela Aesthetic Studio home page — \"Skin you live in.\" hero, full price-menu spine, membership, and team.",
+  },
+  {
     brand: "Devereaux",
-    caption: "DEVEREAUX · SURGICAL",
+    eyebrow: "02 · CONCIERGE SURGICAL",
+    caption: "demo: devereaux.rivrsystems.com",
     href: "https://devereaux.rivrsystems.com",
     image: "imagery/demos/devereaux-home.jpg",
     alt: "Devereaux Institute home page — editorial-magazine register with Dr. Devereaux portrait, practice statement, and studies gallery.",
   },
   {
     brand: "Lumera",
-    caption: "LUMERA · MULTI-TIER",
+    eyebrow: "03 · MULTI-TIER PRACTICE",
+    caption: "demo: lumera.rivrsystems.com",
     href: "https://lumera.rivrsystems.com",
     image: "imagery/demos/lumera-home.jpg",
     alt: "Lumera Aesthetic Studio home page — photographic hero, PathFinder six-path chooser, rooms bento, team, and price menu.",
-  },
-  {
-    brand: "Sela",
-    caption: "SELA · RETAIL",
-    href: "https://sela.rivrsystems.com",
-    image: "imagery/demos/sela-home.jpg",
-    alt: "Sela Aesthetic Studio home page — \"Skin you live in.\" hero, full price-menu spine, membership, and team.",
   },
 ];
 
@@ -160,11 +167,17 @@ function ThreeTileHero() {
       <div className="container">
         <div className="section-header" style={{ marginBottom: 0 }}>
           <FadeUp><p className="text-label-caps">The work</p></FadeUp>
+          <FadeUp delay={120}>
+            <p className="text-body-lg work-hero-supporting" style={{ marginTop: 18, maxWidth: 620 }}>
+              Three reference builds. Find the one that looks like your practice.
+            </p>
+          </FadeUp>
         </div>
-        <FadeUp delay={120}>
+        <FadeUp delay={180}>
           <div className="work-hero-grid">
             {WORK_TILES.map((t) => (
-              <div key={t.brand}>
+              <div key={t.brand} className="work-hero-cell">
+                <p className="work-hero-eyebrow">{t.eyebrow}</p>
                 <a
                   className="work-hero-tile"
                   href={t.href}
@@ -185,10 +198,30 @@ function ThreeTileHero() {
 }
 
 // ─── IntegrationSection — "It lives where your patients already are." ────────
-// Stream C v1: shows the RIVR booking widget living inside a generic practice
-// website (mock browser chrome → mock practice nav → embedded booking flow
-// screenshot). Static for this pass; Stream C v2 may add scroll-driven motion.
+// Stream C v2 final: uses Lumera (one of the three demos) as the integration
+// example, not a fictional Destin Med Spa. The browser frame shows
+// lumera.com/book with Lumera's own nav above the booking funnel.
+// Scroll-driven materialization gated behind prefers-reduced-motion.
 function IntegrationSection() {
+  const mockRef = useRefH(null);
+  const [inView, setInView] = useStateH(false);
+
+  useEffectH(() => {
+    const el = mockRef.current;
+    if (!el) return;
+    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { setInView(true); return; }
+    if (typeof IntersectionObserver === "undefined") { setInView(true); return; }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { setInView(true); io.disconnect(); } });
+      },
+      { threshold: 0.18 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section className="section integration-section">
       <div className="container">
@@ -201,34 +234,37 @@ function IntegrationSection() {
             lines={[<>It lives where your patients <span className="serif" style={{ color: "var(--color-accent)" }}>already are</span>.</>]} />
           <FadeUp delay={320}>
             <p className="text-body-lg" style={{ marginTop: 24, maxWidth: 720, marginInline: "auto" }}>
-              Your booking funnel drops into your existing website as an embedded iframe. Your navigation, your branding, your CMS — all untouched. Patients see one familiar site with one new page that actually takes the booking.
+              The booking funnel sits inside the page your patients already know how to find. Your navigation, your branding, your CMS — all untouched. They see one familiar site with one page that actually takes the booking.
             </p>
           </FadeUp>
         </div>
 
-        <FadeUp delay={120}>
-          <div className="integration-mock" role="img" aria-label="Mock browser window showing the RIVR booking widget embedded inside a generic practice site.">
-            <div className="browser-chrome" aria-hidden>
-              <i /><i /><i />
-              <span className="url">destinmedspa.com/book</span>
-            </div>
-            <div className="practice-nav" aria-hidden>
-              <span className="brand">DESTIN MED SPA</span>
-              <span className="links">
-                <span>Services</span>
-                <span>Team</span>
-                <span>About</span>
-                <span>Book</span>
-              </span>
-            </div>
-            <img
-              className="embed"
-              src="imagery/demos/lumera-booking-flow.jpg"
-              alt=""
-              loading="lazy"
-            />
+        <div
+          ref={mockRef}
+          className={`integration-mock ${inView ? "is-in" : ""}`}
+          role="img"
+          aria-label="Mock browser window showing the RIVR booking funnel embedded inside Lumera Aesthetic Studio's site.">
+          <div className="browser-chrome" aria-hidden>
+            <i /><i /><i />
+            <span className="url">lumera.com/book</span>
           </div>
-        </FadeUp>
+          <div className="practice-nav" aria-hidden>
+            <span className="brand">LUMERA</span>
+            <span className="links">
+              <span>Treatments</span>
+              <span>Team</span>
+              <span>About</span>
+              <span>Book</span>
+            </span>
+          </div>
+          <img
+            className="embed"
+            src="imagery/demos/lumera-booking-flow.jpg"
+            alt=""
+            loading="lazy"
+          />
+        </div>
+        <p className="integration-caption">demo: lumera.rivrsystems.com</p>
       </div>
     </section>
   );
@@ -277,7 +313,7 @@ function StatCard({ stat }) {
 
 function CredibilityStats() {
   return (
-    <section className="section" style={{ paddingBlock: "120px" }}>
+    <section className="section">
       <div className="container">
         <div className="section-header">
           <FadeUp><p className="text-label-caps">The industry standard</p></FadeUp>

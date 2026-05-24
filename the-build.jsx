@@ -21,7 +21,7 @@ const {
   Reveal, FadeUp, RevealLines, Nav, Button, Footer, ClosingCTA,
 } = window;
 
-// ─── Hero (placeholder copy — Stream C v2 will refine) ──────────────────────
+// ─── Hero (Stream C v2 final: lead with the funnel, not the demos) ──────────
 function BuildHero() {
   return (
     <section className="hero-stage" style={{ minHeight: "auto", paddingBlock: "180px 80px" }}>
@@ -33,11 +33,11 @@ function BuildHero() {
           </Reveal>
           <RevealLines
             as="h1" className="text-display-1" baseDelay={60}
-            lines={[<>Three practices.</>, <>Three different <span className="serif" style={{ color: "var(--color-accent)" }}>builds</span>.</>]}
+            lines={[<>One booking funnel.</>, <>Three different <span className="serif" style={{ color: "var(--color-accent)" }}>practices</span>.</>]}
           />
           <Reveal delay={420}>
-            <p className="text-body-lg" style={{ maxWidth: 620, margin: "32px auto 0" }}>
-              Each demo below is a real, working booking funnel — Devereaux's editorial-magazine register, Lumera's multi-tier hub, Sela's price-menu retail. Scroll through each section to walk the full page.
+            <p className="text-body-lg" style={{ maxWidth: 640, margin: "32px auto 0" }}>
+              The booking funnel is the work. Below, three reference builds show how it handles a retail med spa, a concierge surgical practice, and a multi-tier studio. Scroll any section to walk the full demo.
             </p>
           </Reveal>
         </div>
@@ -110,14 +110,30 @@ function BuildDemoSection({ eyebrow, subEyebrow, headline, body, ctaLabel, ctaHr
   );
 }
 
+// Stream C v2 final: lead each section with the practice type. The funnel is
+// the work; the demo is the example. Order matches the home hero
+// (Sela → Devereaux → Lumera). Demo name moves to the small reference caption.
 const DEMOS = [
   {
-    eyebrow: "Devereaux",
-    subEyebrow: "Surgical · concierge · editorial",
-    headline: "A magazine about a person.",
+    eyebrow: "01 · Retail med spa",
+    subEyebrow: "demo: sela.rivrsystems.com",
+    headline: <>Retail med spa, <span className="serif" style={{ color: "var(--color-accent)" }}>time-first</span>.</>,
     body: [
-      "Devereaux is a single-surgeon concierge practice. The home page leads with the practitioner — portrait, voice, point of view — because the surgeon is the product.",
-      "The booking flow is consult-first by design. Patients meet the practice through a long-form editorial register, choose a procedure, and book a conversation before anything else.",
+      "For a high-volume retail med spa selling injectables, skin, and laser, the booking funnel handles time-first scheduling, a fully-priced service menu surfaced on the page, and a persistent mobile book bar. Patients pick the soonest opening, pick a provider, done.",
+      "The funnel is the work; the demo is the example. Sela's price-menu spine and NP-led roster are one expression of the pattern — your version uses your services, your providers, your pricing.",
+    ],
+    ctaLabel: "See Sela live",
+    ctaHref: "https://sela.rivrsystems.com",
+    image: "imagery/demos/sela-home.jpg",
+    alt: "Sela Aesthetic Studio home page — \"Skin you live in.\" hero, full price-menu spine, membership, and team.",
+  },
+  {
+    eyebrow: "02 · Concierge surgical practice",
+    subEyebrow: "demo: devereaux.rivrsystems.com",
+    headline: <>Concierge surgical, <span className="serif" style={{ color: "var(--color-accent)" }}>practitioner-first</span>.</>,
+    body: [
+      "For a single-surgeon concierge practice, the booking funnel handles practitioner-first triage, long-form consult routing, and a register that matches the surgeon's voice. New patients meet the practice through the surgeon's point of view, then book a consult before any procedure is named.",
+      "The funnel is the work; the demo is the example. Devereaux's editorial-magazine register is one expression of the pattern — your version uses your surgeon, your voice, your consult workflow.",
     ],
     ctaLabel: "See Devereaux live",
     ctaHref: "https://devereaux.rivrsystems.com",
@@ -125,30 +141,17 @@ const DEMOS = [
     alt: "Devereaux Institute home page — editorial-magazine register with Dr. Devereaux portrait, practice statement, and studies gallery.",
   },
   {
-    eyebrow: "Lumera",
-    subEyebrow: "Multi-tier · clinical-modern · hub",
-    headline: "A navigable directory of a place.",
+    eyebrow: "03 · Multi-tier practice",
+    subEyebrow: "demo: lumera.rivrsystems.com",
+    headline: <>Multi-tier practice, <span className="serif" style={{ color: "var(--color-accent)" }}>consult-first</span>.</>,
     body: [
-      "Lumera is a multi-tier studio — injectables, skin, laser, body, surgery, wellness — under one roof. The home page is a hub: a six-card PathFinder triages patients into the right path before any specific treatment is named.",
-      "Below the PathFinder, a bento of the practice's rooms, a clear team strip, and a full price menu give every kind of patient a way in. The booking flow drops them into the lane they chose at the top.",
+      "For a multi-tier studio running injectables, skin, laser, body, surgery, and wellness under one roof, the booking funnel handles patient triage into the right lane, six-path navigation, and consult routing before any specific treatment is named. Every kind of patient gets a way in.",
+      "The funnel is the work; the demo is the example. Lumera's PathFinder hub and rooms-bento are one expression of the pattern — your version uses your lanes, your specialties, your triage rules.",
     ],
     ctaLabel: "See Lumera live",
     ctaHref: "https://lumera.rivrsystems.com",
     image: "imagery/demos/lumera-home.jpg",
     alt: "Lumera Aesthetic Studio home page — photographic hero, PathFinder six-path chooser, rooms bento, team, and price menu.",
-  },
-  {
-    eyebrow: "Sela",
-    subEyebrow: "Retail · time-first · price-forward",
-    headline: "Skin work, on the menu.",
-    body: [
-      "Sela is a retail NP-led med spa. The defining move is the price menu — every treatment, every price, on the page, with a Book button on each card. No quotes-on-request, no friction between curiosity and commitment.",
-      "The booking flow is time-first: pick the soonest opening, pick a provider, done. A persistent mobile book bar keeps the action one tap away on the phone, where most of these patients are reading.",
-    ],
-    ctaLabel: "See Sela live",
-    ctaHref: "https://sela.rivrsystems.com",
-    image: "imagery/demos/sela-home.jpg",
-    alt: "Sela Aesthetic Studio home page — \"Skin you live in.\" hero, full price-menu spine, membership, and team.",
   },
 ];
 

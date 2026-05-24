@@ -554,3 +554,198 @@ Surfaced explicitly so they're not lost:
 - Items 2 + 3 are interrelated: any decision to add a right-side mono detail
   block (Path B) affects how the headline wraps and may also force a line-break
   tweak at mid-viewport widths. Handle together.
+
+---
+
+## Stream C v2 (final) — positioning reframe, IntegrationSection rebuild, font swap
+
+Branch: `reskin/rivr-web-style` · Base: Stream C v2 partial (`d22df8f`)
+
+Stream C v2 final lands the 6 deferred items (2, 3, 9, 10, 11, 12). The
+through-line is repositioning: the funnel is the product, the three demos are
+practice-type examples, and Lumera (one of the demos) is the integration
+example — not a fictional Destin Med Spa.
+
+### Item 9 (formerly 1 in this prompt) — Three-tile hero reframe — `home.jsx`, `styles.css`
+
+`WORK_TILES` reordered to **Sela → Devereaux → Lumera** (retail → concierge
+surgical → multi-tier — a practice-type progression, not a register
+progression). Each tile gains a practice-type eyebrow above
+(`01 · RETAIL MED SPA`, `02 · CONCIERGE SURGICAL`, `03 · MULTI-TIER PRACTICE`)
+and a mono URL caption below (`demo: sela.rivrsystems.com`, etc.). The prior
+`DEVEREAUX · SURGICAL` style caption is gone — the demo name now lives in the
+URL caption, and the practice type carries the identifier weight. Hero
+supporting copy added under "The work" eyebrow: "Three reference builds. Find
+the one that looks like your practice."
+
+### Item 10 (formerly 2) — The Build page reframe — `the-build.jsx`
+
+`DEMOS` reordered to match the home hero (Sela → Devereaux → Lumera) and
+restructured to lead with practice type, not demo name:
+
+- Eyebrow: `01 · Retail med spa` / `02 · Concierge surgical practice` /
+  `03 · Multi-tier practice`
+- Sub-eyebrow (mono URL caption): `demo: sela.rivrsystems.com` etc.
+- Headline (Cormorant): `Retail med spa, time-first.` / `Concierge surgical,
+  practitioner-first.` / `Multi-tier practice, consult-first.` — practice type
+  primary, pattern as italic accent.
+- Body copy reframed funnel-first: "For a [practice type], the booking funnel
+  handles [X/Y/Z]. The funnel is the work; the demo is the example. [Demo]'s
+  [feature] is one expression of the pattern."
+
+Build hero also reframed: `Three practices. / Three different builds.` →
+`One booking funnel. / Three different practices.` — the funnel is the
+subject, the practices are the variation.
+
+### Item 11 (formerly 3) — IntegrationSection rebuild — `home.jsx`, `styles.css`
+
+Killed the fictional "Destin Med Spa" framing. Lumera (one of the three demos)
+is now the integration example, which makes the relationship coherent:
+patients of a real Lumera-style practice see the booking funnel embedded in
+their existing site at `lumera.com/book`. The mock browser shows Lumera's own
+nav (clinical-modern register, near-white background, uppercase tracked links)
+above the embedded booking screenshot. A `demo: lumera.rivrsystems.com`
+caption sits below the frame. Body copy rewritten to: "The booking funnel
+sits inside the page your patients already know how to find. Your
+navigation, your branding, your CMS — all untouched. They see one familiar
+site with one page that actually takes the booking."
+
+### Item 12 (formerly 4) — Font swap Inter → General Sans — all four `.html`, `styles.css`
+
+`--font-body` token now references General Sans (from Fontshare CDN) with
+Inter retained only as a fallback. All four HTML files updated:
+
+- Drop Inter from the Google Fonts URL (kept: Cormorant Garamond + JetBrains Mono).
+- Add `<link rel="preconnect" href="https://api.fontshare.com" crossorigin>`.
+- Add `<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">`.
+
+Verified via Playwright DOM probe: `getComputedStyle(p.text-body-lg).fontFamily`
+returns `"General Sans", Inter, system-ui, sans-serif` on all four routes; a
+glyph-width comparison probe confirms General Sans actually loaded (not just
+declared). Cormorant headlines and JetBrains Mono eyebrows unchanged.
+
+### Item 5 (formerly 2/3 hero composition) — Path A verified
+
+Stayed minimal — no right-side mono technical detail block added. Verified
+hero headline wrap via DOM measurement at three viewports:
+
+- **1440**: 2 visual lines, each 88px tall (`"Booking flows built around"` /
+  `"how you already work."`) — single-line wrap per `intro-line`, no orphan.
+- **768**: same shape, 50px line-height each — clean.
+- **390**: each `intro-line` wraps into 2 sub-lines (96px height each). Word
+  probe confirmed balanced 2+2 split: `"Booking flows / built around"` and
+  `"how you / already work."` — no orphan, no need for `<wbr>` or `<br>`
+  hints. Path A approved as-is.
+
+### Item 6 — Section eyebrow consistency audit — `styles.css`
+
+Walked every eyebrow across `/`, `/the-build`, `/about`, `/book` via DOM
+inspection. The dominant pattern (15+ instances) is `.text-label-caps`:
+**JetBrains Mono · 0.75rem · weight 500 · letter-spacing 0.12em · uppercase ·
+`--color-accent-strong` on light bg, `--color-accent` on dark bg**.
+
+Outliers fixed:
+
+- `.work-hero-eyebrow` (new this commit, 3 instances) — letter-spacing
+  `0.14em` → `0.12em` to match canonical.
+- `.build-copy .eyebrow` (3 instances on /the-build) — letter-spacing
+  `0.18em` → `0.12em`, added explicit `font-weight: 500` for parity.
+- `.build-copy .sub-eyebrow` (3 instances) — was General Sans body-style
+  (13px, no caps); unified with the other URL captions (`.work-hero-caption`,
+  `.integration-caption`) as **JetBrains Mono · 0.75rem · weight 500 ·
+  letter-spacing 0.04em · mixed-case · muted color**.
+
+The numeric prefix pattern (`01 · …`) is intentionally scoped to the
+demo-tile and demo-section eyebrows where the three-step sequence carries
+meaning — `.work-hero-eyebrow` on home + `.build-copy .eyebrow` on
+/the-build. Other section eyebrows ("Integration", "The industry standard",
+"About", "Scope", "Location", "Frequently asked", "Next step", etc.) stay
+without numeric prefixes — they're not part of a sequence.
+
+### Item 7 — Mobile section spacing tuning at 390px — `styles.css`, `home.jsx`
+
+DOM-measured `paddingTop`/`paddingBottom` on every `main section` across all
+four routes at 390×844. Found three outliers vs the canonical
+`--space-section-mobile: 80px`:
+
+- `.work-hero` was `60px 100px` on all viewports — added
+  `@media (max-width: 900px)` override to `60px var(--space-section-mobile)`.
+  The asymmetric tighter top is deliberate (sits immediately under the hero);
+  the bottom now matches the rhythm.
+- `.integration-section` was `120px 120px` at all viewports — added mobile
+  override to `var(--space-section-mobile)` (80px).
+- `.closing-cta` was `160px 160px` at all viewports — added mobile override
+  to `100px` (still slightly heavier than the standard 80px because it's the
+  final beat of the page, but no longer floaty).
+- `CredibilityStats` (home.jsx) had an inline `style={{ paddingBlock: "120px" }}`
+  that bypassed the `.section` responsive default. Removed — now inherits
+  `120px` desktop / `80px` mobile via `.section` class.
+
+Desktop padding values (120/120, 160/160) preserved — verified after fix at
+1440×900.
+
+### Item 8 — IntegrationSection scroll-driven motion — `home.jsx`, `styles.css`
+
+Materialization via `IntersectionObserver` (no scroll listener). When the
+mock browser frame enters the viewport (18% threshold):
+
+- Frame fades in + translates up from `+30px` over 720ms `var(--ease-rivr)`.
+- Embedded screenshot fades in + translates up from `+14px` over 640ms,
+  delayed `240ms` so it materializes after the frame.
+
+Gated behind `prefers-reduced-motion: reduce` two ways: (1) JS short-circuits
+to immediate `is-in` if `matchMedia` reports reduced motion, (2) CSS
+`@media (prefers-reduced-motion: reduce)` block forces `opacity: 1`,
+`transform: none`, `transition: none` regardless of class state. Belt and
+suspenders.
+
+No new dependency added; Framer Motion is not in `package.json` for this
+site (Babel-standalone, no build step).
+
+### Files touched
+
+- `home.jsx` — `WORK_TILES` reorder + new eyebrow/caption fields, `ThreeTileHero`
+  cell wrapper + supporting copy, `IntegrationSection` Lumera reframe +
+  IntersectionObserver materialization + caption, `CredibilityStats` inline
+  paddingBlock removed.
+- `the-build.jsx` — `BuildHero` reframed, `DEMOS` reordered + practice-type
+  eyebrow + URL sub-eyebrow + funnel-first body + JSX headlines.
+- `styles.css` — `--font-body` token → General Sans; new
+  `.work-hero-eyebrow` + `.work-hero-supporting` + `.integration-caption`
+  styles; `.integration-mock` scroll-in materialization + reduced-motion
+  gate; Lumera-register `.practice-nav`; tracking unified on
+  `.build-copy .eyebrow` and `.build-copy .sub-eyebrow`; mobile overrides
+  on `.work-hero`, `.integration-section`, `.closing-cta`.
+- `index.html`, `about.html`, `book.html`, `the-build.html` — Inter dropped
+  from Google Fonts URL; Fontshare General Sans link added; preconnect added.
+
+### Verification (DOM-query, all-routes walk)
+
+- All four routes return HTTP 200: `/`, `/the-build`, `/about`, `/book`.
+- React mounts cleanly on each route.
+- 0 non-benign console errors on any route (only the pre-existing
+  Babel-standalone transformer notice).
+- Home tile order Sela → Devereaux → Lumera confirmed via DOM (href +
+  eyebrow + caption per tile).
+- `lumera.com/book` present in IntegrationSection URL chrome.
+  `destin med spa` not present anywhere on the page.
+- Body copy `font-family` resolves to `"General Sans", Inter, system-ui,
+  sans-serif` on all four routes; glyph-width probe confirms General Sans
+  loaded.
+- Hero wrap at 390 is balanced 2+2 per `intro-line`, no orphan.
+- Mobile (390×844) section padding is uniformly 80px (60/80 work-hero,
+  100/100 closing — both deliberate).
+
+### Playwright handling notes
+
+Honored the "no screenshot retry loop" guardrail. All verification done via
+`page.evaluate` DOM probes (text content, computed styles, bounding rects,
+glyph-width comparison for font-load detection). No screenshots captured.
+No Playwright operation came close to the 60-second timeout. The previous
+session's 10+ hour retry loop did not recur.
+
+### Closed
+
+All 12 items from the Stream C v2 plan are now resolved
+(Item 1 closed in `d22df8f`, Items 4–8 landed in `d22df8f`, Items 2/3/9/10/11/12
+landed here).
