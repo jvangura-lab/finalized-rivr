@@ -2379,7 +2379,12 @@ img { display: block; max-width: 100%; }
 .integration-mock .embed {
   display: block;
   width: 100%;
-  height: auto;
+  /* height intentionally not declared here — .lumera-embed sets its own fixed
+     animation height (540px), and the static/mobile fallbacks override with
+     height: auto via .integration-mock.is-static .lumera-embed and the
+     ≤900px media query. A height: auto here used to win on specificity
+     (.integration-mock .embed = 0,2,0 vs .lumera-embed = 0,1,0), collapsing
+     the abs-positioned .lf-state panels to 0×0 — invisible content. */
 }
 @media (max-width: 720px) {
   .integration-mock .practice-nav { padding: 16px 20px; }
