@@ -43,8 +43,13 @@
   --font-body: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
-  /* ---- Spacing & rhythm (rivr-web spec) ---- */
-  --space-section: 120px;           /* desktop section vertical padding */
+  /* ---- Spacing & rhythm (rivr-web spec) ----
+     --space-section reduced 120px → 88px in Polish 3 / Task 4 (-27%).
+     Founder feedback: page had too much vertical whitespace between
+     sections. Cascades to .section { padding-block: var(--space-section) }
+     and via overrides on .reference-builds + .integration-section. Mobile
+     unchanged (mobile already felt right). */
+  --space-section: 88px;            /* desktop section vertical padding */
   --space-section-mobile: 80px;     /* mobile section vertical padding */
   --space-max-width: 1200px;        /* default content max-width */
   --space-prose-width: 760px;       /* prose-heavy sections */
@@ -1330,10 +1335,13 @@ img { display: block; max-width: 100%; }
   position: relative;
   background: var(--color-bg-dark);
   color: var(--color-text-primary-inverse);
-  padding-block: 160px;
+  /* Polish 3 / Task 4: 160 → 96 (-40%). YoursNextCTA + ClosingCTA are
+     both doing CTA work; spec asks for them visually closer together.
+     Internal timeline + headline structure unchanged. */
+  padding-block: 96px;
   overflow: hidden;
 }
-@media (max-width: 900px) { .closing-cta { padding-block: 100px; } }
+@media (max-width: 900px) { .closing-cta { padding-block: 96px; } }
 
 .closing-grid {
   display: grid;
@@ -2169,7 +2177,7 @@ img { display: block; max-width: 100%; }
    ThreeTileHero) AND the per-tile headline + body + CTA row (from the old
    SampleWork .work-tile .meta).
    ======================================================================== */
-.reference-builds { padding-block: 120px; }
+.reference-builds { padding-block: 88px; }   /* Polish 3 / Task 4: was 120 */
 @media (max-width: 900px) { .reference-builds { padding-block: var(--space-section-mobile); } }
 .ref-grid {
   display: grid;
@@ -2277,7 +2285,7 @@ img { display: block; max-width: 100%; }
 /* yours-next — extracted from the old SampleWork trailing card. Shared
    .yours-inner / .yours-caption / .yours-echoes / .yours-divider /
    .yours-headline / .yours-cta styles still apply (see ~lines 980-1027). */
-.yours-next { padding-block: 80px; }
+.yours-next { padding-block: 64px 56px; }   /* Polish 3 / Task 4: tighter bottom to abut ClosingCTA */
 @media (max-width: 900px) { .yours-next { padding-block: var(--space-section-mobile); } }
 .yours-next-card {
   position: relative;
@@ -2302,7 +2310,7 @@ img { display: block; max-width: 100%; }
 /* Integration section — "It lives where your patients already are."
    Mock browser frame holding a generic-practice site nav + an embedded
    RIVR booking screenshot inside it. */
-.integration-section { padding-block: 120px; }
+.integration-section { padding-block: 88px; } /* Polish 3 / Task 4: was 120 */
 @media (max-width: 900px) { .integration-section { padding-block: var(--space-section-mobile); } }
 .integration-mock {
   max-width: 1100px;
