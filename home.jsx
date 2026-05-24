@@ -210,11 +210,20 @@ function ThreeTileHero() {
 // IntersectionObserver pauses the loop when the section scrolls out of view.
 // prefers-reduced-motion AND viewports ≤ 900px fall back to a static service
 // step rendering (the most information-dense single frame).
+// Cursor x/y are % of the .integration-mock bounding box. The cursor element
+// is 22x22 with transform: translate(-2px,-2px), so its visual center sits at
+// (left + 9, top + 9). Values chosen so the cursor visual lands inside the
+// click target's bounding rect on every desktop mock width (~900–1280px):
+//   home    → BOOK link in practice-nav (center ≈ {93.5%, 13%})
+//   service → Injectables card in lf-cards grid (wide card; cursor inside)
+//   time    → Wed 10:00 AM slot in lf-times grid (wide slot; cursor inside)
+//   confirm → "Confirm booking" button bottom-right (center ≈ {86%, 80%})
+//   done    → off-screen exit; no click target pulses on this state
 const FLOW_STATES = [
-  { id: "home",    duration: 2500, url: "lumera.com",     stepIndex: -1, cursor: { x: "84%",  y: "11%" } },
+  { id: "home",    duration: 2500, url: "lumera.com",     stepIndex: -1, cursor: { x: "93%",  y: "12%" } },
   { id: "service", duration: 3000, url: "lumera.com/book", stepIndex: 0, cursor: { x: "25%",  y: "55%" } },
   { id: "time",    duration: 3000, url: "lumera.com/book", stepIndex: 1, cursor: { x: "39%",  y: "55%" } },
-  { id: "confirm", duration: 3000, url: "lumera.com/book", stepIndex: 2, cursor: { x: "62%",  y: "82%" } },
+  { id: "confirm", duration: 3000, url: "lumera.com/book", stepIndex: 2, cursor: { x: "85%",  y: "79%" } },
   { id: "done",    duration: 3000, url: "lumera.com/book", stepIndex: 3, cursor: { x: "110%", y: "110%" } },
 ];
 
