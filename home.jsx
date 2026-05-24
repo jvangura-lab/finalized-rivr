@@ -257,12 +257,81 @@ function IntegrationSection() {
               <span>Book</span>
             </span>
           </div>
-          <img
-            className="embed"
-            src="imagery/demos/lumera-booking-flow.jpg"
-            alt=""
-            loading="lazy"
-          />
+          {/* Funnel embed — inline HTML mock of the booking funnel's "Service"
+              step. Replaces a broken lumera-booking-flow.jpg that captured
+              only the step-indicator chrome with a blank body. Inline mock
+              is more durable than a screenshot — survives demo redeploys.
+              Visual register intentionally departs from the host nav above:
+              host nav is tracked-uppercase serif (Lumera's site styling);
+              the funnel inside is clean sans-serif + hairline cards (RIVR's
+              clinical aesthetic). */}
+          <div className="embed funnel-embed" aria-hidden>
+            <div className="funnel-chrome">
+              <span className="funnel-back" aria-hidden>‹</span>
+              <span className="funnel-brand">
+                <strong>Lumera</strong>
+                <span className="funnel-brand-sub">AESTHETIC STUDIO</span>
+              </span>
+              <span className="funnel-signin">Already a patient? Sign in →</span>
+              <span className="funnel-close" aria-hidden>✕</span>
+            </div>
+            <ol className="funnel-steps">
+              <li className="is-active">
+                <span className="dot" />
+                <span className="label">Service</span>
+              </li>
+              <li>
+                <span className="dot" />
+                <span className="label">Time</span>
+              </li>
+              <li>
+                <span className="dot" />
+                <span className="label">Confirm</span>
+              </li>
+              <li>
+                <span className="dot" />
+                <span className="label">Done</span>
+              </li>
+              <span className="step-count">STEP 1 OF 4</span>
+            </ol>
+            <div className="funnel-body">
+              <p className="funnel-eyebrow">Step 1 — Service</p>
+              <h3 className="funnel-h">Select a service</h3>
+              <p className="funnel-sub">Choose a category to see real-time availability.</p>
+              <div className="funnel-cards">
+                <article className="funnel-card">
+                  <h4>Injectables</h4>
+                  <p>Botox, fillers, biostimulators.</p>
+                  <p className="price">from $450</p>
+                </article>
+                <article className="funnel-card">
+                  <h4>Skin</h4>
+                  <p>Facials, peels, skin-renewal treatments.</p>
+                  <p className="price">from $180</p>
+                </article>
+                <article className="funnel-card">
+                  <h4>Laser</h4>
+                  <p>Pigment, redness, hair, resurfacing.</p>
+                  <p className="price">from $250</p>
+                </article>
+                <article className="funnel-card">
+                  <h4>Body</h4>
+                  <p>Non-invasive contouring & tightening.</p>
+                  <p className="price">from $400</p>
+                </article>
+                <article className="funnel-card">
+                  <h4>Wellness</h4>
+                  <p>IV therapy and vitamin protocols.</p>
+                  <p className="price">from $125</p>
+                </article>
+                <article className="funnel-card">
+                  <h4>Surgical consult</h4>
+                  <p>15-min intro with a surgeon's coordinator.</p>
+                  <p className="price">complimentary</p>
+                </article>
+              </div>
+            </div>
+          </div>
         </div>
         <p className="integration-caption">demo: lumera.rivrsystems.com</p>
       </div>
