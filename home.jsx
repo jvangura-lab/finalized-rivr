@@ -380,6 +380,8 @@ function StatCard({ stat }) {
 
 }
 
+// TODO: restore /evidence link when evidence page ships in week 2 launch.
+// Stat sources + URLs are preserved in _evidence-content-backup.md at repo root.
 function CredibilityStats() {
   return (
     <section className="section">
@@ -399,13 +401,6 @@ function CredibilityStats() {
             {STATS.map((s, i) => <StatCard key={i} stat={s} />)}
           </div>
         </FadeUp>
-
-        {/* Stream A (Category 6): inline citations removed from the visible copy.
-            Evidence lives behind a discrete link — routes to /evidence once it
-            exists (placeholder anchor for now). */}
-        <p className="stats-evidence">
-          <a href="/#evidence">see evidence →</a>
-        </p>
       </div>
     </section>);
 
@@ -596,14 +591,26 @@ function SampleWork() {
                 </div>
               </article>
             )}
-            {/* trailing card: spacer + cta */}
-            <div className="work-tile" style={{ background: "var(--color-bg-dark)", color: "#fff", border: 0, alignItems: "center", justifyContent: "center", padding: 48 }}>
-              <div style={{ textAlign: "center", padding: "48px 24px" }}>
-                <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 20 }}>Yours next</p>
-                <h3 className="serif" style={{ fontSize: "clamp(2rem, 4vw, 2.75rem)", lineHeight: 1.05, marginBottom: 24 }}>
+            {/* Trailing card — "yours next" closing tile. Echoes the three
+                preceding tile headlines (consult / time / practitioner) so the
+                strip ends with the prospect being asked the same question the
+                three reference builds already answered. Subtle grain texture
+                breaks the flat dark — keeps the section from reading minimal. */}
+            <div className="work-tile work-tile-yours">
+              <div className="yours-inner">
+                <p className="yours-caption">// CHOOSING YOUR PATTERN</p>
+                <ul className="yours-echoes" aria-hidden>
+                  <li>The conversation comes first.</li>
+                  <li>The soonest opening comes first.</li>
+                  <li>The practitioner comes first.</li>
+                </ul>
+                <span className="yours-divider" aria-hidden />
+                <h3 className="yours-headline serif">
                   What does <em>your</em> booking page lead with?
                 </h3>
-                <Button href="book.html" variant="primary">Book a walkthrough</Button>
+                <div className="yours-cta">
+                  <Button href="book.html" variant="primary">Book a walkthrough</Button>
+                </div>
               </div>
             </div>
           </div>

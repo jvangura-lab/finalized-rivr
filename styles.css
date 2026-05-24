@@ -34,7 +34,7 @@
 
   /* ---- Typography (rivr-web spec) ---- */
   --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'General Sans', 'Inter', system-ui, sans-serif;
+  --font-body: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
   /* ---- Spacing & rhythm (rivr-web spec) ---- */
@@ -112,7 +112,7 @@ img { display: block; max-width: 100%; }
   font-size: clamp(2.75rem, 5.4vw, 5rem);
   font-weight: 600;
   letter-spacing: -0.012em;
-  line-height: 1.05;
+  line-height: 1.12;
   text-wrap: balance;
 }
 .text-display-2 {
@@ -120,7 +120,7 @@ img { display: block; max-width: 100%; }
   font-size: clamp(2.25rem, 3.8vw, 3.4rem);
   font-weight: 600;
   letter-spacing: -0.01em;
-  line-height: 1.1;
+  line-height: 1.15;
   text-wrap: balance;
 }
 .text-body-lg {
@@ -172,8 +172,8 @@ img { display: block; max-width: 100%; }
 
 .nav-inner {
   pointer-events: auto;
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 6px 6px 16px;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 10px 10px 22px;
   border-radius: 999px;
   background: rgba(var(--color-background-rgb), 0.72);
   backdrop-filter: blur(20px) saturate(150%);
@@ -187,44 +187,69 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 14px 40px -20px rgba(0, 0, 0, 0.18);
 }
 .nav-brand {
-  font-size: 1rem; font-weight: 600; letter-spacing: -0.02em;
-  margin-right: 8px;
-  display: flex; align-items: center; gap: 8px;
-}
-.nav-brand .mk {
-  width: 22px; height: 22px; border-radius: 6px;
-  background: var(--color-accent); color: var(--color-bg-elevated);
-  display: grid; place-items: center;
-  font-family: var(--font-serif); font-style: italic; font-weight: 600; font-size: 14px;
+  margin-right: 14px;
+  display: flex; align-items: center;
   transition: transform var(--dur-fast) var(--ease-rivr);
 }
-.nav-brand:hover .mk { transform: rotate(-8deg) scale(1.06); }
+.nav-brand .wordmark {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  line-height: 1;
+}
+.nav-brand:hover { transform: translateY(-1px); }
 
 .nav-link {
-  padding: 9px 14px; border-radius: 999px;
-  font-size: 0.875rem; font-weight: 500;
+  padding: 10px 14px 12px;
+  font-size: 1rem; font-weight: 500;
   color: var(--color-text-muted);
   position: relative;
-  transition: color var(--dur-fast) var(--ease-rivr), background var(--dur-fast) var(--ease-rivr);
+  transition: color var(--dur-fast) var(--ease-rivr);
 }
-.nav-link:hover { color: var(--color-text-primary); background: rgba(0, 0, 0, 0.04); }
-.nav-link.active { color: var(--color-text-primary); }
-.nav-link.active::after {
+/* Underline element — sits below the label, slides + fades on state change. */
+.nav-link::after {
   content: ""; position: absolute;
-  left: 50%; bottom: 3px; width: 4px; height: 4px;
-  background: var(--color-accent); border-radius: 50%;
-  transform: translateX(-50%);
+  left: 14px; right: 14px;
+  bottom: 4px;
+  height: 1.5px;
+  background: var(--color-walnut);
+  border-radius: 1px;
+  opacity: 0;
+  transform: scaleX(0.4);
+  transform-origin: left center;
+  transition:
+    opacity var(--dur-base) var(--ease-rivr),
+    transform var(--dur-base) var(--ease-rivr),
+    background-color var(--dur-fast) var(--ease-rivr);
 }
+.nav-link:hover { color: var(--color-text-primary); }
+.nav-link:hover::after { opacity: 0.5; transform: scaleX(1); }
+.nav-link.active { color: var(--color-text-primary); }
+.nav-link.active::after { opacity: 1; transform: scaleX(1); }
 
 .nav-cta {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 9px 16px 9px 18px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 12px 20px 12px 22px;
+  margin-left: 4px;
+  border-radius: 999px;
   background: var(--color-text-primary); color: var(--color-bg);
-  font-size: 0.875rem; font-weight: 500;
-  transition: background var(--dur-fast) var(--ease-rivr), transform var(--dur-fast) var(--ease-rivr);
+  font-size: 0.9375rem; font-weight: 500;
+  letter-spacing: 0.005em;
+  transition:
+    background var(--dur-fast) var(--ease-rivr),
+    transform var(--dur-fast) var(--ease-rivr),
+    box-shadow var(--dur-fast) var(--ease-rivr);
+  box-shadow: 0 6px 16px -10px rgba(0, 0, 0, 0.35);
 }
-.nav-cta:hover { background: var(--color-accent); }
-.nav-cta:active { transform: scale(0.96); }
+.nav-cta:hover {
+  background: var(--color-walnut);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px -10px rgba(139, 90, 60, 0.5);
+}
+.nav-cta:active { transform: translateY(0) scale(0.97); }
 .nav-cta .arr { display: inline-block; transition: transform var(--dur-fast) var(--ease-rivr); }
 .nav-cta:hover .arr { transform: translateX(3px); }
 
@@ -265,7 +290,7 @@ img { display: block; max-width: 100%; }
   padding: 14px 12px; border-radius: 10px; color: var(--color-text-primary);
 }
 .nav-drawer-panel .nav-link.active { color: var(--color-accent-strong); }
-.nav-drawer-panel .nav-link.active::after { display: none; }
+.nav-drawer-panel .nav-link::after { display: none; }
 .nav-drawer-panel .btn { margin-top: 14px; justify-content: center; }
 
 /* ========================================================================
@@ -405,7 +430,9 @@ img { display: block; max-width: 100%; }
   display: block;
   overflow: hidden;
   line-height: inherit;
-  padding-block: 0.06em;
+  /* Asymmetric padding-block gives italic descenders ("y" in "you" / "already")
+     room inside the mask without changing line rhythm noticeably. */
+  padding: 0.06em 0 0.22em;
 }
 .reveal-mask > span {
   display: inline-block;
@@ -481,7 +508,8 @@ img { display: block; max-width: 100%; }
   position: relative;
   min-height: 100vh;
   display: grid; align-items: center;
-  padding: var(--space-section) 0 var(--space-section-mobile);
+  /* Extra bottom padding clears italic descenders from the section border. */
+  padding: var(--space-section) 0 calc(var(--space-section-mobile) + 24px);
   overflow: hidden;
   border-bottom: 1px solid var(--color-rule);
 }
@@ -910,6 +938,77 @@ img { display: block; max-width: 100%; }
 }
 .work-tile .meta .links a:hover { color: var(--color-accent); }
 
+/* "Yours next" trailing card — closes the horizontal-scroll strip with the same
+   question the three reference builds already answered. Subtle SVG grain breaks
+   the flat dark; the three echo lines tie back to the preceding tile headlines. */
+.work-tile-yours {
+  background: var(--color-bg-dark);
+  color: var(--color-dark-text);
+  border: 0;
+  position: relative;
+  overflow: hidden;
+  display: grid; place-items: center;
+  padding: 0;
+}
+.work-tile-yours::before {
+  content: "";
+  position: absolute; inset: 0;
+  /* Inline SVG fractal-noise turbulence, ~3% opacity overlay. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.86  0 0 0 0 0.72  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
+  opacity: 0.06;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.yours-inner {
+  position: relative; z-index: 1;
+  padding: 56px 36px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 0;
+  max-width: 460px;
+}
+.yours-caption {
+  font-family: var(--font-mono);
+  font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--color-walnut);
+  margin-bottom: 22px;
+}
+.yours-echoes {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 6px;
+  font-family: var(--font-serif); font-style: italic; font-weight: 400;
+  font-size: 1.0625rem;
+  color: var(--color-walnut);
+  opacity: 0.78;
+  margin: 0;
+}
+.yours-divider {
+  display: block;
+  width: 64px; height: 1px;
+  background: var(--color-walnut);
+  opacity: 0.45;
+  margin: 22px 0 24px;
+}
+.yours-headline {
+  /* .serif sets font-style: italic + weight 400; bump weight back up so the
+     headline carries the closing-card weight without losing the editorial italic. */
+  font-style: normal;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(2rem, 4vw, 2.875rem);
+  line-height: 1.12;
+  letter-spacing: -0.005em;
+  margin-bottom: 28px;
+  color: var(--color-dark-text);
+  text-wrap: balance;
+}
+.yours-headline em {
+  font-style: italic; font-weight: 400;
+  color: var(--color-accent);
+}
+.yours-cta { display: flex; justify-content: center; }
+
 .work-progress {
   position: absolute; left: 50%; bottom: 60px;
   transform: translateX(-50%);
@@ -924,7 +1023,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* ========================================================================
-   Closing CTA — animated background mark
+   Closing CTA — left-margin walkthrough timeline + centered body
    ======================================================================== */
 .closing-cta {
   position: relative;
@@ -934,15 +1033,114 @@ img { display: block; max-width: 100%; }
   overflow: hidden;
 }
 @media (max-width: 900px) { .closing-cta { padding-block: 100px; } }
-.closing-mark {
-  position: absolute; left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--font-serif); font-style: italic;
-  font-size: clamp(20rem, 50vw, 60rem);
-  font-weight: 600;
-  letter-spacing: -0.05em;
-  color: rgba(var(--color-accent-rgb), 0.04);
-  pointer-events: none; line-height: 0.85;
+
+.closing-grid {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr) 200px;
+  gap: 48px;
+  align-items: start;
+}
+.closing-body {
+  grid-column: 2;
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+.closing-headline em.serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-accent);
+}
+/* Walkthrough timeline — anchors the literal "15 minutes" promise. */
+.closing-timeline {
+  grid-column: 1;
+  position: sticky;
+  top: 120px;
+  padding-top: 4px;
+}
+.closing-timeline-head {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 22px;
+}
+.closing-timeline ol {
+  list-style: none;
+  position: relative;
+  padding-left: 18px;
+}
+/* Vertical hairline running through the dots. */
+.closing-timeline ol::before {
+  content: "";
+  position: absolute;
+  left: 4px; top: 6px;
+  width: 1px;
+  height: calc(100% - 18px);
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--color-accent-rgb), 0.55) 0%,
+    rgba(var(--color-accent-rgb), 0.18) 100%
+  );
+}
+.closing-timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  column-gap: 14px;
+  padding-bottom: 26px;
+}
+.closing-timeline li:last-child { padding-bottom: 0; }
+.closing-timeline li .dot {
+  position: absolute;
+  left: -18px; top: 6px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--color-bg-dark);
+  border: 1.5px solid var(--color-accent);
+}
+.closing-timeline li.is-end .dot {
+  background: var(--color-accent);
+}
+.closing-timeline li .t {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  line-height: 1.6;
+}
+.closing-timeline li .lbl {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--color-text-muted-inverse);
+  line-height: 1.6;
+}
+
+/* Larger button variant for the closing CTA — keeps the dark section
+   from feeling timid against the editorial typography. */
+.btn-lg {
+  font-size: 1.0625rem;
+  padding: 17px 26px;
+  letter-spacing: 0.005em;
+}
+
+@media (max-width: 900px) {
+  .closing-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .closing-body { grid-column: 1; }
+  .closing-timeline {
+    grid-column: 1;
+    position: static;
+    padding-top: 0;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  .closing-timeline ol { padding-left: 24px; }
+  .closing-timeline li .dot { left: -24px; }
 }
 
 /* ========================================================================
@@ -1266,7 +1464,9 @@ img { display: block; max-width: 100%; }
    ======================================================================== */
 .intro-line {
   display: block; overflow: hidden;
-  padding-block: 0.04em;
+  /* Asymmetric bottom padding gives italic descenders ("y" in "you" /
+     "already") room inside the mask without changing line rhythm. */
+  padding: 0.04em 0 0.22em;
 }
 .intro-line > span {
   display: inline-block; transform: translateY(110%);
@@ -1336,7 +1536,11 @@ img { display: block; max-width: 100%; }
     grid-template-columns: 1fr !important;
     gap: 40px !important;
   }
-  .hero-stage { padding-block: var(--space-section-mobile) !important; min-height: auto !important; }
+  .hero-stage {
+    /* Asymmetric bottom adds descender clearance from the section border. */
+    padding: var(--space-section-mobile) 0 calc(var(--space-section-mobile) + 20px) !important;
+    min-height: auto !important;
+  }
   .pipeline { height: auto !important; }
   .pipeline-pin { position: relative; height: auto; padding-block: 60px; }
   .pipeline-stage { grid-template-columns: 1fr !important; }
@@ -1347,15 +1551,17 @@ img { display: block; max-width: 100%; }
   .book-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
   .calendar-wrap { grid-template-columns: 1fr !important; gap: 32px !important; }
   .founders { grid-template-columns: 1fr !important; gap: 40px !important; }
-  .nav-inner { padding: 6px; }
-  .nav-link { padding: 8px 10px; font-size: 0.8125rem; }
-  .nav-cta { padding: 8px 12px; font-size: 0.8125rem; }
+  .nav-inner { padding: 8px 8px 8px 18px; gap: 6px; }
+  .nav-link { padding: 9px 12px 11px; font-size: 0.9375rem; }
+  .nav-link::after { left: 12px; right: 12px; }
+  .nav-cta { padding: 10px 16px 10px 18px; font-size: 0.875rem; }
+  .nav-brand .wordmark { font-size: 1.3125rem; }
 }
 @media (max-width: 600px) {
   .nav { padding: 8px 12px !important; }
-  .nav-inner { gap: 2px; padding: 4px 4px 4px 10px; }
-  .nav-brand { font-size: 0.875rem; margin-right: 0; }
-  .nav-brand .mk { width: 20px; height: 20px; font-size: 12px; }
+  .nav-inner { gap: 2px; padding: 6px 6px 6px 14px; }
+  .nav-brand { margin-right: 4px; }
+  .nav-brand .wordmark { font-size: 1.1875rem; letter-spacing: 0.035em; }
   .nav-inner > nav .nav-link { display: none; }
   .nav-toggle { display: inline-flex; }
   .footer-grid { grid-template-columns: 1fr !important; }

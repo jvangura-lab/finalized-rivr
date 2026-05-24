@@ -312,9 +312,8 @@ function Nav({ current = "home" }) {
     <header className={`nav ${scrolled ? "scrolled" : ""}`}>
       <a href="#main" className="skip-link">Skip to content</a>
       <div className="nav-inner">
-        <a href="index.html" className="nav-brand">
-          <span className="mk">R</span>
-          <span>RIVR</span>
+        <a href="index.html" className="nav-brand" aria-label="RIVR home">
+          <span className="wordmark">RIVR</span>
         </a>
         <nav style={{ display: "flex", alignItems: "center" }}>
           {links.map((l) => (
@@ -568,46 +567,67 @@ function PrototypeModal({ open, onClose }) {
 }
 
 // ── Closing CTA (used on home, product, about) ───────────────────────────────
+// Decorative giant-R watermark removed in Polish Pass 1. Replaced with a
+// left-margin walkthrough timeline (0:00 → 15:00) that anchors the literal
+// "15 minutes" promise in the headline, instead of generic background art.
+const WALKTHROUGH_TIMELINE = [
+  { t: "0:00",  label: "Intro" },
+  { t: "5:00",  label: "Your setup" },
+  { t: "10:00", label: "Your funnel" },
+  { t: "15:00", label: "Next steps" },
+];
+
 function ClosingCTA() {
   const ref = useReveal();
   return (
     <section className="closing-cta" ref={ref}>
-      <span className="closing-mark serif" aria-hidden>R</span>
-      <div className="container" style={{ position: "relative", maxWidth: 820, textAlign: "center" }}>
-        <Reveal>
-          <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 24 }}>Next step</p>
-        </Reveal>
-        {/* TODO Stream C: "15 min / one screen share / no pitch deck" trio headline
-            deferred — rewrite with rendered typography + line-break control.
-            Stream A replaced only the meta caption below the CTA. */}
-        <RevealLines
-          as="h2"
-          className="text-display-2"
-          lines={[
-            <>Fifteen minutes, one screen share,</>,
-            <> <span className="serif">no pitch deck</span>.</>,
-          ]}
-          baseDelay={80}
-        />
-        <Reveal delay={300}>
-          <p className="text-body-lg" style={{ maxWidth: 620, margin: "32px auto 40px" }}>
-            We look at your current setup and show you the booking page we would build for your practice.
-          </p>
-        </Reveal>
-        <Reveal delay={420}>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 48 }}>
-            <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
-          </div>
-        </Reveal>
-        <Reveal delay={520}>
-          <ul style={{
-            display: "flex", flexWrap: "wrap", justifyContent: "center",
-            gap: "12px 24px", fontSize: "0.75rem", letterSpacing: "0.12em",
-            textTransform: "uppercase", color: "var(--color-text-muted-inverse)", listStyle: "none"
-          }}>
-            <li>15 min · no obligation</li>
-          </ul>
-        </Reveal>
+      <div className="container closing-grid">
+        <aside className="closing-timeline" aria-label="What the 15-minute walkthrough covers">
+          <p className="closing-timeline-head">15 min · walkthrough</p>
+          <ol>
+            {WALKTHROUGH_TIMELINE.map((row, i) => (
+              <li key={row.t} className={i === WALKTHROUGH_TIMELINE.length - 1 ? "is-end" : ""}>
+                <span className="dot" aria-hidden />
+                <span className="t">{row.t}</span>
+                <span className="lbl">{row.label}</span>
+              </li>
+            ))}
+          </ol>
+        </aside>
+
+        <div className="closing-body">
+          <Reveal>
+            <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 24 }}>Next step</p>
+          </Reveal>
+          <RevealLines
+            as="h2"
+            className="text-display-2 closing-headline"
+            lines={[
+              <>Fifteen minutes, one screen share,</>,
+              <> <em className="serif">no pitch deck</em>.</>,
+            ]}
+            baseDelay={80}
+          />
+          <Reveal delay={300}>
+            <p className="text-body-lg" style={{ maxWidth: 620, margin: "32px auto 40px" }}>
+              We look at your current setup and show you the booking page we would build for your practice.
+            </p>
+          </Reveal>
+          <Reveal delay={420}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 36 }}>
+              <Button href="book.html" variant="primary" className="btn-lg">Book a 15-min walkthrough</Button>
+            </div>
+          </Reveal>
+          <Reveal delay={520}>
+            <ul style={{
+              display: "flex", flexWrap: "wrap", justifyContent: "center",
+              gap: "12px 24px", fontSize: "0.75rem", letterSpacing: "0.12em",
+              textTransform: "uppercase", color: "var(--color-text-muted-inverse)", listStyle: "none"
+            }}>
+              <li>15 min · no obligation</li>
+            </ul>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
