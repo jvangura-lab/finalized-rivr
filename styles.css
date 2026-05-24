@@ -32,8 +32,14 @@
   --color-rule: #D8C9B2;            /* warm hairline rule */
   --color-rule-dark: #3A342B;       /* hairline on dark sections */
 
-  /* ---- Typography (rivr-web spec) ---- */
-  --font-display: 'Cormorant Garamond', Georgia, serif;
+  /* ---- Typography (rivr-web spec — Polish 3 swap 2026-05-24) ----
+     Display swapped Cormorant Garamond → Geist sans. Reason: italic
+     Cormorant accent treatments (.serif italic on display headlines)
+     read as the AI-generated marketing site visual cliché. Geist is
+     already loaded for the Lumera-styled funnel inside IntegrationSection
+     (Polish 2); reusing it for global display keeps a single sans family.
+     Body (Source Serif 4) and mono (JetBrains Mono) unchanged. */
+  --font-display: 'Geist', 'Inter', system-ui, sans-serif;
   --font-body: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
@@ -142,7 +148,12 @@ img { display: block; max-width: 100%; }
 .section-dark .text-label-caps,
 .closing-cta .text-label-caps { color: var(--color-accent); }
 
-.serif { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+/* Polish 3: .serif was Cormorant italic accent treatment on display headlines.
+   Italic Cormorant accents read as AI-generated marketing visual cliché, so
+   the italic + serif font swap is removed. The class is preserved for markup
+   compatibility — accent emphasis on these spans now comes from the inline
+   color style ({color: var(--color-accent)}) plus a subtle weight bump. */
+.serif { font-style: normal; font-weight: 700; }
 
 .container { max-width: var(--container-max); margin: 0 auto; padding-inline: var(--container-gutter); }
 
@@ -192,9 +203,11 @@ img { display: block; max-width: 100%; }
   transition: transform var(--dur-fast) var(--ease-rivr);
 }
 .nav-brand .wordmark {
+  /* Polish 3: explicit 700 (was 600). Geist needs the bump vs Cormorant's
+     optical weight to read with the same presence. */
   font-family: var(--font-display);
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.5rem;
   letter-spacing: 0.04em;
   color: var(--color-text);
@@ -600,7 +613,8 @@ img { display: block; max-width: 100%; }
   font-weight: 600; letter-spacing: -0.01em;
   line-height: 1.08;
 }
-.pipeline-step h3 em { font-family: var(--font-serif); font-style: italic; color: var(--color-accent); font-weight: 400; }
+/* Polish 3: was italic Cormorant accent — now color + weight contrast. */
+.pipeline-step h3 em { color: var(--color-accent); font-weight: 700; font-style: normal; }
 .pipeline-step p { color: var(--color-text-muted); font-size: 1.0625rem; line-height: 1.6; max-width: 480px; }
 
 .pipeline-progress {
@@ -756,7 +770,9 @@ img { display: block; max-width: 100%; }
 /* Section header */
 .section-header { text-align: center; max-width: 720px; margin: 0 auto 64px; }
 .section-header .text-label-caps { color: var(--color-accent-strong); margin-bottom: 18px; display: block; }
-.section-header .text-display-2 em { font-family: var(--font-serif); color: var(--color-accent); font-weight: 400; font-style: italic; }
+/* Polish 3: was italic Cormorant accent on em inside section headlines.
+   Now color + weight contrast only (no italic, no font-family swap). */
+.section-header .text-display-2 em { color: var(--color-accent); font-weight: 700; font-style: normal; }
 
 /* ========================================================================
    Stats — numbers count up + parallax
@@ -991,11 +1007,12 @@ img { display: block; max-width: 100%; }
   margin: 22px 0 24px;
 }
 .yours-headline {
-  /* .serif sets font-style: italic + weight 400; bump weight back up so the
-     headline carries the closing-card weight without losing the editorial italic. */
+  /* Polish 3: was font-weight 500 with italic em accent. Bumped to 600 to
+     match other display headlines now in Geist; em accent is color +
+     weight contrast (no italic). */
   font-style: normal;
-  font-family: var(--font-serif);
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-weight: 600;
   font-size: clamp(2rem, 4vw, 2.875rem);
   line-height: 1.12;
   letter-spacing: -0.005em;
@@ -1004,7 +1021,7 @@ img { display: block; max-width: 100%; }
   text-wrap: balance;
 }
 .yours-headline em {
-  font-style: italic; font-weight: 400;
+  font-style: normal; font-weight: 700;
   color: var(--color-accent);
 }
 .yours-cta { display: flex; justify-content: center; }
@@ -1047,11 +1064,13 @@ img { display: block; max-width: 100%; }
   text-align: center;
   position: relative;
 }
+/* Polish 3: "no pitch deck" was italic Cormorant accent in the closing
+   headline. Italic on display reads AI-cliche, so swap to walnut color +
+   weight bump. .serif class also normalizes font-style now (see line ~156). */
 .closing-headline em.serif {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  color: var(--color-accent);
+  font-style: normal;
+  font-weight: 700;
+  color: var(--color-walnut);
 }
 /* Walkthrough timeline — anchors the literal "15 minutes" promise. */
 .closing-timeline {
