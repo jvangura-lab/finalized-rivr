@@ -730,10 +730,14 @@ function Page() {
       <Nav current="home" />
       <main id="main">
         <Hero />
+        {/* CredibilityStats moved up to position 3 (Polish 3 / Task 3) so the
+            stat claim that backs the hero's "1 in 4 patients" headline lands
+            immediately below the fold, before product details. Cold-email
+            recipient needs proof before product. */}
+        <CredibilityStats />
         <ReferenceBuilds />
         <IntegrationSection />
         <Marquee />
-        <CredibilityStats />
         <YoursNextCTA />
         <ClosingCTA />
       </main>
