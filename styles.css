@@ -564,6 +564,290 @@ img { display: block; max-width: 100%; }
 .hero-chip-confirm .dot { background: var(--color-secondary); box-shadow: 0 0 0 4px rgba(122, 140, 110, 0.25); }
 
 /* ========================================================================
+   Hero v3 (Polish 3 / Task 1) — problem-focused before/after rebuild
+   ------------------------------------------------------------------------
+   Two-column hero: headline + sub + CTAs on the left, before/after visual
+   on the right. Replaces the previous single-column editorial hero.
+   ======================================================================== */
+.hero-v3 {
+  min-height: 86vh;            /* spec: 80-90vh desktop */
+  padding-top: 120px;
+  padding-bottom: 80px;
+}
+@media (max-width: 1024px) {
+  .hero-v3 { min-height: auto; padding-top: 96px; padding-bottom: 64px; }
+}
+.hero-v3-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 1024px) {
+  .hero-v3-grid { grid-template-columns: 1fr; gap: 48px; }
+}
+.hero-v3-copy { max-width: 620px; }
+.hero-v3-headline {
+  /* Spec: ~3.5-4rem desktop, ~2.5rem mobile, Geist 600-700, NO italic.
+     Capped at 3.25rem (52px) so the three line-groups
+     ("Your booking page is" / "costing you" / "1 in 4 patients.") each fit
+     on a single visual line at the ~620px copy column. Above ~52px,
+     "Your booking page is" overflows and the line stranded "is" on its own. */
+  font-size: clamp(1.875rem, 4.4vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.018em;
+}
+/* Accent emphasis on "1 in 4 patients" — color contrast (walnut against
+   graphite) + lighter weight to keep visual quiet vs the bold cost claim. */
+.hero-v3-emph {
+  color: var(--color-walnut);
+  font-weight: 600;
+}
+.hero-v3-sub {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.62;
+  margin: 28px 0 32px;
+  max-width: 540px;
+  color: var(--color-text);
+}
+.hero-v3-cta-row {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 20px 28px;
+}
+.hero-v3-cta-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: color var(--dur-fast) var(--ease-rivr), border-color var(--dur-fast) var(--ease-rivr);
+}
+.hero-v3-cta-secondary:hover {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+.hero-v3-cta-secondary .arr { display: inline-block; transition: transform var(--dur-fast) var(--ease-rivr); }
+.hero-v3-cta-secondary:hover .arr { transform: translateY(2px); }
+
+/* ── Before/after visual ────────────────────────────────────────────────── */
+.hero-v3-visual {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+}
+@media (max-width: 1024px) {
+  .hero-v3-visual {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto auto auto;
+    gap: 14px;
+  }
+}
+.hero-v3-arrow {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-muted);
+  opacity: 0.55;
+}
+@media (max-width: 1024px) {
+  .hero-v3-arrow { transform: rotate(90deg); }
+}
+
+/* ── BEFORE — broken contact-form booking page (stylized, intentionally
+   dull: plain sans-serif, flat fields, generic gray, no hierarchy) ───── */
+.hero-v3-before {
+  background: #FFFFFF;
+  border: 1px solid #D8D5CF;
+  border-radius: 6px;
+  /* No shadow; dated/flat. */
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;   /* deliberately not Geist */
+  color: #2B2620;
+}
+.hero-v3-before-head {
+  background: #EFEDE6;
+  padding: 10px 14px;
+  border-bottom: 1px solid #D8D5CF;
+}
+.hero-v3-before-brand {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #6E6157;
+}
+.hero-v3-before-body {
+  padding: 20px 22px 22px;
+}
+.hero-v3-before-title {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: #2B2620;
+  margin-bottom: 14px;
+}
+.hero-v3-before-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px 12px;
+}
+.hero-v3-before-field { display: flex; flex-direction: column; gap: 4px; }
+.hero-v3-before-msg { grid-column: 1 / -1; }
+.hero-v3-before-field .lbl {
+  font-size: 0.6875rem; font-weight: 500;
+  color: #6E6157;
+}
+.hero-v3-before-field .inp {
+  display: block;
+  height: 28px;
+  background: #F7F5F0;
+  border: 1px solid #D8D5CF;
+  border-radius: 3px;
+}
+.hero-v3-before-field .inp.tall { height: 56px; }
+.hero-v3-before-submit {
+  grid-column: 1 / -1;
+  align-self: start;
+  justify-self: start;
+  padding: 8px 14px;
+  background: #6E6157;     /* mid-gray — deliberately uninviting */
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 3px;
+  margin-top: 4px;
+}
+.hero-v3-before-disclaimer {
+  grid-column: 1 / -1;
+  font-size: 0.6875rem;
+  color: #8A8278;
+  margin-top: 6px;
+  font-style: italic;       /* small-print disclaimer-italic, NOT display */
+}
+
+/* ── AFTER — tight RIVR funnel fragment in RIVR's editorial register ──── */
+.hero-v3-after {
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 18px 36px -22px rgba(0, 0, 0, 0.16);
+}
+.hero-v3-after-stepbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 16px;
+  background: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-rule);
+}
+.hero-v3-after-stepcount {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.hero-v3-after-steps {
+  list-style: none;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.hero-v3-after-steps li {
+  width: 8px; height: 8px;
+}
+.hero-v3-after-steps .dot {
+  display: block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-rule);
+}
+.hero-v3-after-steps li.is-active .dot {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.18);
+}
+.hero-v3-after-body {
+  padding: 18px 18px 20px;
+}
+.hero-v3-after-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-strong);
+  margin: 0 0 6px;
+}
+.hero-v3-after-title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  margin: 0 0 4px;
+  color: var(--color-text);
+}
+.hero-v3-after-sub {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 0 0 14px;
+}
+.hero-v3-after-cards {
+  display: grid; gap: 10px;
+}
+.hero-v3-after-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-rule);
+  border-radius: 6px;
+  padding: 12px 14px 14px;
+  transition: border-color var(--dur-fast) var(--ease-rivr), background var(--dur-fast) var(--ease-rivr);
+}
+.hero-v3-after-card.is-pulse {
+  border-color: var(--color-accent);
+  background: rgba(var(--color-accent-rgb), 0.045);
+}
+.hero-v3-after-card-row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+.hero-v3-after-card h4 {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.003em;
+  margin: 0;
+}
+.hero-v3-after-price {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+}
+.hero-v3-after-card p {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  margin: 0 0 8px;
+}
+.hero-v3-after-meta {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--color-secondary);
+}
+.hero-v3-after-meta .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--color-secondary);
+}
+
+/* ========================================================================
    Pipeline (How It Works) — sticky scroll sequence
    ======================================================================== */
 .pipeline {

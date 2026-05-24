@@ -14,104 +14,158 @@ const {
 // Modal context — opened/closed once per page so multiple CTAs share state.
 const PrototypeModalContext = React.createContext({ open: false, openModal: () => {}, closeModal: () => {} });
 
-// ─── Hero ────────────────────────────────────────────────────────────────────
+// ─── Hero (Polish 3 / Task 1 — problem-focused before/after rebuild) ─────────
+// Replaces the previous editorial single-column hero ("Booking flows built
+// around how you already work."). Cold-email recipients are skeptical and
+// skim; the editorial hero buried the value proposition. This hero leads with
+// the dollar-cost problem in the headline (lost patients = lost revenue),
+// validates with the body copy, and uses a concrete before/after visual to
+// make the abstract claim immediate: broken contact-form-style booking page
+// on the left, a tight fragment of the RIVR funnel on the right.
 function Hero() {
   const [stageRef, rawProgress] = useScrollProgress();
-  // useScrollProgress returns ~0.5 when the section sits at top-of-viewport
-  // (rect.top=0, rect.height≈vh). For the hero we want 0 at rest so the copy
-  // reads at full opacity on first paint, climbing only as the user scrolls out.
   const progress = clamp((rawProgress - 0.5) * 2, 0, 1);
   const mouse = useMousePos({ smooth: 0.08 });
 
-  // Drive the browser frame: as user scrolls down, it shifts up + scales down
-  const frameY = -progress * 80; // px
-  const frameScale = 1 - progress * 0.06;
-  const frameRotate = -2 + mouse.x * 1.2 - progress * 1.4;
-  const frameOpacity = clamp(1 - progress * 1.1, 0, 1);
+  // Hero copy fade as you scroll past
+  const copyOpacity = clamp(1 - progress * 1.2, 0, 1);
+  const copyY = -progress * 24;
 
-  // Hero copy fade as you scroll
-  const copyOpacity = clamp(1 - progress * 1.4, 0, 1);
-  const copyY = -progress * 30;
-
-  // Mouse-driven spotlight
+  // Mouse-driven spotlight (kept from previous hero — soft warm halo behind)
   const spotX = 50 + mouse.x * 18;
   const spotY = 36 + mouse.y * 14;
-
-  // Floating chip parallax
-  const chip1Y = mouse.y * 14 - progress * 60;
-  const chip1X = mouse.x * 18;
-  const chip2Y = mouse.y * -20 - progress * 90;
-  const chip2X = mouse.x * -14;
 
   return (
     <section
       ref={stageRef}
-      className="hero-stage"
+      className="hero-stage hero-v3"
       style={{ "--mx": `${spotX}%`, "--my": `${spotY}%`, opacity: "1" }}>
-      
+
       <div className="hero-grid-bg" aria-hidden />
       <div className="hero-spotlight" aria-hidden />
 
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
-        {/* Stream C v1: hero collapsed to single column. The right-column iframe
-            booking mockup (imagery/hero-animation.html + 2 floating chips) was
-            removed; the new "real demos" hero visual lives in the ThreeTileHero
-            section directly below. */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "minmax(0, 1fr)",
-          gap: 40,
-          alignItems: "center"
-        }} className="hero-grid">
-          {/* Copy */}
-          <div style={{
+        <div
+          className="hero-v3-grid"
+          style={{
             opacity: copyOpacity,
             transform: `translateY(${copyY}px)`,
             transition: "opacity 80ms linear",
-            willChange: "transform, opacity"
+            willChange: "transform, opacity",
           }}>
-            <FadeUp>
-              <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 22 }}>
-                A studio for aesthetic medicine booking
-              </p>
-            </FadeUp>
-
+          {/* Left column — headline + sub + CTAs (no eyebrow per spec) */}
+          <div className="hero-v3-copy">
             <RevealLines
               as="h1"
-              className="text-display-1"
+              className="text-display-1 hero-v3-headline"
               baseDelay={60}
               gap={90}
               lines={[
-              <>Booking flows built around</>,
-              <>how you <span className="serif" style={{ color: "var(--color-accent)" }}>already work</span>.</>]
-              } />
-
+                <>Your booking page is</>,
+                <>costing you</>,
+                <><span className="hero-v3-emph">1 in 4 patients</span>.</>,
+              ]} />
 
             <Reveal delay={420}>
-              <p className="text-body-lg" style={{ maxWidth: 540, margin: "28px 0 36px" }}>
-                Your patients see a calm, branded booking experience. Your team sees the bookings land in the calendar they already use. No new platform. No staff retraining. No data migration.
+              <p className="text-body-lg hero-v3-sub">
+                Most med spa booking pages are a "Book a Call" button or a contact form. ~25% of patients abandon when scheduling isn't simple. We build a custom booking funnel that replaces that broken page — matched to your practice, integrated with your existing calendar.
               </p>
             </Reveal>
 
             <Reveal delay={540}>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 18, alignItems: "center", marginBottom: 24 }}>
+              <div className="hero-v3-cta-row">
                 <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
-                <PrototypeModalContext.Consumer>
-                  {({ openModal }) => (
-                    <Button onClick={openModal} variant="secondary">See the live prototype</Button>
-                  )}
-                </PrototypeModalContext.Consumer>
+                <a href="#reference-builds" className="hero-v3-cta-secondary">
+                  <span>See the live prototypes</span>
+                  <span className="arr" aria-hidden>↓</span>
+                </a>
               </div>
-            </Reveal>
-
-            {/* RIVR-NOTE: hero sub-line — confirm or swap on review. */}
-            <Reveal delay={640}>
-              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
-                A short look at your setup. We show you what we'd build for your practice. Fifteen minutes.
-              </p>
             </Reveal>
           </div>
 
+          {/* Right column — before/after visual */}
+          <Reveal delay={620} className="hero-v3-visual" aria-hidden>
+            {/* BEFORE — stylized "broken" contact-form booking page.
+                Plain sans, flat fields, generic disclaimer. The dull on
+                purpose. */}
+            <div className="hero-v3-before">
+              <div className="hero-v3-before-head">
+                <span className="hero-v3-before-brand">YOUR AESTHETICS CO.</span>
+              </div>
+              <div className="hero-v3-before-body">
+                <h3 className="hero-v3-before-title">Request an Appointment</h3>
+                <div className="hero-v3-before-form">
+                  <div className="hero-v3-before-field"><span className="lbl">Name</span><span className="inp" /></div>
+                  <div className="hero-v3-before-field"><span className="lbl">Phone</span><span className="inp" /></div>
+                  <div className="hero-v3-before-field"><span className="lbl">Email</span><span className="inp" /></div>
+                  <div className="hero-v3-before-field"><span className="lbl">Preferred Date</span><span className="inp" /></div>
+                  <div className="hero-v3-before-field"><span className="lbl">Preferred Time</span><span className="inp" /></div>
+                  <div className="hero-v3-before-field hero-v3-before-msg"><span className="lbl">Message</span><span className="inp tall" /></div>
+                  <div className="hero-v3-before-submit">Submit</div>
+                  <p className="hero-v3-before-disclaimer">
+                    We'll get back to you within 1-3 business days.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Arrow / chevron between the two states. Horizontal on desktop,
+                vertical (chevron down) on mobile via CSS rotate. */}
+            <div className="hero-v3-arrow">
+              <svg viewBox="0 0 24 24" width="28" height="28">
+                <path d="M5 12h14M13 6l6 6-6 6"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none" />
+              </svg>
+            </div>
+
+            {/* AFTER — tight RIVR funnel fragment in RIVR's editorial register
+                (Geist display, Source Serif 4 body, mono eyebrow). NOT the
+                Lumera animation — that's later on the page. */}
+            <div className="hero-v3-after">
+              <div className="hero-v3-after-stepbar">
+                <span className="hero-v3-after-stepcount">STEP 1 OF 4</span>
+                <ol className="hero-v3-after-steps">
+                  <li className="is-active"><span className="dot" /></li>
+                  <li><span className="dot" /></li>
+                  <li><span className="dot" /></li>
+                  <li><span className="dot" /></li>
+                </ol>
+              </div>
+              <div className="hero-v3-after-body">
+                <p className="hero-v3-after-eyebrow">Step 1 — Service</p>
+                <h3 className="hero-v3-after-title">Select a service</h3>
+                <p className="hero-v3-after-sub">Earliest availability, in real time.</p>
+                <div className="hero-v3-after-cards">
+                  <article className="hero-v3-after-card is-pulse">
+                    <div className="hero-v3-after-card-row">
+                      <h4>Injectables</h4>
+                      <span className="hero-v3-after-price">from $450</span>
+                    </div>
+                    <p>Botox, fillers, biostimulators.</p>
+                    <div className="hero-v3-after-meta">
+                      <span className="dot" />
+                      <span>Next: Wed 10:00 AM</span>
+                    </div>
+                  </article>
+                  <article className="hero-v3-after-card">
+                    <div className="hero-v3-after-card-row">
+                      <h4>Skin</h4>
+                      <span className="hero-v3-after-price">from $180</span>
+                    </div>
+                    <p>Facials, peels, skin-renewal.</p>
+                    <div className="hero-v3-after-meta">
+                      <span className="dot" />
+                      <span>Next: Tue 2:30 PM</span>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
 
