@@ -152,15 +152,20 @@ const DEMOS = [
   },
 ];
 
-// ─── FAQ ─────────────────────────────────────────────────────────────────────
-// Preserved verbatim from the previous /product page. Stream C v2 will sharpen.
+// ─── FAQ — Stream C v2 sharpened ─────────────────────────────────────────────
+// Sharpened for aesthetic-medicine prospect concerns. Removed the standalone
+// "Who hosts the booking page?" Q (folded into "how long & where does it live"
+// below) and the mobile-preview Q (general, not practice-specific). Added two
+// aesthetic-medicine-specific Qs: Good Faith Exam routing and intake-form /
+// patient-portal handoff. Maintenance-posture answer verified consistent with
+// Stream A's 48h M-F · 2–3 changes/quarter line.
 const FAQ = [
   { q: "Will I have to switch my current calendar?", a: "No. The booking page connects to whatever you already use. Bookings land in that calendar, not a new one. Your front desk keeps opening the same tab every morning." },
-  { q: "What if my calendar is not in your list of supported systems?", a: "If it has a public API or a webhook, we can connect to it. We have built integrations with Google, Acuity, Vagaro, Boulevard, Square Appointments, Calendly, Cal.com, Microsoft 365, Apple Calendar, and a handful of custom in-house systems. Send us the name on the walkthrough call and we will tell you." },
-  { q: "How long until it is live?", a: "Most pages go live two to three weeks after the walkthrough call, depending on how many practitioners and services we are mapping. We share a working draft inside the first week so you can see it move." },
-  { q: "Who hosts the booking page?", a: "We do. The page lives on a subdomain of your choice (commonly booking.yourpractice.com) or as an embed inside your existing site. No new servers for you to manage, no SSL renewals to track." },
+  { q: "What if my calendar isn't in your list of supported systems?", a: "If it has a public API or a webhook, we can connect to it. We have built integrations with Google, Acuity, Vagaro, Boulevard, Square Appointments, Calendly, Cal.com, Microsoft 365, Apple Calendar, and a handful of custom in-house systems. Send us the name on the walkthrough call and we'll tell you." },
+  { q: "How long until it's live, and where does it live?", a: "Most pages go live two to three weeks after the walkthrough call, depending on how many practitioners and services we're mapping. They live on a subdomain of your choice (commonly booking.yourpractice.com) or as an embed inside your existing site — your hosting, your DNS, no new servers for you to manage. We share a working draft inside the first week so you can see it move." },
   { q: "What happens if a patient books a time we are not actually available?", a: "Cannot happen. Availability comes from your calendar in real time. The slots a patient sees are the slots your team has open. If you block off Friday afternoon, Friday afternoon disappears from the page within a minute." },
-  { q: "Can I see the booking page on my phone the way patients will?", a: "Yes. Every booking page is mobile-first, and we send you a preview link the same day we start building. Walk through your own booking flow on your phone before any patient does." },
+  { q: "What if we don't have a Good Faith Exam workflow in place?", a: "That's normal — a lot of practices we talk to are still working out their GFE flow. We can route new-patient bookings through a \"requires consult\" lane before any treatment is actually scheduled, so the GFE happens before the syringe does. We've shipped that pattern for practices using Boulevard, Calendly, and a couple of custom intake systems." },
+  { q: "Will this work with our existing intake forms or patient portal?", a: "Yes. We can either embed your existing intake form mid-flow (after the patient picks a service, before they confirm) or hand off to your portal for the intake step. We don't replace intake — we route patients into the form you already have." },
   { q: "What if I need changes after launch?", a: "Text us. Maintenance covers two to three changes per quarter — copy edits, image swaps, service catalog updates, new hours. We respond within 48 hours, Monday through Friday. Bigger redesigns we scope on a follow-up call." },
 ];
 

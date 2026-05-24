@@ -357,3 +357,200 @@ Explicitly NOT touched in this pass per spec:
   (widget materializing into the page, or panning the practice nav as it pins).
 - The hero photo collapse to single-column may want a small visual element to its
   right at desktop — Stream C v2 territory.
+
+---
+
+## Stream C v2 (partial) — About rewrite, FAQ sharpening, Meet Lumera removal (items 4–8)
+
+Branch: `reskin/rivr-web-style` · Base: Stream C v1 complete (`91a453a`)
+
+Stream C v2 was scoped as a 12-item polish pass (typography, composition, copy
+tone). This commit lands **items 4, 5, 6, 7, 8 only**. Items 2, 3, 9, 10, 11, 12
+are deferred to a follow-up session. Item 1 (Cormorant weight bump) was
+investigated and found to already be done (display headlines are at `font-weight:
+600` from the Phase 1 token swap); the `.serif` italic accent at 400 is the only
+Cormorant-at-400 element and is intentional contrast — confirmed with the
+founder, item 1 skipped.
+
+### Item 4 — Meet Lumera (LiveDemo) section killed — `home.jsx`
+
+The `LiveDemo` component (`#live-demo` section), the `DEMO_PANELS` data, the
+`TiltCard` 3D-tilt wrapper, and the `<LiveDemo />` mount in `Page` were all
+removed. Replaced with a comment block documenting the removal. Stream A had
+flagged the section with a `TODO Stream C` marker; Stream C v1 made it doubly
+redundant by adding `ThreeTileHero` (shows all three demos at top) and updating
+`SampleWork` (cycles real demo screenshots); Stream C v2 kills it. Home flow
+now reads: Hero → ThreeTileHero → IntegrationSection → Marquee →
+CredibilityStats → SampleWork → ClosingCTA.
+
+### Item 5 — About hero rewrite — `about.jsx`
+
+Rewrote the 3-line hero headline (which had been Stream-A-deferred because
+"answer the phone" lives in protected hero copy). Picked **Option B** from the
+three candidates in the brief:
+
+- Before: "Two co-founders. / Both build, both ship, / both *answer the phone*."
+- After:  "Two co-founders. / Both write the code. / Both *talk to clients*."
+
+Option B chosen for specificity — "write code" and "talk to clients" name
+concrete activities the way "answer the phone" did, where Options A and C felt
+more abstract. Italic-accent pattern preserved by analogy: serif italic +
+accent-gold span moves from "answer the phone" → "talk to clients" on line 3.
+Three-line `RevealLines` structure intact; weights, sizes, and gap timing
+unchanged.
+
+### Item 6 — About bio depth structure with placeholders — `about.jsx`
+
+Both founder bios restructured around the 3-area depth pattern the brief
+specified: (1) background, (2) how got into building booking funnels for
+aesthetic medicine, (3) what they own day-to-day. Voice held to direct,
+coffee-shop register — no "passionate about" or "our mission" framing.
+
+**Substantive content preserved** where it existed (Jonas's FIU Honors College +
+Muay Thai; Jonas's gap-seeing motivation; Thor's age-18 framing; Thor's
+template-copy-paste critique; the both-of-us-run-checks closing).
+
+**`{/* PLACEHOLDER: ... */}` markers** sit where founder-specific facts need to
+be supplied. None of these fabricate biographical detail; they're structural
+shells the founder fills:
+
+- **Jonas (3 placeholders):**
+  - Specific technical background — when started coding, self-taught vs.
+    coursework, favorite stack, first shipped project before RIVR
+  - The path to RIVR — how he went from FIU + training to medspa booking
+    funnels; who the first med spa conversation was with
+  - Day-to-day ownership — what specifically he owns on each build
+    (backend? integrations? client onboarding?)
+- **Thor (2 placeholders):**
+  - Specific technical background — when started coding, first language /
+    project, what the year-before-RIVR looked like
+  - The path to RIVR — how the first med spa conversation happened, why
+    aesthetic medicine vs. another vertical
+
+The bio prose reads structurally complete with the placeholders in line — when
+they're filled, the prose flows naturally; when the page renders today, the
+JSX-comment placeholders are stripped by Babel and the surrounding sentences
+read as-is (slightly shorter, but coherent).
+
+### Item 7 — "Gap nobody's filling" reframe — `about.jsx`
+
+`WhyWeBuilt` paragraphs 1 and 2 rewritten to the middle-positioning frame
+specified in the brief. Paragraph 3 (the journey paragraph: "We picked one med
+spa to start…") preserved verbatim.
+
+- **Paragraph 1 (the gap, now with named products + prices):**
+  - Before: "...The big platforms wanted them to rip out everything... The DIY
+    options looked like Google Forms with extra steps."
+  - After: "...Practices stuck between a DIY plugin — Squarespace plus a
+    booking widget, $500 in setup, that doesn't actually book — and an
+    enterprise platform — Boulevard or Mindbody, $30K-plus, requiring a
+    migration of the whole operation onto someone else's software. Nothing in
+    the middle."
+- **Paragraph 2 (the middle as the answer):**
+  - Before: "There was not a middle option: a booking page designed for their
+    practice that talked to their existing tools..."
+  - After: "The middle is what most practices actually need: a booking funnel
+    that sits in front of the calendar and EMR they already run, on their own
+    domain, with the same pricing and policies they've already worked out. No
+    migration, no new software for staff to learn, no per-seat fees. So we
+    built that — for practices that have outgrown the template but can't
+    justify the enterprise cost."
+
+The original prose was already gap-positioned (not opportunism-positioned, as
+the brief premise suggested) — the rewrite sharpens it with the concrete
+products/prices the brief target frame called for, rather than reframing from
+scratch.
+
+### Item 8 — FAQ sharpening — `book.jsx`, `the-build.jsx`
+
+**`/book` FAQ — 3 → 5 questions:**
+
+- Kept: "What if my current setup is a mess?" (already aesthetic-medicine
+  relevant, the answer is on-voice).
+- Added: "Will this work with our existing intake forms or patient portal?" —
+  same answer pattern as the /the-build version (embed mid-flow or hand off to
+  portal; we don't replace intake).
+- Added: "Can patients self-schedule their first appointment, or do we want to
+  vet them first?" — addresses the concierge-vs-retail decision the prospect
+  is implicitly making on the walkthrough call.
+- Sharpened: "Do you sign a BAA?" — answer extended with a `<a href="/#legal">See
+  /legal</a>` link to a placeholder anchor; spec deferred actual `/legal` page
+  to Stream D. The FAQ answer field now accepts JSX so the link renders inline
+  (the existing `{item.a}` render handles both strings and JSX children).
+- Kept verbatim: "Is this a sales call?" (spec said: "preserve, it's on-voice").
+
+**`/the-build` FAQ — 7 → 7 questions (sharpened, not net-grown):**
+
+- Kept: "Will I have to switch my current calendar?"
+- Sharpened question text only: "What if my calendar **is not** in your list…"
+  → "What if my calendar **isn't** in your list…" (small contraction tightening).
+- **Combined** two Qs into one ("How long until it's live?" + "Who hosts the
+  booking page?" → "How long until it's live, **and where does it live**?")
+  — the hosting answer wasn't pulling enough weight as a standalone question;
+  folded into the launch-timeline answer.
+- Kept: "What happens if a patient books a time we are not actually available?"
+- **Added**: "What if we don't have a Good Faith Exam workflow in place?" — a
+  practice-specific concern unique to aesthetic medicine. Answer describes the
+  "requires consult" lane RIVR can build for new-patient bookings.
+- **Added**: "Will this work with our existing intake forms or patient portal?"
+  — same answer as the /book version.
+- **Removed**: "Can I see the booking page on my phone the way patients will?"
+  — generic, not aesthetic-medicine-specific; trimmed per spec ("better 6 sharp
+  than 12 generic").
+- Kept verbatim: "What if I need changes after launch?" (Stream A had already
+  aligned this with the 48h M–F · 2–3 changes/quarter posture; confirmed
+  consistent with documented maintenance posture per spec).
+
+### Verified (lightweight, no-build static site)
+
+- All four routes return HTTP 200: `/`, `/about`, `/book`, `/the-build`.
+- React mounts cleanly on each route (verified via headless Playwright with
+  explicit wait for `#root` to populate — Babel-standalone is async, naive
+  `networkidle` can fire before mount).
+- **0 non-benign console errors across all routes** (only the pre-existing
+  Babel-standalone in-browser-transformer warning).
+- Hero eyebrow + headline render with expected text.
+- `#live-demo` (Meet Lumera anchor) no longer present on home page — Item 4
+  removal confirmed.
+
+### Items deferred to follow-up session
+
+Surfaced explicitly so they're not lost:
+
+- **Item 1 (Cormorant weight):** investigated, found already-done (display
+  headlines at 600; .serif italic accents at 400 by deliberate convention).
+  Confirmed with founder, item skipped — not deferred, **closed**.
+- **Items 2 + 3 (hero line-break verification + composition judgment):**
+  partially started. Confirmed via DOM measurement at 1440 and 768 that the
+  break lands at "around" and the italic "*already work*" sits on line 2 with
+  "how you" at both viewports (no wrap, no orphan). Mobile (390) not yet
+  verified. Composition judgment (Path A vs Path B: leave spare vs. add mono
+  technical detail block) **not yet decided** — early read suggested Path B
+  warranted but no implementation written. **No partial work in the working
+  tree** for Item 3 — clean.
+- **Item 9 (section eyebrow consistency audit):** not started.
+- **Item 10 (mobile section spacing tuning):** not started.
+- **Item 11 (IntegrationSection scroll-driven motion):** not started.
+- **Item 12 (cross-page consistency final check):** not started.
+
+### Files touched
+
+- `home.jsx` — Item 4 (Meet Lumera removal + composition comment block).
+- `about.jsx` — Items 5 (hero), 6 (bios w/ PLACEHOLDERs), 7 (gap reframe).
+- `book.jsx` — Item 8 (/book FAQ 3 → 5, BAA → /#legal link, JSX answer support).
+- `the-build.jsx` — Item 8 (/the-build FAQ sharpened, 7 → 7 with content swap).
+
+### Notes for the follow-up session
+
+- The bios contain 5 PLACEHOLDER markers awaiting founder input. They're JSX
+  comments so they don't render — the page reads naturally today and gains
+  detail when filled.
+- The `/#legal` anchor in the /book BAA answer is a placeholder until Stream D
+  ships `/legal`. Update both `/book` and `/the-build` FAQ answers that
+  reference compliance once `/legal` exists.
+- The follow-up session should re-investigate Item 1 framing — the prompt's
+  premise didn't match codebase reality. If the founder concern is the italic
+  accent looking thin, bump `.serif` from 400 → 500. Otherwise leave.
+- Items 2 + 3 are interrelated: any decision to add a right-side mono detail
+  block (Path B) affects how the headline wraps and may also force a line-break
+  tweak at mid-viewport widths. Handle together.

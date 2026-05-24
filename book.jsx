@@ -24,9 +24,24 @@ const AGENDA = [
   "You confirm and we begin building your online booking immediately. Ready in two to three weeks. No obligations.",
 ];
 
+// Stream C v2: 3 → 5 Qs. Added 2 aesthetic-medicine-specific (intake/portal,
+// self-schedule vs. vet). BAA answer now points to /#legal (placeholder until
+// the dedicated /legal page exists). "Is this a sales call?" preserved
+// verbatim per spec ("preserve, it's on-voice").
 const FAQ_B = [
   { q: "What if my current setup is a mess?", a: "That is the most common case. We will not judge it. We will show you which piece does the heaviest lifting and which piece you can leave alone." },
-  { q: "Do you sign a BAA?", a: "Yes. We sign a HIPAA Business Associate Agreement before any patient data flows through our systems, and we treat anything you share on the call as confidential to your practice by default." },
+  { q: "Will this work with our existing intake forms or patient portal?", a: "Yes. We either embed your existing intake form mid-flow (after a patient picks a service, before they confirm) or hand off to your portal for the intake step. We don't replace intake — we route patients into the form you already have." },
+  { q: "Can patients self-schedule their first appointment, or do we want to vet them first?", a: "Your call, and you can split it by service. Some practices let everything self-schedule; others gate first-time consults behind a callback or pre-screen. We build the booking flow around the policy you already run — we don't tell you which lane to put new patients into." },
+  {
+    q: "Do you sign a BAA?",
+    a: (
+      <>
+        Yes. We sign a HIPAA Business Associate Agreement before any patient data flows through our systems, and we treat anything you share on the call as confidential to your practice by default.{" "}
+        <a href="/#legal" style={{ color: "var(--color-accent-strong)", textDecoration: "underline", textUnderlineOffset: 2 }}>See /legal</a>{" "}
+        for the BAA template and our full privacy posture.
+      </>
+    ),
+  },
   { q: "Is this a sales call?", a: "Only if you want it to be. The 15 minutes are a working session. If you ask us for next steps, we share what a build looks like. Otherwise we hang up — no pitch, no follow-up pressure." },
 ];
 

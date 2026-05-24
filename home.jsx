@@ -1,7 +1,8 @@
 // =============================================================================
-// HOME page — Hero (scroll-driven), Stats (count-up), LiveDemo (3D tilt),
-// Benefits (icon reveals + watermark), SampleWork (horizontal scroll),
-// ClosingCTA.
+// HOME page — Hero (single column), ThreeTileHero, IntegrationSection,
+// Marquee, CredibilityStats (count-up), SampleWork (horizontal scroll),
+// ClosingCTA. (Meet Lumera LiveDemo removed in Stream C v2; Benefits
+// three-icon section removed in Stream A.)
 // =============================================================================
 const { useState: useStateH, useEffect: useEffectH, useRef: useRefH, useLayoutEffect: useLayoutEffectH } = React;
 const {
@@ -305,84 +306,12 @@ function CredibilityStats() {
 
 }
 
-// ─── Live Demo (3D tilt panels) ──────────────────────────────────────────────
-const DEMO_PANELS = [
-{ src: "imagery/lumera-hero.png", alt: "Lumera booking page hero with Book your visit headline" },
-{ src: "imagery/lumera-team.png", alt: "Lumera practitioner team cards including Dr. Sarah Chen" },
-{ src: "imagery/lumera-calendar.png", alt: "Lumera time-slot calendar with selectable dates" }];
-
-
-function TiltCard({ children }) {
-  const ref = useRefH(null);
-  const [tilt, setTilt] = useStateH({ rx: 0, ry: 0, sx: 0, sy: 0, hover: false });
-
-  const onMove = (e) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    setTilt({ rx: -y * 8, ry: x * 8, sx: x * 40, sy: y * 40, hover: true });
-  };
-  const onLeave = () => setTilt({ rx: 0, ry: 0, sx: 0, sy: 0, hover: false });
-
-  return (
-    <div
-      ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      className="demo-card"
-      style={{
-        transform: `perspective(900px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) translateY(${tilt.hover ? -4 : 0}px)`,
-        transformStyle: "preserve-3d",
-        transition: tilt.hover ? "transform 80ms linear, box-shadow 240ms cubic-bezier(0.22,1,0.36,1)" : "transform 600ms cubic-bezier(0.22,1,0.36,1), box-shadow 240ms cubic-bezier(0.22,1,0.36,1)"
-      }}>
-      
-      {children}
-    </div>);
-
-}
-
-function LiveDemo() {
-  return (
-    <section className="section" id="live-demo">
-      {/* TODO Stream C: restructure as single hover-animated screenshot — currently redundant with hero */}
-      <div className="container">
-        <div className="section-header">
-          <FadeUp><p className="text-label-caps">Live prototype</p></FadeUp>
-          <RevealLines
-            as="h2" className="text-display-2" baseDelay={120}
-            lines={[<>Meet <span className="serif" style={{ color: "var(--color-accent)" }}>Lumera</span>, a reference build.</>]} />
-
-          <FadeUp delay={320}>
-            <p className="text-body-lg" style={{ marginTop: 24 }}>
-              Lumera is a reference build — a complete booking flow we made to show how a multi-tier surgical and injectables practice books patients. Click around, book a mock appointment, browse the practitioner cards, read the FAQ. The whole thing is live.
-            </p>
-          </FadeUp>
-          <FadeUp delay={420}>
-            <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
-              <PrototypeModalContext.Consumer>
-                {({ openModal }) => (
-                  <Button onClick={openModal} variant="primary">Open the live prototype</Button>
-                )}
-              </PrototypeModalContext.Consumer>
-            </div>
-          </FadeUp>
-        </div>
-
-        <FadeUp delay={120}>
-          <div className="demo-grid" style={{ marginTop: 56 }}>
-            {DEMO_PANELS.map((p, i) =>
-            <TiltCard key={i}>
-                <div className="body"><img src={p.src} alt={p.alt} loading="lazy" /></div>
-              </TiltCard>
-            )}
-          </div>
-        </FadeUp>
-      </div>
-    </section>);
-
-}
+// ─── Meet Lumera (LiveDemo) — REMOVED in Stream C v2 (Item 4) ────────────────
+// Triply redundant after Stream C v1 added ThreeTileHero (which surfaces all
+// three demos at the top) and updated SampleWork (which cycles real Lumera/
+// Sela/Devereaux screenshots). Stream A had marked it for restructure; Stream
+// C v2 kills it instead. Removed: DEMO_PANELS const, TiltCard component,
+// LiveDemo component, and the <LiveDemo /> mount in Page below.
 
 // ─── Benefits (dark) — REMOVED in Stream A (Category 5) ──────────────────────
 // The "Built to grow your practice, not your tooling stack" three-icon-column
@@ -593,7 +522,6 @@ function Page() {
         <IntegrationSection />
         <Marquee />
         <CredibilityStats />
-        <LiveDemo />
         <SampleWork />
         <ClosingCTA />
       </main>

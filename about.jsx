@@ -23,8 +23,8 @@ function AboutHero() {
             as="h1" className="text-display-1" baseDelay={60} gap={110}
             lines={[
               <>Two co-founders.</>,
-              <>Both build, both ship,</>,
-              <>both <span className="serif" style={{ color: "var(--color-accent)" }}>answer the phone</span>.</>,
+              <>Both write the code.</>,
+              <>Both <span className="serif" style={{ color: "var(--color-accent)" }}>talk to clients</span>.</>,
             ]}
           />
           <Reveal delay={620}>
@@ -75,20 +75,25 @@ function FoundersSection() {
           </div>
         </div>
 
-        {/* Bios */}
+        {/* Bios — Stream C v2 depth pass.
+            Three-area structure per founder: (1) background, (2) how we got into
+            booking funnels for aesthetic medicine, (3) what we own day-to-day.
+            PLACEHOLDER comments mark biographical facts that need founder input. */}
         <div className="founders">
           <FadeUp>
             <div className="founder">
               <p className="label">Co-founder</p>
               <h2>Jonas Vangura</h2>
               <p>
-                I'm one of the co-founders behind RIVR. I started it because I kept seeing the same gap, every booking platform on the market expects medspas to migrate to new software, and most medspas already have a good EMR or scheduler they'd built their whole operation around. Asking them to reset their software was the wrong ask. So I built booking that adapts to whatever you're already running, we do the adapting not you.
+                I study at Florida International University's Honors College and train Muay Thai when I'm not in front of a screen. The training is the counterweight to the hours building.
+                {/* PLACEHOLDER: Jonas — specific technical background. When did you start coding? Self-taught or coursework? Favorite stack? First real project you shipped before RIVR? */}
               </p>
               <p>
-                Day to day, Thor and I both work across the whole product: engineering, designing, implementing, customer calls, walkthroughs, etc.
+                {/* PLACEHOLDER: Jonas — the path to RIVR. How did you go from FIU + training to building booking funnels for medspas specifically? Was it through Thor, through a particular conversation, through a job? Who was the first med spa you talked to and what did they say? */}
+                The reason this exists: I kept seeing the same gap. Every booking platform on the market expects medspas to migrate to new software, and most medspas already have a good EMR or scheduler they'd built their whole operation around. Asking them to reset their software was the wrong ask, so I built booking that adapts to whatever they're already running — we do the adapting, not them.
               </p>
               <p>
-                Outside of my work at RIVR, I study at Florida International University's Honors College and train Muay Thai. The training keeps my head clear and my body in shape, and it's the thing that balances out the hours at a screen, time studying at University, and building at RIVR.
+                Day to day, Thor and I both work across the whole product — engineering, design, customer calls, walkthroughs. I own {/* PLACEHOLDER: Jonas — what specifically do you own on the build? Backend? Integrations? Client onboarding? */} on most builds.
               </p>
             </div>
           </FadeUp>
@@ -97,13 +102,15 @@ function FoundersSection() {
               <p className="label">Co-founder</p>
               <h2>Thor Gyulai</h2>
               <p>
-                I'm a co-founder at RIVR. I co-founded RIVR because I saw many online booking systems that weren't actually built around how medspas sell and how patients buy. Most booking platforms were just copy-pasting the same template onto every client. So at RIVR, we build every new client's booking page from scratch, based on their requirements and brand. Anywhere from consultation bookings to membership funnels.
+                I'm 18 and RIVR is my full-time work.
+                {/* PLACEHOLDER: Thor — specific technical background. When did you start coding? First language? First project? What were you doing in the year before RIVR? Self-taught, school, bootcamp? */}
               </p>
               <p>
-                Day to day, Jonas and I both work across everything, running checks through each others work ensuring all deliverables surpass the standards.
+                {/* PLACEHOLDER: Thor — the path to RIVR. How did the first med spa conversation happen? Why aesthetic medicine specifically — what made retail med spas the right market vs. generic SMB, generic healthcare, or another vertical? */}
+                What I kept seeing on the way in: every booking platform was copy-pasting the same template onto every client, regardless of whether it was a single-surgeon concierge or a six-room studio. So at RIVR we build every client's booking page from scratch — consultation bookings, service menus, membership funnels — to the practice's actual pattern.
               </p>
               <p>
-                On the build side, I own the booking funnels, the live demos, and the marketing site you're reading right now.
+                On the build side I own the booking funnels, the three live demos at <em>the build</em>, and the marketing site you're reading right now. Day to day, Jonas and I run checks on each other's work so the deliverables hold up.
               </p>
             </div>
           </FadeUp>
@@ -130,12 +137,12 @@ function WhyWeBuilt() {
         <div style={{ marginTop: 56, fontSize: "1.125rem", lineHeight: 1.7 }}>
           <Reveal delay={120}>
             <p style={{ marginBottom: 24 }}>
-              We started RIVR because we kept seeing the same gap. Med spas with great care, great teams, and a phone that would not stop ringing because patients could not book online. The big platforms wanted them to rip out everything and start over. The DIY options looked like Google Forms with extra steps.
+              We started RIVR because we kept seeing the same gap. Practices stuck between a DIY plugin — Squarespace plus a booking widget, $500 in setup, that doesn't actually book — and an enterprise platform — Boulevard or Mindbody, $30K-plus, requiring a migration of the whole operation onto someone else's software. Nothing in the middle.
             </p>
           </Reveal>
           <Reveal delay={240}>
             <p style={{ marginBottom: 24 }}>
-              There was not a middle option: a booking page designed for their practice that talked to their existing tools and did not ask their staff to learn anything new. So we built one.
+              The middle is what most practices actually need: a booking funnel that sits in front of the calendar and EMR they already run, on their own domain, with the same pricing and policies they've already worked out. No migration, no new software for staff to learn, no per-seat fees. So we built that — for practices that have outgrown the template but can't justify the enterprise cost.
             </p>
           </Reveal>
           <Reveal delay={360}>
