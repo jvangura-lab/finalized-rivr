@@ -596,8 +596,13 @@ function ClosingCTA() {
         </aside>
 
         <div className="closing-body">
+          {/* Polish 5 / Task 3: internal vertical air tightened ~20% — the
+              "Fifteen minutes, one screen share, no pitch deck" headline
+              was sitting in too much air relative to the surrounding
+              elements. eyebrow-mb 24→20, body-margin 32/40→26/32,
+              button-mb 36→28. Outer section padding unchanged. */}
           <Reveal>
-            <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 24 }}>Next step</p>
+            <p className="text-label-caps" style={{ color: "var(--color-accent)", marginBottom: 20 }}>Next step</p>
           </Reveal>
           <RevealLines
             as="h2"
@@ -609,12 +614,12 @@ function ClosingCTA() {
             baseDelay={80}
           />
           <Reveal delay={300}>
-            <p className="text-body-lg" style={{ maxWidth: 620, margin: "32px auto 40px" }}>
+            <p className="text-body-lg" style={{ maxWidth: 620, margin: "26px auto 32px" }}>
               We look at your current setup and show you the booking page we would build for your practice.
             </p>
           </Reveal>
           <Reveal delay={420}>
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 36 }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
               <Button href="book.html" variant="primary" className="btn-lg">Book a 15-min walkthrough</Button>
             </div>
           </Reveal>

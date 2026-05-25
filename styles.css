@@ -587,10 +587,23 @@ img { display: block; max-width: 100%; }
 .hero-v3 {
   min-height: 86vh;            /* spec: 80-90vh desktop */
   padding-top: 120px;
-  padding-bottom: 80px;
+  /* Polish 5 / Task 3: bottom padding tightened 80 → 64 (-20%) to shrink
+     the gap between the hero and the CredibilityStats below. The hero's
+     visual frame already extends most of the section's vertical space; the
+     extra 16px of pure bottom padding was disconnecting the cost claim
+     from the stat that backs it. */
+  padding-bottom: 64px;
 }
 @media (max-width: 1024px) {
   .hero-v3 { min-height: auto; padding-top: 96px; padding-bottom: 64px; }
+}
+/* Polish 5 / Task 3: the .section directly after the hero (CredibilityStats
+   on home) gets its padding-top reduced 88 → 64. Scoped to .hero-v3 so it
+   only fires on home — /about's FoundersSection (after .hero-stage with no
+   .hero-v3 class) keeps the default --space-section value. */
+.hero-v3 + .section { padding-top: 64px; }
+@media (max-width: 900px) {
+  .hero-v3 + .section { padding-top: var(--space-section-mobile); }
 }
 .hero-v3-grid {
   display: grid;
