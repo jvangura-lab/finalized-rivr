@@ -745,6 +745,88 @@ img { display: block; max-width: 100%; }
   line-height: 1.4;
 }
 
+/* ── State 1 palette (Coastal Aesthetic Studio — Polish 9) ──────────────
+   Cool slate/navy templated boutique look. Distinct from RIVR's warm
+   walnut and from State 2's dove gray. The "Doesn't call" overlay stays
+   walnut — that's RIVR's voice annotating the broken site. */
+.hero-v3-state-phone {
+  background: #FAFAFA;
+  border-color: #E2E5E8;
+}
+.hero-v3-state-phone .hero-v3-state-head {
+  background: #F4F5F6;
+  border-bottom-color: #E2E5E8;
+}
+.hero-v3-state-phone .hero-v3-state-brand {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #2B2620;
+}
+.hero-v3-state-phone .hero-v3-state-eyebrow { color: #7A8794; }
+.hero-v3-state-phone .hero-v3-state-foot {
+  background: #F4F5F6;
+  border-top-color: #E2E5E8;
+  color: #7A8794;
+}
+.hero-v3-state-phone .hero-v3-phone-cta {
+  background: #FFFFFF;
+  border-color: #D6DCE2;
+  box-shadow: 0 12px 24px -16px rgba(59, 82, 102, 0.18);
+}
+.hero-v3-state-phone .hero-v3-phone-icon { color: #3B5266; }
+.hero-v3-state-phone .hero-v3-phone-hours { color: #7A8794; }
+.hero-v3-state-phone .hero-v3-phone-location { color: #99A3AD; }
+
+/* ── State 2 palette (Magnolia Wellness Co. — Polish 9) ─────────────────
+   Warm-neutral dove gray + taupe templated wellness look. Distinct from
+   State 1's slate and from RIVR's walnut. */
+.hero-v3-state-form {
+  background: #F2F0EE;
+  border-color: #DCD7D2;
+}
+.hero-v3-state-form .hero-v3-state-head {
+  background: #ECE9E5;
+  border-bottom-color: #DCD7D2;
+}
+.hero-v3-state-form .hero-v3-state-brand {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: #2B2620;
+}
+.hero-v3-state-form .hero-v3-state-h3 {
+  /* Faint hint of the taupe in the H3 so it doesn't look identical to State 1 */
+  color: #2B2620;
+}
+.hero-v3-state-form .hero-v3-state-sub { color: #A89684; }
+.hero-v3-state-form .hero-v3-state-foot {
+  background: #ECE9E5;
+  border-top-color: #DCD7D2;
+  color: #A89684;
+}
+.hero-v3-state-form .hero-v3-form-field label { color: #A89684; }
+.hero-v3-state-form .hero-v3-form-field .inp {
+  background: #FFFFFF;
+  border-color: #DCD7D2;
+}
+.hero-v3-state-form .hero-v3-form-field .inp.select {
+  background-color: #FFFFFF;
+}
+.hero-v3-state-form .hero-v3-form-submit {
+  background: #6B6157;
+  color: #FFFFFF;
+}
+/* "Magnolia" defaults to a basic-template blue accent on any link-styled text */
+.hero-v3-state-form a,
+.hero-v3-state-form .hero-v3-form-link { color: #2C5282; }
+
 /* Overlay shared by states 1 + 2 ("Doesn't call/submit → books elsewhere") */
 .hero-v3-state-overlay {
   position: absolute; inset: 0;
@@ -1189,92 +1271,117 @@ img { display: block; max-width: 100%; }
   margin: 0;
 }
 
-/* ── Animation bindings (17s loop — Polish 8: extended +2s for confirm
-   + done phases on State 3) ─────────────────────────────────────────── */
+/* ── Animation bindings (18s loop — Polish 9: extended +1s for initial
+   cursor-click beat on State 3 entry; Polish 8 added confirm + done) ── */
 .hero-v3-visual.is-animating .hero-v3-state-phone {
-  animation: hero-anim-state1-show 17s linear infinite;
+  animation: hero-anim-state1-show 18s linear infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-state-form {
-  animation: hero-anim-state2-show 17s linear infinite;
+  animation: hero-anim-state2-show 18s linear infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-state-funnel {
-  animation: hero-anim-state3-show 17s linear infinite;
+  animation: hero-anim-state3-show 18s linear infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-state-phone .hero-v3-phone-icon {
-  animation: hero-anim-phone-icon-pulse 17s ease-in-out infinite;
+  animation: hero-anim-phone-icon-pulse 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-state-phone .hero-v3-phone-body {
-  animation: hero-anim-state1-body-dim 17s ease-in-out infinite;
+  animation: hero-anim-state1-body-dim 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-state-phone .hero-v3-state-overlay {
-  animation: hero-anim-state1-overlay 17s ease-in-out infinite;
+  animation: hero-anim-state1-overlay 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-state-form .hero-v3-form-body {
-  animation: hero-anim-state2-body-dim 17s ease-in-out infinite;
+  animation: hero-anim-state2-body-dim 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-state-form .hero-v3-state-overlay {
-  animation: hero-anim-state2-overlay 17s ease-in-out infinite;
+  animation: hero-anim-state2-overlay 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-typing {
-  animation: hero-anim-type 17s steps(5, end) infinite;
+  animation: hero-anim-type 18s steps(5, end) infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-caret {
-  animation: hero-anim-caret 17s ease-in-out infinite;
+  animation: hero-anim-caret 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .step-label-1 {
-  animation: hero-anim-step-label-1 17s ease-in-out infinite;
+  animation: hero-anim-step-label-1 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .step-label-2 {
-  animation: hero-anim-step-label-2 17s ease-in-out infinite;
+  animation: hero-anim-step-label-2 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .step-label-3 {
-  animation: hero-anim-step-label-3 17s ease-in-out infinite;
+  animation: hero-anim-step-label-3 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .step-label-4 {
-  animation: hero-anim-step-label-4 17s ease-in-out infinite;
+  animation: hero-anim-step-label-4 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .step-dot-1 .dot {
-  animation: hero-anim-step-dot-1 17s ease-in-out infinite;
+  animation: hero-anim-step-dot-1 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .step-dot-2 .dot {
-  animation: hero-anim-step-dot-2 17s ease-in-out infinite;
+  animation: hero-anim-step-dot-2 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .step-dot-3 .dot {
-  animation: hero-anim-step-dot-3 17s ease-in-out infinite;
+  animation: hero-anim-step-dot-3 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .step-dot-4 .dot {
-  animation: hero-anim-step-dot-4 17s ease-in-out infinite;
+  animation: hero-anim-step-dot-4 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-funnel-service {
-  animation: hero-anim-funnel-service 17s ease-in-out infinite;
+  animation: hero-anim-funnel-service 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-funnel-time {
-  animation: hero-anim-funnel-time 17s ease-in-out infinite;
+  animation: hero-anim-funnel-time 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-funnel-confirm {
-  animation: hero-anim-funnel-confirm 17s ease-in-out infinite;
+  animation: hero-anim-funnel-confirm 18s ease-in-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-funnel-done {
-  animation: hero-anim-funnel-done 17s ease-out infinite;
+  animation: hero-anim-funnel-done 18s ease-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-funnel-slot.slot-1 {
-  animation: hero-anim-slot-1 17s ease-out infinite, hero-anim-slot-highlight 17s ease-out infinite;
+  animation: hero-anim-slot-1 18s ease-out infinite, hero-anim-slot-highlight 18s ease-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-funnel-slot.slot-2 {
-  animation: hero-anim-slot-2 17s ease-out infinite;
+  animation: hero-anim-slot-2 18s ease-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-funnel-slot.slot-3 {
-  animation: hero-anim-slot-3 17s ease-out infinite;
+  animation: hero-anim-slot-3 18s ease-out infinite;
 }
 .hero-v3-visual.is-animating .hero-v3-funnel-slot.slot-4 {
-  animation: hero-anim-slot-4 17s ease-out infinite;
+  animation: hero-anim-slot-4 18s ease-out infinite;
 }
 
-/* ── Keyframes (all 17s, percentages map: 1s≈5.88%, 9s=52.94%, 17s=100%)
+/* Polish 9: initial cursor + delayed Injectables highlight on State 3 entry */
+.hero-v3-visual.is-animating .hero-v3-funnel-cursor {
+  animation: hero-anim-funnel-cursor 18s ease-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-funnel-card.is-highlight {
+  /* This animation suppresses the static .is-highlight styling for the
+     first ~0.7s after State 3 enters, so the card looks idle until the
+     cursor lands and clicks it. Snap-on at 55% feels like a click result. */
+  animation: hero-anim-card-delay-highlight 18s ease-out infinite;
+}
+
+/* Funnel cursor element — sits absolutely inside .hero-v3-state-funnel */
+.hero-v3-funnel-cursor {
+  position: absolute;
+  top: 0; left: 0;
+  width: 22px; height: 22px;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  /* Default off-screen (used in reduced-motion fallback so it stays hidden) */
+  transform: translate(70px, -30px);
+  filter: drop-shadow(0 2px 4px rgba(43, 38, 32, 0.18));
+}
+.hero-v3-funnel-cursor svg { display: block; }
+
+/* ── Keyframes (all 18s, percentages map: 1s≈5.56%, 9s=50%, 18s=100%)
    Cycle map:
-     0-3.5s  (0-20.59%)      State 1 phone (overlay at 17.65-20.59%)
-     4-4.5s  (23.53-26.47%)  State 1 → State 2 transition
-     5-7.2s  (29.41-42.35%)  Form typing + caret lifecycle
+     0-3.5s  (0-19.44%)      State 1 phone (overlay at 16.67-19.44%)
+     4-4.5s  (22.22-25%)     State 1 → State 2 transition
+     5-7.2s  (27.78-40%)     Form typing + caret lifecycle
      7.5-8s  (44.12-47.06%)  "Doesn't submit" overlay
      8.5-9s  (50-52.94%)     State 2 → State 3 transition
      9-10s   (52.94-58.82%)  3a Service select (step 1 active)
@@ -1462,6 +1569,39 @@ img { display: block; max-width: 100%; }
   100% { box-shadow: none; }
 }
 
+/* ── Polish 9: initial cursor + delayed-highlight on State 3 entry ────
+   Beat layout (relative to 18s = 100%):
+     50%   (9.00s) State 3 enters; cursor begins glide-in from upper-right
+     54%   (9.72s) Cursor lands on Injectables card
+     54.5% (9.81s) Click pulse (cursor scale 0.88)
+     55%   (9.90s) Cursor releases; Injectables card highlight ACTIVATES
+     56.5% (10.17s) Cursor fades out
+     >57%          Standard State 3 progression continues unchanged    */
+@keyframes hero-anim-funnel-cursor {
+  0%, 50% { opacity: 0; transform: translate(70px, -30px); }
+  51% { opacity: 1; transform: translate(80px, 60px) scale(1); }
+  54% { opacity: 1; transform: translate(150px, 215px) scale(1); }
+  54.5% { opacity: 1; transform: translate(150px, 215px) scale(0.88); }
+  55% { opacity: 1; transform: translate(150px, 215px) scale(1); }
+  56.5% { opacity: 0; transform: translate(150px, 215px) scale(1); }
+  100% { opacity: 0; transform: translate(150px, 215px) scale(1); }
+}
+@keyframes hero-anim-card-delay-highlight {
+  /* Suppress .is-highlight visuals until the cursor clicks at 55%. */
+  0%, 54% {
+    border-color: var(--color-rule);
+    background: #FFFFFF;
+    box-shadow: 0 4px 12px -8px rgba(43, 38, 32, 0.08);
+    padding-left: 16px;
+  }
+  55%, 100% {
+    border-color: var(--color-walnut);
+    background: var(--bg-cream-hover);
+    box-shadow: inset 3px 0 0 var(--color-walnut), 0 6px 14px -8px rgba(139, 90, 60, 0.18);
+    padding-left: 14px;
+  }
+}
+
 /* Reduced-motion fallback labels — hidden by default */
 .hero-v3-stage-rmlabel { display: none; }
 
@@ -1494,6 +1634,8 @@ img { display: block; max-width: 100%; }
     margin-bottom: 14px;
   }
   .step-label-1, .step-label-2, .step-label-3, .step-label-4 { opacity: 1; }
+  /* Polish 9: hide the funnel cursor in reduced-motion fallback */
+  .hero-v3-funnel-cursor { display: none; }
   .step-dot-2 .dot,
   .step-dot-3 .dot,
   .step-dot-4 .dot {

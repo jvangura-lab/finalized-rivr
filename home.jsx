@@ -125,7 +125,7 @@ function Hero() {
                   intentionally not-RIVR. */}
               <div className="hero-v3-state hero-v3-state-phone">
                 <div className="hero-v3-state-head">
-                  <span className="hero-v3-state-brand">Lumière Aesthetics</span>
+                  <span className="hero-v3-state-brand">COASTAL AESTHETIC STUDIO</span>
                 </div>
                 <div className="hero-v3-state-body hero-v3-phone-body">
                   <p className="hero-v3-state-eyebrow">Book an appointment</p>
@@ -150,7 +150,7 @@ function Hero() {
                   </p>
                 </div>
                 <div className="hero-v3-state-foot">
-                  <span>&copy; Lumi&egrave;re Aesthetics</span>
+                  <span>&copy; Coastal Aesthetic Studio</span>
                 </div>
                 <div className="hero-v3-state-overlay" aria-hidden>
                   <span>Doesn't call</span>
@@ -159,12 +159,14 @@ function Hero() {
               </div>
 
               {/* STATE 2 — Contact form "Request an Appointment" page (~4s).
-                  Same fictional practice as State 1 for continuity. Form is
-                  intentionally generic — no design polish, no real-time
-                  validation, no animations beyond the cursor typing "Sarah". */}
+                  A DIFFERENT templated practice — "Magnolia Wellness Co." —
+                  with a warm-neutral dove-gray + taupe palette so it reads
+                  as a different template from State 1's slate/navy Coastal.
+                  Form remains intentionally generic — no design polish, no
+                  real-time validation, no animations beyond the typing. */}
               <div className="hero-v3-state hero-v3-state-form">
                 <div className="hero-v3-state-head">
-                  <span className="hero-v3-state-brand">Lumière Aesthetics</span>
+                  <span className="hero-v3-state-brand">Magnolia Wellness Co.</span>
                 </div>
                 <div className="hero-v3-state-body hero-v3-form-body">
                   <h3 className="hero-v3-state-h3">Request an Appointment</h3>
@@ -189,7 +191,7 @@ function Hero() {
                   <button type="button" tabIndex={-1} className="hero-v3-form-submit">Submit</button>
                 </div>
                 <div className="hero-v3-state-foot">
-                  <span>&copy; Lumi&egrave;re Aesthetics</span>
+                  <span>&copy; Magnolia Wellness Co.</span>
                 </div>
                 <div className="hero-v3-state-overlay" aria-hidden>
                   <span>Doesn't submit</span>
@@ -197,14 +199,29 @@ function Hero() {
                 </div>
               </div>
 
-              {/* STATE 3 — RIVR funnel resolution (~6s). The polished payoff.
-                  Geist sans, walnut accents, off-white surface — the contrast
-                  with States 1+2 reads instantly. Includes an internal step
-                  advance: service-step view crossfades to time-step view at
-                  roughly the 1-second mark inside this state. */}
+              {/* STATE 3 — RIVR funnel resolution (~7s with new initial click
+                  beat). Geist sans, walnut accents, off-white surface — the
+                  contrast with States 1+2 reads instantly. Sequence: cursor
+                  glides into the Injectables card on entry → click → card
+                  highlights → step indicator advances through Service →
+                  Time → Confirm → Done. */}
               <div className="hero-v3-state hero-v3-state-funnel">
                 <div className="hero-v3-funnel-head">
                   <span className="hero-v3-funnel-brand">Your Practice</span>
+                </div>
+                {/* Polish 9: initial cursor-click beat. Glides into the
+                    Injectables card, pulses on click, then fades. Highlight
+                    state on the card itself is gated by a separate keyframe
+                    so the card looks idle until this click lands. */}
+                <div className="hero-v3-funnel-cursor" aria-hidden>
+                  <svg viewBox="0 0 22 22" width="22" height="22">
+                    <path
+                      d="M4 2 L4 17 L8 13.5 L10.5 19 L13 18 L10.5 12.5 L16 12 Z"
+                      fill="#2B2620"
+                      stroke="#FFFFFF"
+                      strokeWidth="0.8"
+                      strokeLinejoin="round" />
+                  </svg>
                 </div>
                 <div className="hero-v3-funnel-stepbar">
                   <span className="hero-v3-funnel-stepcount">
