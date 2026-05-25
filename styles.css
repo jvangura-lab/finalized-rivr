@@ -865,6 +865,151 @@ img { display: block; max-width: 100%; }
   background: var(--color-secondary);
 }
 
+/* ── Hero before/after 6-second narrative loop (Polish 5 / Task 2) ────────
+   Cycle:
+     0-2s   typing "Sarah" in the Name field
+     2-3s   patient gives up — form dims to ~40%, overlay surfaces,
+            chevron pulses + tints walnut
+     3-5s   RIVR funnel-card animates in (slides up + fades in);
+            Injectables service card pulses on a beat
+     5-6s   hold contrast state (dim form, vibrant RIVR)
+   All keyframes share the same 6s duration so they stay in phase. */
+
+/* Default static state — both panels visible at full opacity. This is
+   what reduced-motion or out-of-view viewers see. Overlay invisible. */
+.hero-v3-before { position: relative; }
+.hero-v3-before-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(43, 38, 32, 0) 0%,
+    rgba(43, 38, 32, 0.18) 100%);
+  opacity: 0;
+  z-index: 2;
+}
+.hero-v3-before-overlay span {
+  font-family: var(--font-mono);
+  font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--color-walnut);
+  background: var(--bg-cream-hover);
+  border: 1px solid var(--color-walnut);
+  padding: 8px 14px;
+  border-radius: 999px;
+}
+
+/* Typing text inside the Name input — only renders when animating. */
+.hero-v3-typing {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: middle;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  color: #2B2620;
+  padding-left: 8px;
+  line-height: 26px;
+  max-width: 0;   /* hidden by default; the typing keyframe reveals it */
+}
+.hero-v3-caret {
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  background: #6E6157;
+  vertical-align: middle;
+  margin-left: 2px;
+  opacity: 0;
+}
+
+/* Animations only run when .hero-v3-visual carries .is-animating */
+.hero-v3-visual.is-animating .hero-v3-before {
+  animation: hero-anim-form-dim 6s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-before-overlay {
+  animation: hero-anim-overlay 6s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-typing {
+  animation: hero-anim-type 6s steps(5, end) infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-caret {
+  animation: hero-anim-caret 6s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-arrow {
+  animation: hero-anim-arrow 6s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-after {
+  animation: hero-anim-after 6s ease-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-after-card.is-pulse {
+  animation: hero-anim-card-pulse 6s ease-out infinite;
+}
+
+@keyframes hero-anim-form-dim {
+  /* 0-2s active, 2-3s fading, 3-6s dim */
+  0%, 33.33% { opacity: 1; }
+  41.67% { opacity: 1; }
+  50%, 100% { opacity: 0.4; }
+}
+@keyframes hero-anim-overlay {
+  /* 0-2.4s hidden, 2.4-3s in, 3-3.6s out, 3.6-6s hidden */
+  0%, 38% { opacity: 0; }
+  46% { opacity: 1; }
+  56% { opacity: 1; }
+  64%, 100% { opacity: 0; }
+}
+@keyframes hero-anim-type {
+  /* Typing 0-2s — width grows char-by-char via steps(5) */
+  0% { max-width: 0; }
+  4% { max-width: 0; }
+  33.33% { max-width: 40px; }
+  /* Stay at full width through give-up + RIVR appear, then reset for loop */
+  91% { max-width: 40px; }
+  92%, 100% { max-width: 0; }
+}
+@keyframes hero-anim-caret {
+  /* Caret visible + blinks during 0-2s typing window */
+  0%, 4% { opacity: 0; }
+  5%, 33.33% { opacity: 1; }
+  35%, 100% { opacity: 0; }
+}
+@keyframes hero-anim-arrow {
+  /* Pulse + walnut tint during 2-3s give-up window */
+  0%, 33.33% { opacity: 0.55; transform: scale(1); color: var(--color-text-muted); }
+  41.67% { opacity: 1; transform: scale(1.18); color: var(--color-walnut); }
+  50% { opacity: 1; transform: scale(1); color: var(--color-walnut); }
+  100% { opacity: 0.7; transform: scale(1); color: var(--color-walnut); }
+}
+@keyframes hero-anim-after {
+  /* RIVR card hidden 0-3s, slides up + fades in 3-3.5s, stays through end */
+  0%, 50% { opacity: 0.2; transform: translateY(16px); }
+  58.33% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-anim-card-pulse {
+  /* Injectables card highlight pulse at 3.5-4s — beat after card lands */
+  0%, 58.33% { box-shadow: none; }
+  66.67% { box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.28); }
+  75% { box-shadow: 0 0 0 6px rgba(var(--color-accent-rgb), 0); }
+  100% { box-shadow: none; }
+}
+
+/* Reduced-motion fallback — no animation, final contrast state shown. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-v3-visual.is-animating .hero-v3-before,
+  .hero-v3-visual.is-animating .hero-v3-before-overlay,
+  .hero-v3-visual.is-animating .hero-v3-typing,
+  .hero-v3-visual.is-animating .hero-v3-caret,
+  .hero-v3-visual.is-animating .hero-v3-arrow,
+  .hero-v3-visual.is-animating .hero-v3-after,
+  .hero-v3-visual.is-animating .hero-v3-after-card.is-pulse {
+    animation: none !important;
+  }
+  /* Show the final contrast state statically */
+  .hero-v3-before { opacity: 0.6; }
+  .hero-v3-typing { max-width: 40px; }
+}
+
 /* ========================================================================
    Pipeline (How It Works) — sticky scroll sequence
    ======================================================================== */

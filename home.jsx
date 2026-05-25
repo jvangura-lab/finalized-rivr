@@ -35,6 +35,32 @@ function Hero() {
   const spotX = 50 + mouse.x * 18;
   const spotY = 36 + mouse.y * 14;
 
+  // Polish 5 / Task 2: 6-second narrative loop on the before/after visual.
+  // IntersectionObserver toggles the `is-animating` class on .hero-v3-visual
+  // so the keyframes only run when the hero is in view. Reveal already owns
+  // its own ref on that element; we query into the stage instead of trying
+  // to share refs. prefers-reduced-motion fallback lives in CSS (animations
+  // suppressed; final-state contrast still visible).
+  useEffectH(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const visual = stage.querySelector(".hero-v3-visual");
+    if (!visual) return;
+    if (typeof IntersectionObserver === "undefined") {
+      visual.classList.add("is-animating");
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) visual.classList.add("is-animating");
+        else visual.classList.remove("is-animating");
+      }),
+      { threshold: 0.2 }
+    );
+    io.observe(visual);
+    return () => io.disconnect();
+  }, [stageRef]);
+
   return (
     <section
       ref={stageRef}
@@ -87,15 +113,26 @@ function Hero() {
           <Reveal delay={620} className="hero-v3-visual" aria-hidden>
             {/* BEFORE — stylized "broken" contact-form booking page.
                 Plain sans, flat fields, generic disclaimer. The dull on
-                purpose. */}
+                purpose. Polish 5 / Task 2: Name field carries a typing
+                animation ("Sarah" appears char-by-char) and an overlay
+                that briefly surfaces "Patient gives up." mid-loop. */}
             <div className="hero-v3-before">
+              <div className="hero-v3-before-overlay" aria-hidden>
+                <span>Patient gives up.</span>
+              </div>
               <div className="hero-v3-before-head">
                 <span className="hero-v3-before-brand">YOUR AESTHETICS CO.</span>
               </div>
               <div className="hero-v3-before-body">
                 <h3 className="hero-v3-before-title">Request an Appointment</h3>
                 <div className="hero-v3-before-form">
-                  <div className="hero-v3-before-field"><span className="lbl">Name</span><span className="inp" /></div>
+                  <div className="hero-v3-before-field">
+                    <span className="lbl">Name</span>
+                    <span className="inp">
+                      <span className="hero-v3-typing" aria-hidden>Sarah</span>
+                      <span className="hero-v3-caret" aria-hidden />
+                    </span>
+                  </div>
                   <div className="hero-v3-before-field"><span className="lbl">Phone</span><span className="inp" /></div>
                   <div className="hero-v3-before-field"><span className="lbl">Email</span><span className="inp" /></div>
                   <div className="hero-v3-before-field"><span className="lbl">Preferred Date</span><span className="inp" /></div>
