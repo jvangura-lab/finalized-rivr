@@ -210,12 +210,14 @@ function Hero() {
                   <span className="hero-v3-funnel-stepcount">
                     <span className="step-label step-label-1">STEP 1 of 4</span>
                     <span className="step-label step-label-2">STEP 2 of 4</span>
+                    <span className="step-label step-label-3">STEP 3 of 4</span>
+                    <span className="step-label step-label-4">STEP 4 of 4</span>
                   </span>
                   <ol className="hero-v3-funnel-steps">
                     <li className="step-dot step-dot-1"><span className="dot" /></li>
                     <li className="step-dot step-dot-2"><span className="dot" /></li>
-                    <li className="step-dot"><span className="dot" /></li>
-                    <li className="step-dot"><span className="dot" /></li>
+                    <li className="step-dot step-dot-3"><span className="dot" /></li>
+                    <li className="step-dot step-dot-4"><span className="dot" /></li>
                   </ol>
                 </div>
                 <div className="hero-v3-funnel-body">
@@ -271,6 +273,41 @@ function Hero() {
                         <span className="day">Thu</span><span className="time">1:00 PM</span>
                       </button>
                     </div>
+                  </div>
+
+                  {/* Step 3 view — confirm booking summary */}
+                  <div className="hero-v3-funnel-view hero-v3-funnel-confirm">
+                    <p className="hero-v3-funnel-eyebrow">Step 3 &mdash; Confirm</p>
+                    <h3 className="hero-v3-funnel-title">Confirm your booking</h3>
+                    <p className="hero-v3-funnel-sub">Review the details below.</p>
+                    <dl className="hero-v3-funnel-summary">
+                      <div><dt>Service</dt><dd>Injectables &middot; Botox</dd></div>
+                      <div><dt>Time</dt><dd>Wed, May 27 &middot; 10:00 AM</dd></div>
+                      <div><dt>Practitioner</dt><dd>Sofia Reyes, NP</dd></div>
+                      <div><dt>Duration</dt><dd>45 min</dd></div>
+                    </dl>
+                    <button type="button" tabIndex={-1} className="hero-v3-funnel-confirm-btn">
+                      Confirm booking
+                      <span className="arr" aria-hidden>&rarr;</span>
+                    </button>
+                  </div>
+
+                  {/* Step 4 view — booking confirmed payoff beat */}
+                  <div className="hero-v3-funnel-view hero-v3-funnel-done">
+                    <div className="hero-v3-funnel-done-check" aria-hidden>
+                      <svg viewBox="0 0 48 48" width="40" height="40">
+                        <path
+                          d="M12 24.5 L21 33 L36 16"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                    <h3 className="hero-v3-funnel-done-title">You&rsquo;re booked.</h3>
+                    <p className="hero-v3-funnel-done-detail">Wed, May 27 &middot; 10:00 AM &middot; Sofia Reyes, NP</p>
+                    <p className="hero-v3-funnel-done-sub">Confirmation sent to sarah@example.com</p>
                   </div>
                 </div>
               </div>
