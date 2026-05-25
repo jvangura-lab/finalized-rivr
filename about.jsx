@@ -1,18 +1,34 @@
 // =============================================================================
-// ABOUT page — Hero (sequenced reveal), Founders photo (image mask),
-// Founders bios (split reveal), Why, What we do/don't, Location, ClosingCTA
+// ABOUT page — ethos/pathos rebuild
+//
+// 5-section architecture deploying the strategic argument:
+// "You'll look at us and think we're too young. We grew up with this. We're
+//  more fluent in modern AI tooling and modern web than anyone you can hire
+//  for our price. That's the asset. Plus this is our entire focus."
+//
+//   1. AboutHero          — short framing, who we are
+//   2. AgeQuestion        — name the elephant, reframe (pivot section)
+//   3. FoundersSection    — photo pair + restructured 2-para bios
+//   4. WhereWeAreFrom     — Ponte Vedra / TPC pathos beat
+//   5. WhatWereBuilding   — closing CTA
+//
+// PLACEHOLDER markers throughout flag spots where the founder will fill
+// in personal specifics tomorrow morning before deploy (look for the
+// exact string "[PLACEHOLDER" to find them — both in JSX comments and
+// in rendered copy).
 // =============================================================================
 const { useRef: useRefA, useEffect: useEffectA, useState: useStateA } = React;
 const {
   useReveal, useScrollProgress, useStickyProgress, useMousePos,
   clamp, lerp, mix,
-  Reveal, FadeUp, RevealLines, Nav, Button, Footer, ClosingCTA, Cursor, CtaReassure,
+  Reveal, FadeUp, RevealLines, Nav, Button, Footer, Cursor, CtaReassure,
 } = window;
 
-// ─── About Hero ──────────────────────────────────────────────────────────────
+// ─── Section 1 — About Hero ─────────────────────────────────────────────
+// Lightly polished from the previous version. Headline tightened to lead
+// with the audience-positioning hook ("Built for practices that have
+// outgrown templates"). Italic accents removed (Polish 4 typography pass).
 function AboutHero() {
-  // Polish 4 / Task 3: padding tightened 180/100 → 120/80 to match the
-  // new home hero (.hero-v3) so /about feels proportional.
   return (
     <section className="hero-stage" style={{ minHeight: "auto", paddingBlock: "120px 80px" }}>
       <div className="hero-grid-bg" aria-hidden />
@@ -24,14 +40,14 @@ function AboutHero() {
           <RevealLines
             as="h1" className="text-display-1" baseDelay={60} gap={110}
             lines={[
-              <>Two co-founders.</>,
-              <>Both write the code.</>,
-              <>Both <span className="serif" style={{ color: "var(--color-accent)" }}>talk to clients</span>.</>,
+              <>Two founders.</>,
+              <>Both code.</>,
+              <>Built for practices that have <span className="serif" style={{ color: "var(--color-accent)" }}>outgrown templates</span>.</>,
             ]}
           />
-          <Reveal delay={620}>
+          <Reveal delay={680}>
             <p className="text-body-lg" style={{ marginTop: 40, maxWidth: 620 }}>
-              RIVR is a two-person studio in Jacksonville Beach. We build online booking systems for medical spas and aesthetic practices. No managers, no account reps, no offshore handoff. The two people who designed your page also ship it and support it.
+              RIVR is a two-person studio. We build custom booking funnels for medical spas and aesthetic practices &mdash; not template installs, not platform migrations. The two people who design your page also ship it and support it.
             </p>
           </Reveal>
         </div>
@@ -40,21 +56,86 @@ function AboutHero() {
   );
 }
 
-// ─── Founders section: image mask + parallax photo, then bios ───────────────
+// ─── Section 2 — The Age Question ───────────────────────────────────────
+// The structural pivot. Place this BEFORE the founder photos so prospects
+// encounter the age reframe before they scan a face and form a snap
+// judgement. This is the most strategically important section on the page.
+// The placeholder copy is solid enough to ship if not rewritten, but
+// clearly invites a founder pass to add personal register.
+function AgeQuestion() {
+  return (
+    <section className="section about-age">
+      <div className="container" style={{ maxWidth: 760 }}>
+        <Reveal>
+          <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 26 }}>On our age</p>
+        </Reveal>
+        <RevealLines
+          as="h2" className="text-display-2" baseDelay={60} gap={90}
+          lines={[
+            <>We&rsquo;re 18.</>,
+            <>That&rsquo;s not a problem.</>,
+            <>It&rsquo;s the reason this works.</>,
+          ]}
+        />
+        <div style={{ marginTop: 56, fontSize: "1.125rem", lineHeight: 1.7, maxWidth: 680 }}>
+          {/* [PLACEHOLDER: founder will refine voice — paragraph 1 acknowledges
+              the objection directly. Keep "We grew up with this." somewhere.] */}
+          <Reveal delay={120}>
+            <p style={{ marginBottom: 24 }}>
+              Most of the people we talk to in the aesthetic medicine space have ten or twenty years on us. Their first read on our age is going to be a credibility question, and we&rsquo;re not going to pretend otherwise. So we&rsquo;ll name it now: we&rsquo;re 18, this is the work, and here&rsquo;s why we think it&rsquo;s an asset rather than a liability.
+            </p>
+          </Reveal>
+
+          {/* [PLACEHOLDER: founder will refine voice — paragraph 2 reframes
+              age as fluency advantage. Specific: modern AI tooling, modern
+              web stack. Avoid vague "digital native" cliche.] */}
+          <Reveal delay={240}>
+            <p style={{ marginBottom: 24 }}>
+              We grew up with this technology. We&rsquo;ve been using modern AI tooling since it shipped, building on modern web stacks since they became the default. Compared to the agencies and freelancers a practice typically considers in our price band, we&rsquo;re faster, more current, and more comfortable with the tools the work actually needs. That fluency compounds into output quality.
+            </p>
+          </Reveal>
+
+          {/* [PLACEHOLDER: founder will refine voice — paragraph 3 bridges
+              to credibility ("the work argues for itself"). Reference the
+              three demos.] */}
+          <Reveal delay={360}>
+            <p style={{ marginBottom: 24 }}>
+              We don&rsquo;t ask you to take this on faith. Every reference build on our site &mdash; Sela, Devereaux, Lumera &mdash; was built by us, end to end. Walk through any of them. The work argues for itself.
+            </p>
+          </Reveal>
+
+          {/* [PLACEHOLDER: founder will refine voice — paragraph 4 bridges
+              to conviction. RIVR is the entire focus, not a side project,
+              you get the attention every client gets.] */}
+          <Reveal delay={480}>
+            <p>
+              And because this is our entire focus &mdash; not a side gig, not a class project, not a stepping stone to a different career &mdash; you get the attention every client gets. We pick up the phone. We sign the BAA. We answer in 48 hours. That&rsquo;s the deal.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Section 3 — Founders ───────────────────────────────────────────────
+// Existing photo pair + restructured 2-paragraph bios per founder.
+// Paragraph 1: technical role at RIVR. Paragraph 2: PLACEHOLDER for personal
+// narrative the founder will fill in.
+//
+// NOTE: Thor's headshot (imagery/thor-headshot.jpg) is scheduled to be
+// replaced tonight with a new photo. Keep the markup the same; the file
+// will be swapped in place.
 function FoundersSection() {
   const [secRef, p] = useScrollProgress();
   const mouse = useMousePos();
-  // Parallax on the image (drift up as user scrolls past)
   const imgY = (p - 0.4) * -60;
-  // Subtle mouse tilt
   const tilt = mouse.x * 1.5;
-
   const imgRef = useReveal();
 
   return (
     <section ref={secRef} className="section">
       <div className="container">
-        {/* Photo pair with image mask reveal */}
         <div ref={imgRef} className="about-photo about-photo--split img-mask" style={{
           transform: `translateY(${imgY}px) rotate(${tilt * 0.4}deg)`,
           willChange: "transform, clip-path",
@@ -64,6 +145,8 @@ function FoundersSection() {
             <figcaption>Jonas</figcaption>
           </figure>
           <figure>
+            {/* PLACEHOLDER: replace imagery/thor-headshot.jpg tonight before
+                deploy. The src path stays the same; just swap the file. */}
             <img src="imagery/thor-headshot.jpg" alt="Thor Gyulai, co-founder of RIVR" />
             <figcaption>Thor</figcaption>
           </figure>
@@ -73,29 +156,24 @@ function FoundersSection() {
             color: "#fff", padding: "10px 16px", borderRadius: 999,
             fontSize: "0.75rem", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 600,
           }}>
-            <span style={{ color: "var(--color-accent)" }}>◆</span> &nbsp;Jonas + Thor &nbsp;·&nbsp; Jacksonville Beach
+            <span style={{ color: "var(--color-accent)" }}>&#9670;</span> &nbsp;Jonas + Thor &nbsp;&middot;&nbsp; Ponte Vedra Beach
           </div>
         </div>
 
-        {/* Bios — Stream C v2 depth pass.
-            Three-area structure per founder: (1) background, (2) how we got into
-            booking funnels for aesthetic medicine, (3) what we own day-to-day.
-            PLACEHOLDER comments mark biographical facts that need founder input. */}
         <div className="founders">
           <FadeUp>
             <div className="founder">
               <p className="label">Co-founder</p>
               <h2>Jonas Vangura</h2>
               <p>
-                I study at Florida International University's Honors College and train Muay Thai when I'm not in front of a screen. The training is the counterweight to the hours building.
-                {/* PLACEHOLDER: Jonas — specific technical background. When did you start coding? Self-taught or coursework? Favorite stack? First real project you shipped before RIVR? */}
+                I study at Florida International University&rsquo;s Honors College and train Muay Thai when I&rsquo;m not in front of a screen. On the build side, I own the backend integrations &mdash; calendar APIs, intake handoff, the parts that connect a RIVR booking page to whatever software a practice already runs. That&rsquo;s the work that makes &ldquo;no migration&rdquo; actually true.
               </p>
+              {/* [PLACEHOLDER: Jonas — fill in 2-3 sentences of personal
+                  narrative. Hometown, path to RIVR, what you care about
+                  outside the work. Keep it concrete; avoid generic founder
+                  bio voice.] */}
               <p>
-                {/* PLACEHOLDER: Jonas — the path to RIVR. How did you go from FIU + training to building booking funnels for medspas specifically? Was it through Thor, through a particular conversation, through a job? Who was the first med spa you talked to and what did they say? */}
-                The reason this exists: I kept seeing the same gap. Every booking platform on the market expects medspas to migrate to new software, and most medspas already have a good EMR or scheduler they'd built their whole operation around. Asking them to reset their software was the wrong ask, so I built booking that adapts to whatever they're already running — we do the adapting, not them.
-              </p>
-              <p>
-                Day to day, Thor and I both work across the whole product — engineering, design, customer calls, walkthroughs. I own {/* PLACEHOLDER: Jonas — what specifically do you own on the build? Backend? Integrations? Client onboarding? */} on most builds.
+                <em>[PLACEHOLDER &mdash; Jonas, fill in 2&ndash;3 sentences here: hometown / path to this work / what you care about outside RIVR. Concrete details, not generic founder voice.]</em>
               </p>
             </div>
           </FadeUp>
@@ -104,15 +182,13 @@ function FoundersSection() {
               <p className="label">Co-founder</p>
               <h2>Thor Gyulai</h2>
               <p>
-                I'm 18 and RIVR is my full-time work.
-                {/* PLACEHOLDER: Thor — specific technical background. When did you start coding? First language? First project? What were you doing in the year before RIVR? Self-taught, school, bootcamp? */}
+                I&rsquo;m 18 and RIVR is my full-time work. On the build side I own the booking funnels themselves, the three live demos at <em>the build</em>, and the marketing site you&rsquo;re reading right now. Jonas and I run checks on each other&rsquo;s work so the deliverables hold up.
               </p>
+              {/* [PLACEHOLDER: Thor — fill in 2-3 sentences of personal
+                  narrative. Hometown specifics, what you were doing before
+                  RIVR, what you care about outside the work.] */}
               <p>
-                {/* PLACEHOLDER: Thor — the path to RIVR. How did the first med spa conversation happen? Why aesthetic medicine specifically — what made retail med spas the right market vs. generic SMB, generic healthcare, or another vertical? */}
-                What I kept seeing on the way in: every booking platform was copy-pasting the same template onto every client, regardless of whether it was a single-surgeon concierge or a six-room studio. So at RIVR we build every client's booking page from scratch — consultation bookings, service menus, membership funnels — to the practice's actual pattern.
-              </p>
-              <p>
-                On the build side I own the booking funnels, the three live demos at <em>the build</em>, and the marketing site you're reading right now. Day to day, Jonas and I run checks on each other's work so the deliverables hold up.
+                <em>[PLACEHOLDER &mdash; Thor, fill in 2&ndash;3 sentences here: where you grew up, what you were doing before RIVR, what you care about outside the work. Concrete, not generic.]</em>
               </p>
             </div>
           </FadeUp>
@@ -122,111 +198,94 @@ function FoundersSection() {
   );
 }
 
-// ─── Why we built this (sticky pinned text reveal) ───────────────────────────
-function WhyWeBuilt() {
-  const [secRef, p] = useScrollProgress();
-  // Sticky pinned text where words emphasize as you scroll
+// ─── Section 4 — Where We're From ───────────────────────────────────────
+// Pathos beat. Anchors RIVR geographically and culturally — and quietly
+// signals to prospects in the Florida/Southeast aesthetic-medicine market
+// that we know the register. Photo grid is a placeholder until the
+// founder uploads TPC / hometown shots.
+function WhereWeAreFrom() {
   return (
-    <section ref={secRef} className="section">
-      <div className="container" style={{ maxWidth: 760 }}>
+    <section className="section about-from">
+      <div className="container" style={{ maxWidth: 880 }}>
         <Reveal>
-          <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 26 }}>Why we built this</p>
+          <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 26 }}>Where we&rsquo;re from</p>
         </Reveal>
         <RevealLines
           as="h2" className="text-display-2" baseDelay={60}
-          lines={[<>The gap nobody</>, <>was <span className="serif" style={{ color: "var(--color-accent)" }}>filling</span>.</>]}
+          lines={[<>Ponte Vedra Beach, Florida.</>]}
         />
-        <div style={{ marginTop: 56, fontSize: "1.125rem", lineHeight: 1.7 }}>
+        <div style={{ marginTop: 56, fontSize: "1.125rem", lineHeight: 1.7, maxWidth: 720 }}>
+          {/* [PLACEHOLDER: founder will rewrite — paragraph 1 sets the
+              place. PV/TPC/Northeast Florida specifics. Avoid postcard
+              language.] */}
           <Reveal delay={120}>
             <p style={{ marginBottom: 24 }}>
-              We started RIVR because we kept seeing the same gap. Practices stuck between a DIY plugin — Squarespace plus a booking widget, $500 in setup, that doesn't actually book — and an enterprise platform — Boulevard or Mindbody, $30K-plus, requiring a migration of the whole operation onto someone else's software. Nothing in the middle.
+              We grew up here. A few miles from TPC Sawgrass, a short drive from Jacksonville Beach, in the kind of Northeast Florida town where the local aesthetic-medicine practice is the same one your mom&rsquo;s friend goes to. That proximity isn&rsquo;t a marketing line &mdash; it&rsquo;s the reason we know what a boutique practice actually looks like.
             </p>
           </Reveal>
+
+          {/* [PLACEHOLDER: founder will rewrite — paragraph 2 connects
+              place to product instinct. Why this geography gives us an
+              edge in this market specifically.] */}
           <Reveal delay={240}>
             <p style={{ marginBottom: 24 }}>
-              The middle is what most practices actually need: a booking funnel that sits in front of the calendar and EMR they already run, on their own domain, with the same pricing and policies they've already worked out. No migration, no new software for staff to learn, no per-seat fees. So we built that — for practices that have outgrown the template but can't justify the enterprise cost.
+              The practices we build for &mdash; concierge surgical groups, multi-tier studios, retail med spas &mdash; are the kinds of practices that exist within five miles of where we grew up. We&rsquo;ve been around the patient register, the price points, the way a coordinator answers the phone. When you describe your practice on the walkthrough call, we recognize it.
             </p>
           </Reveal>
+
+          {/* [PLACEHOLDER: founder will add personal specifics — childhood,
+              family, formative experiences. Concrete + brief.] */}
           <Reveal delay={360}>
             <p>
-              We picked one med spa to start, partnered with them, shipped a real booking page connected to their real calendar, and watched the after-hours bookings start landing. Then we did it again. That is the work.
+              <em>[PLACEHOLDER &mdash; one paragraph of personal specifics: childhood / family / a formative moment that connects to why this work feels right. Brief and concrete.]</em>
             </p>
           </Reveal>
         </div>
-      </div>
-    </section>
-  );
-}
 
-// ─── Scope — inline prose (Stream C v1 list→prose conversion) ────────────────
-// Replaces the previous "We do / We do not" two-column list. The substance of
-// every do-item (build personalized booking pages, connect to existing
-// calendar/tools, host on the practice's domain, make changes after launch)
-// and every don't-item (sell a platform you have to migrate to, per-staff seat
-// fees, lock patient data, ads/social/branding services) is preserved — woven
-// into a confident scope statement rather than a defensive checklist.
-function WhatWeDo() {
-  return (
-    <section className="section">
-      <div className="container" style={{ maxWidth: 760 }}>
-        <FadeUp>
-          <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 26 }}>Scope</p>
-        </FadeUp>
-        <FadeUp delay={120}>
-          <div style={{ fontSize: "1.125rem", lineHeight: 1.7, color: "var(--color-text-primary)" }}>
-            <p style={{ marginBottom: 22 }}>
-              We build personalized booking pages for aesthetic medicine practices — consult, service, or membership flows that fit how a given practice actually books. We connect each one to the calendar and tools the team already runs, host it on the practice's own domain, and make changes after launch as the practice changes.
-            </p>
-            <p>
-              We don't sell a platform you have to migrate to. No per-staff seat fees, no locking your patient data inside our system, no ads, social media, or branding services on the side. When something falls outside the booking-funnel scope, we refer you to specialists we trust.
-            </p>
+        {/* Photo grid — placeholder block until founder uploads real shots.
+            Clearly marked so it doesn't ship to production accidentally. */}
+        <Reveal delay={480}>
+          <div className="about-from-photos" aria-hidden>
+            <div className="about-from-photo-ph">
+              <span>[PHOTO: PONTE VEDRA / TPC]</span>
+            </div>
+            <div className="about-from-photo-ph">
+              <span>[PHOTO: HOMETOWN / FOUNDERS GROWING UP]</span>
+            </div>
           </div>
-        </FadeUp>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-// ─── Location ────────────────────────────────────────────────────────────────
-function Location() {
+// ─── Section 5 — What We're Building (closing CTA) ──────────────────────
+// Replaces the shared <ClosingCTA /> on this page with a lighter, more
+// personal closer. Mirrors the home closing's "fifteen minutes, one
+// screen share" beat but in About's first-person register.
+function WhatWereBuilding() {
   return (
-    <section className="section">
-      <div className="container" style={{ maxWidth: 760 }}>
+    <section className="section about-closing">
+      <div className="container" style={{ maxWidth: 760, textAlign: "center" }}>
         <Reveal>
-          <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 26 }}>Location</p>
+          <p className="text-label-caps" style={{ color: "var(--color-accent-strong)", marginBottom: 26 }}>What&rsquo;s next</p>
         </Reveal>
-        <RevealLines as="h2" className="text-display-2" baseDelay={60}
-          lines={[<>Find us in <span className="serif" style={{ color: "var(--color-accent)" }}>Jacksonville Beach</span>.</>]}
+        <RevealLines
+          as="h2" className="text-display-2" baseDelay={60}
+          lines={[<>If this resonates,</>, <>let&rsquo;s talk.</>]}
         />
-        <Reveal delay={240}>
-          <address style={{ fontStyle: "normal", marginTop: 36, fontSize: "1.125rem", color: "var(--color-text-primary)", lineHeight: 1.6 }}>
-            RIVR Systems<br />
-            4016 South Third Street #1016<br />
-            Jacksonville Beach, FL 32250
-          </address>
-        </Reveal>
-        <Reveal delay={320}>
-          <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 14, marginTop: 32, fontSize: "1.125rem" }}>
-            <li>
-              Email{" "}
-              <a href="mailto:hello@rivrsystems.com" style={{ color: "var(--color-accent)", textDecoration: "underline", textUnderlineOffset: 4 }}>
-                hello@rivrsystems.com
-              </a>
-            </li>
-            {/* TODO(thor): replace (phone TBD) with the real Google Voice number. See BLOCKED_ON_THOR.md. */}
-            <li>
-              Call or text{" "}
-              <a href="sms:" style={{ color: "var(--color-accent)", textDecoration: "underline", textUnderlineOffset: 4 }}>
-                (phone TBD)
-              </a>
-            </li>
-            <li style={{ color: "var(--color-text-muted)" }}>
-              We reply within 48 hours, Monday through Friday.
-            </li>
-          </ul>
+        <Reveal delay={300}>
+          <p className="text-body-lg" style={{ marginTop: 40, maxWidth: 600, marginInline: "auto" }}>
+            We&rsquo;re not the agency choice. We&rsquo;re the small-shop choice &mdash; two founders, fast, focused on doing this one thing well.
+          </p>
         </Reveal>
         <Reveal delay={420}>
-          <div style={{ marginTop: 36 }}>
+          <p className="text-body-lg" style={{ marginTop: 18, maxWidth: 600, marginInline: "auto" }}>
+            If you&rsquo;ve read this far, you probably want to see what we&rsquo;d build for your practice. Fifteen minutes, one screen share, no pitch deck.
+          </p>
+        </Reveal>
+        <Reveal delay={560}>
+          <div style={{ marginTop: 44, display: "flex", justifyContent: "center" }}>
             <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
           </div>
         </Reveal>
@@ -242,11 +301,10 @@ function Page() {
       <Nav current="about" />
       <main id="main">
         <AboutHero />
+        <AgeQuestion />
         <FoundersSection />
-        <WhyWeBuilt />
-        <WhatWeDo />
-        <Location />
-        <ClosingCTA />
+        <WhereWeAreFrom />
+        <WhatWereBuilding />
       </main>
       <Footer />
     </>

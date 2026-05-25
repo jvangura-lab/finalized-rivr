@@ -2697,6 +2697,39 @@ img { display: block; max-width: 100%; }
   .about-photo--split { grid-template-columns: 1fr 1fr; }
   .about-photo--split figcaption { font-size: 1rem; top: 12px; left: 14px; }
 }
+
+/* About / Where We're From — photo placeholder grid. Replace with real
+   shots before deploy (founder is uploading TPC + hometown photos). */
+.about-from-photos {
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 720px) {
+  .about-from-photos { grid-template-columns: 1fr; }
+}
+.about-from-photo-ph {
+  aspect-ratio: 4 / 3;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      var(--color-surface-muted),
+      var(--color-surface-muted) 10px,
+      var(--color-bg) 10px,
+      var(--color-bg) 20px
+    );
+  border: 1px dashed var(--color-rule);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 16px;
+}
+
 .founders {
   display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
 }
