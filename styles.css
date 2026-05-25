@@ -830,6 +830,31 @@ img { display: block; max-width: 100%; }
 .hero-v3-state-form a,
 .hero-v3-state-form .hero-v3-form-link { color: #2C5282; }
 
+/* Polish 10 / C4: narrow-viewport responsive — compress the chrome on
+   mobile so the panel doesn't feel cramped. Below 600px the nav menu
+   reduces to fewer links, info row stacks to a single column, the hero
+   image strip shrinks. */
+@media (max-width: 600px) {
+  .hero-v3-site-nav { padding: 10px 14px; }
+  .hero-v3-site-logo { width: 110px; }
+  .hero-v3-site-links { gap: 6px; font-size: 0.6875rem; }
+  /* Hide every other nav link to keep the row clean — keeps About + Book */
+  .hero-v3-site-links span:nth-child(3),
+  .hero-v3-site-links span:nth-child(4),
+  .hero-v3-site-links span:nth-child(5),
+  .hero-v3-site-links span:nth-child(6) { display: none; }
+  .hero-v3-site-hero { height: 140px; }
+  .hero-v3-site-hero-short { height: 96px !important; }
+  .hero-v3-site-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 10px 14px;
+  }
+  .hero-v3-site-foot { padding: 8px 14px; font-size: 0.5625rem; }
+  .hero-v3-site-poweredby { display: none; }
+}
+
 /* ── Practice-site chrome (Polish 10) — shared structural styles for the
    nav, hero image, info row, footer, and templated tells across both
    Coastal (.hero-v3-state-phone) and Magnolia (.hero-v3-state-form).
@@ -858,12 +883,13 @@ img { display: block; max-width: 100%; }
 }
 .hero-v3-site-logo {
   display: block;
+  /* The Higgsfield wordmark assets are 21:9 with substantial whitespace
+     padding around the visible text. Using object-fit: cover with a
+     ~6:1 container crops the whitespace and shows the text band. */
   height: 22px;
-  width: auto;
-  /* Higgsfield wordmarks have generous whitespace; trim by clipping. */
-  object-fit: contain;
-  object-position: left center;
-  max-width: 220px;
+  width: 140px;
+  object-fit: cover;
+  object-position: center;
 }
 .hero-v3-site-links {
   display: flex; align-items: center; gap: 10px;
