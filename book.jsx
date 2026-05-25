@@ -84,8 +84,10 @@ function BookingWidget() {
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
 function BookHero() {
+  // Polish 4 / Task 4: padding tightened 150/100 → 120/80 to match the
+  // new home + about heroes.
   return (
-    <section className="hero-stage" style={{ minHeight: "auto", paddingBlock: "150px 100px" }}>
+    <section className="hero-stage" style={{ minHeight: "auto", paddingBlock: "120px 80px" }}>
       <div className="hero-grid-bg" aria-hidden />
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <a href="index.html" style={{
