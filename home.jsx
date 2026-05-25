@@ -732,12 +732,12 @@ function Page() {
         <Hero />
         {/* CredibilityStats moved up to position 3 (Polish 3 / Task 3) so the
             stat claim that backs the hero's "1 in 4 patients" headline lands
-            immediately below the fold, before product details. Cold-email
-            recipient needs proof before product. */}
+            immediately below the fold, before product details. */}
         <CredibilityStats />
         <ReferenceBuilds />
         <IntegrationSection />
-        <Marquee />
+        {/* Marquee removed from the home composition (Polish 4 / Task 2).
+            Component file left in place; just unhooked here. */}
         <YoursNextCTA />
         <ClosingCTA />
       </main>
