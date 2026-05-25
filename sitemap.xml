@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO(thor): confirm canonical domain (rivrsystems.com vs www). See BLOCKED_ON_THOR.md. -->
+<!-- TODO(thor): confirm canonical domain (rivrsystems.com vs www). See BLOCKED_ON_THOR.md.
+     Polish 4 / Task 9: Added <lastmod> per spec; switched URLs to clean
+     paths (no .html) matching the spec's canonical format. Server-side
+     URL rewrite is still TBD; until then both forms resolve, but the
+     pretty URLs are what we want indexed. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rivrsystems.com/</loc>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://rivrsystems.com/the-build.html</loc>
+    <loc>https://rivrsystems.com/about</loc>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rivrsystems.com/book.html</loc>
+    <loc>https://rivrsystems.com/book</loc>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rivrsystems.com/about.html</loc>
+    <loc>https://rivrsystems.com/the-build</loc>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.8</priority>
   </url>
 </urlset>
