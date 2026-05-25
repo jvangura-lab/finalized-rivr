@@ -819,13 +819,31 @@ img { display: block; max-width: 100%; }
   border-top-color: #DCD7D2;
   color: #A89684;
 }
-.hero-v3-state-form .hero-v3-form-field label { color: #A89684; }
+/* Polish 11 / Fix 4: Magnolia form fields read as warm boutique wellness,
+   not stark Bootstrap defaults. Subtle warm-tinted background, soft taupe
+   border at low opacity, deliberate 4px border-radius. Labels switch from
+   tiny Inter sans to Source Serif 4 sentence-case — the typography shift
+   is what flips the form from "wireframe" to "real boutique site." */
+.hero-v3-state-form .hero-v3-form-field label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #A89684;
+  margin-bottom: 4px;
+}
 .hero-v3-state-form .hero-v3-form-field .inp {
-  background: #FFFFFF;
-  border-color: #DCD7D2;
+  background: #FBFAF8;
+  border: 1px solid rgba(168, 150, 132, 0.18);
+  border-radius: 4px;
+}
+.hero-v3-state-form .hero-v3-form-field .inp:focus,
+.hero-v3-state-form .hero-v3-form-field .inp:focus-within {
+  border-color: rgba(168, 150, 132, 0.5);
 }
 .hero-v3-state-form .hero-v3-form-field .inp.select {
-  background-color: #FFFFFF;
+  background-color: #FBFAF8;
 }
 .hero-v3-state-form .hero-v3-form-submit {
   background: #6B6157;
@@ -1075,11 +1093,11 @@ img { display: block; max-width: 100%; }
   margin-top: 0;
   gap: 7px 10px;
 }
-.hero-v3-site-form-wrap .hero-v3-form-field label {
-  font-size: 0.625rem;
-}
+/* Polish 11: label-size override removed — Magnolia palette now sets
+   labels at 0.75rem Source Serif 4. Other practice sites using this
+   wrapper class would inherit the base label sizing. */
 .hero-v3-site-form-wrap .hero-v3-form-field .inp {
-  height: 24px;
+  height: 26px;
 }
 .hero-v3-site-form-wrap .hero-v3-form-submit {
   align-self: flex-start;
@@ -1088,9 +1106,13 @@ img { display: block; max-width: 100%; }
   margin-top: 2px;
 }
 .hero-v3-form-disclaimer {
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.04em;
+  /* Polish 11 / Fix 5: was mono italic — read as dev tooling. Now serif
+     italic in Magnolia's body register, sized for legibility. */
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0;
   color: #A89684;
   margin: 0;
 }
