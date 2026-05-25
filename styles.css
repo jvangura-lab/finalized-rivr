@@ -2865,6 +2865,57 @@ img { display: block; max-width: 100%; }
 
 /* The Build page — three stacked demo sections, each ~250vh tall with a
    sticky-pinned tile whose screenshot pans by scroll progress. */
+/* /the-build BuildProcess section (Polish 4 / Task 5) — methodology
+   list above the demo deep-dives. Adds the missing "how a build works"
+   beat that the demos alone don't communicate. */
+.build-process { padding-block: 88px; border-bottom: 1px solid var(--color-rule); }
+@media (max-width: 900px) { .build-process { padding-block: var(--space-section-mobile); } }
+.process-list {
+  list-style: none;
+  display: grid;
+  gap: 32px;
+  margin: 56px auto 0;
+  max-width: 780px;
+  padding: 0;
+}
+.process-step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 28px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--color-rule);
+  align-items: start;
+}
+.process-step:last-child { border-bottom: 0; padding-bottom: 0; }
+.process-num {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--color-accent-strong);
+  padding-top: 6px;
+}
+.process-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.22;
+  color: var(--color-text);
+  margin: 0 0 8px;
+}
+.process-body p {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+@media (max-width: 720px) {
+  .process-step { grid-template-columns: 1fr; gap: 8px; }
+  .process-num { padding-top: 0; }
+}
+
 .build-section { position: relative; padding-block: 80px 0; }
 .build-section + .build-section { border-top: 1px solid var(--color-rule); }
 .build-stage {

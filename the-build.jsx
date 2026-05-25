@@ -23,8 +23,9 @@ const {
 
 // ─── Hero (Stream C v2 final: lead with the funnel, not the demos) ──────────
 function BuildHero() {
+  // Polish 4 / Task 5: padding tightened 180/80 → 120/80 to match home + about + book heroes.
   return (
-    <section className="hero-stage" style={{ minHeight: "auto", paddingBlock: "180px 80px" }}>
+    <section className="hero-stage" style={{ minHeight: "auto", paddingBlock: "120px 80px" }}>
       <div className="hero-grid-bg" aria-hidden />
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <div style={{ maxWidth: 880, margin: "0 auto", textAlign: "center" }}>
@@ -105,6 +106,70 @@ function BuildDemoSection({ eyebrow, subEyebrow, headline, body, ctaLabel, ctaHr
             />
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── BuildProcess (Polish 4 / Task 5) ────────────────────────────────────────
+// /the-build now needs to communicate methodology, not just demo screenshots —
+// the home page's ReferenceBuilds already does the demos showcase work. This
+// section walks the actual engagement steps so a prospect can see what
+// "two to three weeks from kickoff to live" actually looks like.
+const PROCESS_STEPS = [
+  {
+    n: "01",
+    title: "Discovery call",
+    body: "Fifteen minutes. We look at your current setup — where bookings come in now, which calendar runs the practice, how your team triages new patients. No deck, no pitch.",
+  },
+  {
+    n: "02",
+    title: "Audit and scope",
+    body: "We map your current booking page against the funnel patterns that fit aesthetic medicine — time-first, practitioner-first, consult-first. You see which one fits and which services route through which lane.",
+  },
+  {
+    n: "03",
+    title: "Funnel build",
+    body: "Two weeks. We build your booking page from scratch — matched to your services, your providers, your pricing, your voice. We share a working draft inside the first week so you can see it move before it's done.",
+  },
+  {
+    n: "04",
+    title: "Integration",
+    body: "Wired to the calendar you already run — Google, Acuity, Vagaro, Boulevard, Square, Calendly, Cal.com, Microsoft 365, Apple Calendar, or a custom API. Bookings land in the same tab your front desk opens every morning. No new platform, no staff retraining.",
+  },
+  {
+    n: "05",
+    title: "Handoff and maintenance",
+    body: "We ship to your domain. Maintenance is opt-in — two to three changes per quarter (copy edits, image swaps, service menu updates, hours), with a 48-hour response window Monday through Friday. Bigger redesigns we scope on a follow-up call.",
+  },
+];
+
+function BuildProcess() {
+  return (
+    <section className="section build-process">
+      <div className="container">
+        <div className="section-header">
+          <FadeUp><p className="text-label-caps">How a build works</p></FadeUp>
+          <RevealLines
+            as="h2"
+            className="text-display-2"
+            baseDelay={120}
+            lines={[
+              <>Two to three weeks.</>,
+              <>One funnel, live on <span className="serif" style={{ color: "var(--color-accent)" }}>your domain</span>.</>,
+            ]} />
+        </div>
+        <ol className="process-list">
+          {PROCESS_STEPS.map((s, i) => (
+            <FadeUp as="li" key={s.n} delay={i * 80} className="process-step">
+              <span className="process-num">{s.n}</span>
+              <div className="process-body">
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </div>
+            </FadeUp>
+          ))}
+        </ol>
       </div>
     </section>
   );
@@ -228,6 +293,11 @@ function Page() {
       <Nav current="the-build" />
       <main id="main">
         <BuildHero />
+        {/* Polish 4 / Task 5: methodology section added before demos so the
+            page leads with HOW a build works, not just three demo deep-dives.
+            Home page's ReferenceBuilds now does the demos summary work; the
+            demos here are the deeper scroll-pan deep-dives, kept for depth. */}
+        <BuildProcess />
         {DEMOS.map((d) => <BuildDemoSection key={d.eyebrow} {...d} />)}
         <FAQSection />
         <ClosingCTA />
