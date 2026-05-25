@@ -737,8 +737,12 @@ function Page() {
         <ReferenceBuilds />
         <IntegrationSection />
         {/* Marquee removed from the home composition (Polish 4 / Task 2).
-            Component file left in place; just unhooked here. */}
-        <YoursNextCTA />
+            Component file left in place; just unhooked here.
+            YoursNextCTA ("Choosing your pattern" dark card) removed in
+            Polish 5 / Task 1 — the three-echo lines were preamble for the
+            story ReferenceBuilds already told, and the italic styling that
+            survived Polish 3's typography pass read as "ceremonial poetry"
+            rather than CTA copy. Component file kept; just unhooked. */}
         <ClosingCTA />
       </main>
       <Footer />
