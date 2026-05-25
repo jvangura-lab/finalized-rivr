@@ -124,33 +124,72 @@ function Hero() {
                   Cormorant serif brand, Inter sans content, neutral grays —
                   intentionally not-RIVR. */}
               <div className="hero-v3-state hero-v3-state-phone">
-                <div className="hero-v3-state-head">
-                  <span className="hero-v3-state-brand">COASTAL AESTHETIC STUDIO</span>
-                </div>
-                <div className="hero-v3-state-body hero-v3-phone-body">
-                  <p className="hero-v3-state-eyebrow">Book an appointment</p>
-                  <h3 className="hero-v3-state-h3">Call us to schedule your visit.</h3>
-                  <div className="hero-v3-phone-cta">
-                    <span className="hero-v3-phone-icon" aria-hidden>
-                      <svg viewBox="0 0 24 24" width="28" height="28">
-                        <path
-                          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
-                          stroke="currentColor"
-                          strokeWidth="1.7"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          fill="none" />
-                      </svg>
-                    </span>
-                    <span className="hero-v3-phone-num">(305) 555-0148</span>
+                {/* All non-overlay chrome wrapped in .hero-v3-phone-body so the
+                    existing state1-body-dim keyframe still fires during the
+                    "Doesn't call" beat. The wrapper switches from the old
+                    centered-flex CTA-only layout to a top-to-bottom practice-
+                    site stack: nav → hero image → CTA → info → footer. */}
+                <div className="hero-v3-phone-body">
+                  {/* 1. Top nav strip — logo + nav menu */}
+                  <div className="hero-v3-site-nav">
+                    <img
+                      src="imagery/hero/coastal-logo.png"
+                      alt="Coastal Aesthetic Studio"
+                      className="hero-v3-site-logo" />
+                    <nav className="hero-v3-site-links">
+                      <span>About</span>
+                      <span className="dot" aria-hidden>&middot;</span>
+                      <span>Services</span>
+                      <span className="dot" aria-hidden>&middot;</span>
+                      <span>Team</span>
+                      <span className="dot" aria-hidden>&middot;</span>
+                      <span>Book</span>
+                    </nav>
                   </div>
-                  <p className="hero-v3-phone-hours">Mon&#8211;Fri 9am&#8211;6pm &middot; Sat 10am&#8211;4pm</p>
-                  <p className="hero-v3-phone-location">
-                    <em>Or visit our location at 4016 South Third Street, Jacksonville Beach, FL</em>
-                  </p>
-                </div>
-                <div className="hero-v3-state-foot">
-                  <span>&copy; Coastal Aesthetic Studio</span>
+
+                  {/* 2. Hero image section with overlay headline */}
+                  <div className="hero-v3-site-hero">
+                    <div className="hero-v3-site-hero-img" aria-hidden />
+                    <div className="hero-v3-site-hero-copy">
+                      <p className="hero-v3-state-eyebrow">Book an appointment</p>
+                      <h3 className="hero-v3-state-h3">Call us to schedule your visit.</h3>
+                    </div>
+                  </div>
+
+                  {/* 3. CTA section — phone box */}
+                  <div className="hero-v3-site-cta-wrap">
+                    <div className="hero-v3-phone-cta">
+                      <span className="hero-v3-phone-icon" aria-hidden>
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                          <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+                            stroke="currentColor"
+                            strokeWidth="1.7"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            fill="none" />
+                        </svg>
+                      </span>
+                      <span className="hero-v3-phone-num">(305) 555-0148</span>
+                    </div>
+                  </div>
+
+                  {/* 4. Info row — hours + address */}
+                  <div className="hero-v3-site-info">
+                    <span>Mon&ndash;Fri 9&ndash;6 &middot; Sat 10&ndash;4</span>
+                    <span>4016 South Third Street &middot; Jacksonville Beach</span>
+                  </div>
+
+                  {/* 5. Footer strip — copyright + socials + templated tell */}
+                  <div className="hero-v3-site-foot">
+                    <span className="hero-v3-site-copy">&copy; Coastal Aesthetic Studio</span>
+                    <div className="hero-v3-site-socials" aria-hidden>
+                      <span className="social">IG</span>
+                      <span className="social">FB</span>
+                      <span className="social">TT</span>
+                    </div>
+                    <small className="hero-v3-site-poweredby">Powered by Squarespace</small>
+                  </div>
                 </div>
                 <div className="hero-v3-state-overlay" aria-hidden>
                   <span>Doesn't call</span>
