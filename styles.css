@@ -10,8 +10,16 @@
      stylesheet inherits the warm/editorial palette without per-rule edits.
      ====================================================================== */
 
-  /* ---- Canonical brand tokens (rivr-web spec) ---- */
-  --color-background: #F5EDE2;      /* Warm Cream — primary page bg */
+  /* ---- Canonical brand tokens (rivr-web spec) ----
+     Polish 4 / Task 1: base bg lightened from #F5EDE2 (warm cream) →
+     #FBF8F3 (off-white). Geist display + Source Serif body read cleaner
+     on the lighter ground. The previous warm-cream value lives on as
+     --bg-cream-hover, applied to interactive elements (nav links, ref
+     tiles, secondary CTAs, body links) on hover. --color-dark-text
+     intentionally stays at #F5EDE2 — that's text-on-dark, not bg, and
+     the warmer cream reads better against deep charcoal. */
+  --color-background: #FBF8F3;      /* Off-white — primary page bg */
+  --bg-cream-hover: #F0E8DC;        /* Hover highlight — slightly darker than base, formerly close to old base */
   --color-accent: #C8945D;          /* Amber Glow — links, gold accents */
   --color-accent-strong: #8C6A2F;   /* AA-passing gold for small labels on light bg */
   --color-secondary: #7A8C6E;       /* Sage — confirmations, positive states */
@@ -23,7 +31,7 @@
 
   /* RGB triplets for tinted shadows / scrims / glass (used via rgba(var(--…))) */
   --color-accent-rgb: 200, 148, 93;
-  --color-background-rgb: 245, 237, 226;
+  --color-background-rgb: 251, 248, 243;
   --color-surface-rgb: 252, 250, 246;
 
   /* ---- Surface + utility tokens (warm-mapped from old neutrals) ---- */
@@ -225,7 +233,9 @@ img { display: block; max-width: 100%; }
   font-size: 1rem; font-weight: 500;
   color: var(--color-text-muted);
   position: relative;
-  transition: color var(--dur-fast) var(--ease-rivr);
+  /* Polish 4 / Task 1: hover bg pill on links — cursor "warms" the surface */
+  border-radius: 999px;
+  transition: color 180ms ease-in-out, background-color 180ms ease-in-out;
 }
 /* Underline element — sits below the label, slides + fades on state change. */
 .nav-link::after {
@@ -243,7 +253,7 @@ img { display: block; max-width: 100%; }
     transform var(--dur-base) var(--ease-rivr),
     background-color var(--dur-fast) var(--ease-rivr);
 }
-.nav-link:hover { color: var(--color-text-primary); }
+.nav-link:hover { color: var(--color-text-primary); background-color: var(--bg-cream-hover); }
 .nav-link:hover::after { opacity: 0.5; transform: scaleX(1); }
 .nav-link.active { color: var(--color-text-primary); }
 .nav-link.active::after { opacity: 1; transform: scaleX(1); }
@@ -629,12 +639,15 @@ img { display: block; max-width: 100%; }
   font-weight: 500;
   color: var(--color-text);
   border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
-  transition: color var(--dur-fast) var(--ease-rivr), border-color var(--dur-fast) var(--ease-rivr);
+  padding: 4px 10px 4px 10px;
+  border-radius: 6px;
+  /* Polish 4 / Task 1: cream-hover surface lights up under cursor */
+  transition: color 180ms ease-in-out, border-color 180ms ease-in-out, background-color 180ms ease-in-out;
 }
 .hero-v3-cta-secondary:hover {
-  color: var(--color-accent);
-  border-bottom-color: var(--color-accent);
+  color: var(--color-walnut);
+  border-bottom-color: transparent;
+  background-color: var(--bg-cream-hover);
 }
 .hero-v3-cta-secondary .arr { display: inline-block; transition: transform var(--dur-fast) var(--ease-rivr); }
 .hero-v3-cta-secondary:hover .arr { transform: translateY(2px); }
@@ -2191,9 +2204,12 @@ img { display: block; max-width: 100%; }
   border-radius: 14px;
   overflow: hidden;
   display: flex; flex-direction: column;
-  transition: box-shadow 240ms var(--ease-rivr), transform 240ms var(--ease-rivr);
+  /* Polish 4 / Task 1: hover bg warms to --bg-cream-hover alongside existing
+     shadow + lift treatment. 180ms matches nav-link / secondary CTA. */
+  transition: box-shadow 240ms var(--ease-rivr), transform 240ms var(--ease-rivr), background-color 180ms ease-in-out;
 }
 .ref-tile:hover {
+  background: var(--bg-cream-hover);
   box-shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.22);
   transform: translateY(-4px);
 }
@@ -2273,8 +2289,13 @@ img { display: block; max-width: 100%; }
   display: flex; gap: 18px;
   font-size: 0.875rem; font-weight: 500;
 }
-.ref-tile-cta a { transition: color var(--dur-fast) var(--ease-rivr); }
-.ref-tile-cta a:hover { color: var(--color-accent); }
+.ref-tile-cta a {
+  padding: 4px 8px;
+  border-radius: 6px;
+  /* Polish 4 / Task 1: cream-hover surface highlights the link bbox */
+  transition: color 180ms ease-in-out, background-color 180ms ease-in-out;
+}
+.ref-tile-cta a:hover { color: var(--color-walnut); background-color: var(--bg-cream-hover); }
 
 @media (hover: none), (max-width: 1024px) {
   .ref-grid { grid-template-columns: 1fr; gap: 24px; }
