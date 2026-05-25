@@ -111,37 +111,72 @@ function Hero() {
 
           {/* Right column — before/after visual */}
           <Reveal delay={620} className="hero-v3-visual" aria-hidden>
-            {/* BEFORE — stylized "broken" contact-form booking page.
-                Plain sans, flat fields, generic disclaimer. The dull on
-                purpose. Polish 5 / Task 2: Name field carries a typing
-                animation ("Sarah" appears char-by-char) and an overlay
-                that briefly surfaces "Patient gives up." mid-loop. */}
-            <div className="hero-v3-before">
-              <div className="hero-v3-before-overlay" aria-hidden>
-                <span>Patient gives up.</span>
-              </div>
-              <div className="hero-v3-before-head">
-                <span className="hero-v3-before-brand">YOUR AESTHETICS CO.</span>
-              </div>
-              <div className="hero-v3-before-body">
-                <h3 className="hero-v3-before-title">Request an Appointment</h3>
-                <div className="hero-v3-before-form">
-                  <div className="hero-v3-before-field">
-                    <span className="lbl">Name</span>
-                    <span className="inp">
-                      <span className="hero-v3-typing" aria-hidden>Sarah</span>
-                      <span className="hero-v3-caret" aria-hidden />
+            {/* BROKEN PATTERNS — two stylized "broken" booking pages that
+                cycle through the 8s loop. Polish 6 (this commit) adds the
+                phone panel; the form panel was already present from
+                Polish 5 / Task 2. Cold-email qualified prospects fall
+                into roughly two camps — "call to book" pages and contact
+                forms — so the hero now mirrors both back at them.
+                Layout: .hero-v3-before (form) defines the wrapper's
+                height in normal flow; .hero-v3-phone overlays it
+                absolutely. Animation keyframes toggle phone opacity
+                0/1 so the form is revealed/covered mid-loop. */}
+            <div className="hero-v3-broken">
+              <div className="hero-v3-phone">
+                <div className="hero-v3-phone-head">
+                  <span className="hero-v3-phone-brand">LUMIÈRE AESTHETICS</span>
+                </div>
+                <div className="hero-v3-phone-body">
+                  <h3 className="hero-v3-phone-title">Call to book your appointment</h3>
+                  <div className="hero-v3-phone-number">
+                    <span className="hero-v3-phone-icon" aria-hidden>
+                      <svg viewBox="0 0 24 24" width="22" height="22">
+                        <path
+                          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          fill="none" />
+                      </svg>
                     </span>
+                    <span className="hero-v3-phone-num">(305) 555-0148</span>
                   </div>
-                  <div className="hero-v3-before-field"><span className="lbl">Phone</span><span className="inp" /></div>
-                  <div className="hero-v3-before-field"><span className="lbl">Email</span><span className="inp" /></div>
-                  <div className="hero-v3-before-field"><span className="lbl">Preferred Date</span><span className="inp" /></div>
-                  <div className="hero-v3-before-field"><span className="lbl">Preferred Time</span><span className="inp" /></div>
-                  <div className="hero-v3-before-field hero-v3-before-msg"><span className="lbl">Message</span><span className="inp tall" /></div>
-                  <div className="hero-v3-before-submit">Submit</div>
-                  <p className="hero-v3-before-disclaimer">
-                    We'll get back to you within 1-3 business days.
-                  </p>
+                  <p className="hero-v3-phone-hours">Mon&#8211;Fri 9am&#8211;6pm</p>
+                </div>
+                <div className="hero-v3-phone-overlay" aria-hidden>
+                  <span>Doesn't call</span>
+                  <small>&rarr; books elsewhere</small>
+                </div>
+              </div>
+              <div className="hero-v3-before">
+                <div className="hero-v3-before-overlay" aria-hidden>
+                  <span>Doesn't submit</span>
+                  <small>&rarr; books elsewhere</small>
+                </div>
+                <div className="hero-v3-before-head">
+                  <span className="hero-v3-before-brand">YOUR AESTHETICS CO.</span>
+                </div>
+                <div className="hero-v3-before-body">
+                  <h3 className="hero-v3-before-title">Request an Appointment</h3>
+                  <div className="hero-v3-before-form">
+                    <div className="hero-v3-before-field">
+                      <span className="lbl">Name</span>
+                      <span className="inp">
+                        <span className="hero-v3-typing" aria-hidden>Sarah</span>
+                        <span className="hero-v3-caret" aria-hidden />
+                      </span>
+                    </div>
+                    <div className="hero-v3-before-field"><span className="lbl">Phone</span><span className="inp" /></div>
+                    <div className="hero-v3-before-field"><span className="lbl">Email</span><span className="inp" /></div>
+                    <div className="hero-v3-before-field"><span className="lbl">Preferred Date</span><span className="inp" /></div>
+                    <div className="hero-v3-before-field"><span className="lbl">Preferred Time</span><span className="inp" /></div>
+                    <div className="hero-v3-before-field hero-v3-before-msg"><span className="lbl">Message</span><span className="inp tall" /></div>
+                    <div className="hero-v3-before-submit">Submit</div>
+                    <p className="hero-v3-before-disclaimer">
+                      We'll get back to you within 1-3 business days.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
