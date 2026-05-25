@@ -420,9 +420,9 @@ function LumeraConfirmPanel({ pulseButton }) {
           <div><dt>Provider</dt><dd>Sofia Reyes, NP</dd></div>
         </dl>
         <div className="lf-fields">
-          <label><span>Name</span><input type="text" tabIndex={-1} readOnly /></label>
-          <label><span>Email</span><input type="email" tabIndex={-1} readOnly /></label>
-          <label><span>Phone</span><input type="tel" tabIndex={-1} readOnly /></label>
+          <label><span>Name</span><input type="text" tabIndex={-1} readOnly defaultValue="Sarah M." /></label>
+          <label><span>Email</span><input type="email" tabIndex={-1} readOnly defaultValue="s.morrison@email.com" /></label>
+          <label><span>Phone</span><input type="tel" tabIndex={-1} readOnly defaultValue="(305) 555-0148" /></label>
         </div>
       </div>
       <button
