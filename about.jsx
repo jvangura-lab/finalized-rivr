@@ -11,8 +11,10 @@ const {
 
 // ─── About Hero ──────────────────────────────────────────────────────────────
 function AboutHero() {
+  // Polish 4 / Task 3: padding tightened 180/100 → 120/80 to match the
+  // new home hero (.hero-v3) so /about feels proportional.
   return (
-    <section className="hero-stage" style={{ minHeight: "auto", paddingBlock: "180px 100px" }}>
+    <section className="hero-stage" style={{ minHeight: "auto", paddingBlock: "120px 80px" }}>
       <div className="hero-grid-bg" aria-hidden />
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <div style={{ maxWidth: 760 }}>
