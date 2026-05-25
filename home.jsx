@@ -204,33 +204,73 @@ function Hero() {
                   Form remains intentionally generic — no design polish, no
                   real-time validation, no animations beyond the typing. */}
               <div className="hero-v3-state hero-v3-state-form">
-                <div className="hero-v3-state-head">
-                  <span className="hero-v3-state-brand">Magnolia Wellness Co.</span>
-                </div>
-                <div className="hero-v3-state-body hero-v3-form-body">
-                  <h3 className="hero-v3-state-h3">Request an Appointment</h3>
-                  <p className="hero-v3-state-sub">
-                    Fill out the form below and we&rsquo;ll get back to you within 1&ndash;3 business days.
-                  </p>
-                  <div className="hero-v3-form-grid">
-                    <div className="hero-v3-form-field">
-                      <label>Name</label>
-                      <div className="inp">
-                        <span className="hero-v3-typing" aria-hidden>Sarah</span>
-                        <span className="hero-v3-caret" aria-hidden />
-                      </div>
-                    </div>
-                    <div className="hero-v3-form-field"><label>Phone</label><div className="inp" /></div>
-                    <div className="hero-v3-form-field"><label>Email</label><div className="inp" /></div>
-                    <div className="hero-v3-form-field"><label>Preferred Date</label><div className="inp" /></div>
-                    <div className="hero-v3-form-field"><label>Preferred Time</label><div className="inp" /></div>
-                    <div className="hero-v3-form-field hero-v3-form-full"><label>Services Interested In</label><div className="inp select" /></div>
-                    <div className="hero-v3-form-field hero-v3-form-full"><label>Message</label><div className="inp tall" /></div>
+                {/* All non-overlay chrome wrapped in .hero-v3-form-body so the
+                    existing state2-body-dim keyframe still fires during the
+                    "Doesn't submit" beat. Parallel structure to State 1:
+                    nav → hero image strip → form → info → footer. */}
+                <div className="hero-v3-form-body">
+                  {/* 1. Top nav strip */}
+                  <div className="hero-v3-site-nav">
+                    <img
+                      src="imagery/hero/magnolia-logo.png"
+                      alt="Magnolia Wellness Co."
+                      className="hero-v3-site-logo" />
+                    <nav className="hero-v3-site-links">
+                      <span>About</span>
+                      <span className="dot" aria-hidden>&middot;</span>
+                      <span>Services</span>
+                      <span className="dot" aria-hidden>&middot;</span>
+                      <span>Practitioners</span>
+                      <span className="dot" aria-hidden>&middot;</span>
+                      <span>Book</span>
+                    </nav>
                   </div>
-                  <button type="button" tabIndex={-1} className="hero-v3-form-submit">Submit</button>
-                </div>
-                <div className="hero-v3-state-foot">
-                  <span>&copy; Magnolia Wellness Co.</span>
+
+                  {/* 2. Hero image strip — shorter than State 1 so the form
+                       fits below */}
+                  <div className="hero-v3-site-hero hero-v3-site-hero-short">
+                    <div className="hero-v3-site-hero-img" aria-hidden />
+                    <div className="hero-v3-site-hero-copy">
+                      <p className="hero-v3-state-eyebrow">Request an Appointment</p>
+                      <h3 className="hero-v3-state-h3">Schedule your visit.</h3>
+                    </div>
+                  </div>
+
+                  {/* 3. Form section (existing form preserved + typing animation) */}
+                  <div className="hero-v3-site-form-wrap">
+                    <div className="hero-v3-form-grid">
+                      <div className="hero-v3-form-field">
+                        <label>Name</label>
+                        <div className="inp">
+                          <span className="hero-v3-typing" aria-hidden>Sarah</span>
+                          <span className="hero-v3-caret" aria-hidden />
+                        </div>
+                      </div>
+                      <div className="hero-v3-form-field"><label>Phone</label><div className="inp" /></div>
+                      <div className="hero-v3-form-field"><label>Email</label><div className="inp" /></div>
+                      <div className="hero-v3-form-field"><label>Preferred Date</label><div className="inp" /></div>
+                      <div className="hero-v3-form-field"><label>Preferred Time</label><div className="inp" /></div>
+                      <div className="hero-v3-form-field hero-v3-form-full"><label>Services Interested In</label><div className="inp select" /></div>
+                    </div>
+                    <button type="button" tabIndex={-1} className="hero-v3-form-submit">Submit</button>
+                    <p className="hero-v3-form-disclaimer"><em>We&rsquo;ll respond within 1&ndash;3 business days.</em></p>
+                  </div>
+
+                  {/* 4. Info row — hours + address */}
+                  <div className="hero-v3-site-info">
+                    <span>Tue&ndash;Sat 10am&ndash;7pm &middot; Closed Sun&ndash;Mon</span>
+                    <span>By appointment only &middot; Atlanta, GA</span>
+                  </div>
+
+                  {/* 5. Footer strip — copyright + socials + templated tell */}
+                  <div className="hero-v3-site-foot">
+                    <span className="hero-v3-site-copy">&copy; 2024 Magnolia Wellness Co. All rights reserved.</span>
+                    <div className="hero-v3-site-socials" aria-hidden>
+                      <span className="social">IG</span>
+                      <span className="social">P</span>
+                    </div>
+                    <small className="hero-v3-site-poweredby">Site by Wix</small>
+                  </div>
                 </div>
                 <div className="hero-v3-state-overlay" aria-hidden>
                   <span>Doesn't submit</span>

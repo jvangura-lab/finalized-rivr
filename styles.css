@@ -990,6 +990,52 @@ img { display: block; max-width: 100%; }
   background-image: url("imagery/hero/coastal-interior.png");
 }
 
+/* ── State 2 chrome palette overrides (Magnolia) ─────────────────────── */
+.hero-v3-state-form .hero-v3-site-nav {
+  background: #F8F6F3;
+  border-bottom-color: #DCD7D2;
+}
+.hero-v3-state-form .hero-v3-site-links { color: #A89684; }
+.hero-v3-state-form .hero-v3-site-hero-img {
+  background-image: url("imagery/hero/magnolia-interior.png");
+}
+/* Magnolia's hero strip is shorter to leave room for the longer form below */
+.hero-v3-site-hero-short { height: 120px !important; }
+.hero-v3-state-form .hero-v3-site-hero-short .hero-v3-state-h3 {
+  font-size: 1.125rem;
+}
+
+/* Form wrap (State 2) — replaces the old centered-flex form-body padding */
+.hero-v3-site-form-wrap {
+  padding: 14px 18px 12px;
+  display: flex; flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.hero-v3-site-form-wrap .hero-v3-form-grid {
+  margin-top: 0;
+  gap: 7px 10px;
+}
+.hero-v3-site-form-wrap .hero-v3-form-field label {
+  font-size: 0.625rem;
+}
+.hero-v3-site-form-wrap .hero-v3-form-field .inp {
+  height: 24px;
+}
+.hero-v3-site-form-wrap .hero-v3-form-submit {
+  align-self: flex-start;
+  padding: 7px 14px;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+.hero-v3-form-disclaimer {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  color: #A89684;
+  margin: 0;
+}
+
 /* Overlay shared by states 1 + 2 ("Doesn't call/submit → books elsewhere") */
 .hero-v3-state-overlay {
   position: absolute; inset: 0;
