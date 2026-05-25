@@ -109,32 +109,34 @@ function Hero() {
             </Reveal>
           </div>
 
-          {/* Right column — before/after visual */}
+          {/* Right column — single full-width stage cycling three states (Polish 7).
+              Replaces the previous side-by-side .hero-v3-broken + .hero-v3-after
+              layout. The chevron arrow between panels is gone: sequential
+              storytelling through time substitutes for the spatial directional
+              cue. Each of the three child states is absolutely positioned inside
+              the stage so they overlap and crossfade via opacity + transform.
+              Cycle: ~15s loop, gated by IntersectionObserver via .is-animating. */}
           <Reveal delay={620} className="hero-v3-visual" aria-hidden>
-            {/* BROKEN PATTERNS — two stylized "broken" booking pages that
-                cycle through the 8s loop. Polish 6 (this commit) adds the
-                phone panel; the form panel was already present from
-                Polish 5 / Task 2. Cold-email qualified prospects fall
-                into roughly two camps — "call to book" pages and contact
-                forms — so the hero now mirrors both back at them.
-                Layout: .hero-v3-before (form) defines the wrapper's
-                height in normal flow; .hero-v3-phone overlays it
-                absolutely. Animation keyframes toggle phone opacity
-                0/1 so the form is revealed/covered mid-loop. */}
-            <div className="hero-v3-broken">
-              <div className="hero-v3-phone">
-                <div className="hero-v3-phone-head">
-                  <span className="hero-v3-phone-brand">LUMIÈRE AESTHETICS</span>
+            <div className="hero-v3-stage">
+
+              {/* STATE 1 — Phone-only "Call to book" booking page (~4s).
+                  Looks like a real page someone might have on their site.
+                  Cormorant serif brand, Inter sans content, neutral grays —
+                  intentionally not-RIVR. */}
+              <div className="hero-v3-state hero-v3-state-phone">
+                <div className="hero-v3-state-head">
+                  <span className="hero-v3-state-brand">Lumière Aesthetics</span>
                 </div>
-                <div className="hero-v3-phone-body">
-                  <h3 className="hero-v3-phone-title">Call to book your appointment</h3>
-                  <div className="hero-v3-phone-number">
+                <div className="hero-v3-state-body hero-v3-phone-body">
+                  <p className="hero-v3-state-eyebrow">Book an appointment</p>
+                  <h3 className="hero-v3-state-h3">Call us to schedule your visit.</h3>
+                  <div className="hero-v3-phone-cta">
                     <span className="hero-v3-phone-icon" aria-hidden>
-                      <svg viewBox="0 0 24 24" width="22" height="22">
+                      <svg viewBox="0 0 24 24" width="28" height="28">
                         <path
                           d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
                           stroke="currentColor"
-                          strokeWidth="1.6"
+                          strokeWidth="1.7"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           fill="none" />
@@ -142,100 +144,143 @@ function Hero() {
                     </span>
                     <span className="hero-v3-phone-num">(305) 555-0148</span>
                   </div>
-                  <p className="hero-v3-phone-hours">Mon&#8211;Fri 9am&#8211;6pm</p>
+                  <p className="hero-v3-phone-hours">Mon&#8211;Fri 9am&#8211;6pm &middot; Sat 10am&#8211;4pm</p>
+                  <p className="hero-v3-phone-location">
+                    <em>Or visit our location at 4016 South Third Street, Jacksonville Beach, FL</em>
+                  </p>
                 </div>
-                <div className="hero-v3-phone-overlay" aria-hidden>
+                <div className="hero-v3-state-foot">
+                  <span>&copy; Lumi&egrave;re Aesthetics</span>
+                </div>
+                <div className="hero-v3-state-overlay" aria-hidden>
                   <span>Doesn't call</span>
                   <small>&rarr; books elsewhere</small>
                 </div>
               </div>
-              <div className="hero-v3-before">
-                <div className="hero-v3-before-overlay" aria-hidden>
+
+              {/* STATE 2 — Contact form "Request an Appointment" page (~4s).
+                  Same fictional practice as State 1 for continuity. Form is
+                  intentionally generic — no design polish, no real-time
+                  validation, no animations beyond the cursor typing "Sarah". */}
+              <div className="hero-v3-state hero-v3-state-form">
+                <div className="hero-v3-state-head">
+                  <span className="hero-v3-state-brand">Lumière Aesthetics</span>
+                </div>
+                <div className="hero-v3-state-body hero-v3-form-body">
+                  <h3 className="hero-v3-state-h3">Request an Appointment</h3>
+                  <p className="hero-v3-state-sub">
+                    Fill out the form below and we&rsquo;ll get back to you within 1&ndash;3 business days.
+                  </p>
+                  <div className="hero-v3-form-grid">
+                    <div className="hero-v3-form-field">
+                      <label>Name</label>
+                      <div className="inp">
+                        <span className="hero-v3-typing" aria-hidden>Sarah</span>
+                        <span className="hero-v3-caret" aria-hidden />
+                      </div>
+                    </div>
+                    <div className="hero-v3-form-field"><label>Phone</label><div className="inp" /></div>
+                    <div className="hero-v3-form-field"><label>Email</label><div className="inp" /></div>
+                    <div className="hero-v3-form-field"><label>Preferred Date</label><div className="inp" /></div>
+                    <div className="hero-v3-form-field"><label>Preferred Time</label><div className="inp" /></div>
+                    <div className="hero-v3-form-field hero-v3-form-full"><label>Services Interested In</label><div className="inp select" /></div>
+                    <div className="hero-v3-form-field hero-v3-form-full"><label>Message</label><div className="inp tall" /></div>
+                  </div>
+                  <button type="button" tabIndex={-1} className="hero-v3-form-submit">Submit</button>
+                </div>
+                <div className="hero-v3-state-foot">
+                  <span>&copy; Lumi&egrave;re Aesthetics</span>
+                </div>
+                <div className="hero-v3-state-overlay" aria-hidden>
                   <span>Doesn't submit</span>
                   <small>&rarr; books elsewhere</small>
                 </div>
-                <div className="hero-v3-before-head">
-                  <span className="hero-v3-before-brand">YOUR AESTHETICS CO.</span>
+              </div>
+
+              {/* STATE 3 — RIVR funnel resolution (~6s). The polished payoff.
+                  Geist sans, walnut accents, off-white surface — the contrast
+                  with States 1+2 reads instantly. Includes an internal step
+                  advance: service-step view crossfades to time-step view at
+                  roughly the 1-second mark inside this state. */}
+              <div className="hero-v3-state hero-v3-state-funnel">
+                <div className="hero-v3-funnel-head">
+                  <span className="hero-v3-funnel-brand">Your Practice</span>
                 </div>
-                <div className="hero-v3-before-body">
-                  <h3 className="hero-v3-before-title">Request an Appointment</h3>
-                  <div className="hero-v3-before-form">
-                    <div className="hero-v3-before-field">
-                      <span className="lbl">Name</span>
-                      <span className="inp">
-                        <span className="hero-v3-typing" aria-hidden>Sarah</span>
-                        <span className="hero-v3-caret" aria-hidden />
-                      </span>
+                <div className="hero-v3-funnel-stepbar">
+                  <span className="hero-v3-funnel-stepcount">
+                    <span className="step-label step-label-1">STEP 1 of 4</span>
+                    <span className="step-label step-label-2">STEP 2 of 4</span>
+                  </span>
+                  <ol className="hero-v3-funnel-steps">
+                    <li className="step-dot step-dot-1"><span className="dot" /></li>
+                    <li className="step-dot step-dot-2"><span className="dot" /></li>
+                    <li className="step-dot"><span className="dot" /></li>
+                    <li className="step-dot"><span className="dot" /></li>
+                  </ol>
+                </div>
+                <div className="hero-v3-funnel-body">
+
+                  {/* Step 1 view — service selection */}
+                  <div className="hero-v3-funnel-view hero-v3-funnel-service">
+                    <p className="hero-v3-funnel-eyebrow">Step 1 &mdash; Service</p>
+                    <h3 className="hero-v3-funnel-title">Select a service</h3>
+                    <p className="hero-v3-funnel-sub">Earliest availability, in real time.</p>
+                    <div className="hero-v3-funnel-cards">
+                      <article className="hero-v3-funnel-card is-highlight">
+                        <div className="row">
+                          <h4>Injectables</h4>
+                          <span className="price">from $450</span>
+                        </div>
+                        <p>Botox, fillers, biostimulators.</p>
+                        <div className="meta">
+                          <span className="dot" />
+                          <span>Next: Wed 10:00 AM</span>
+                        </div>
+                      </article>
+                      <article className="hero-v3-funnel-card">
+                        <div className="row">
+                          <h4>Skin</h4>
+                          <span className="price">from $180</span>
+                        </div>
+                        <p>Facials, peels, skin renewal.</p>
+                        <div className="meta">
+                          <span className="dot" />
+                          <span>Next: Tue 2:30 PM</span>
+                        </div>
+                      </article>
+                      <div className="hero-v3-funnel-more" aria-hidden>+ 4 more services</div>
                     </div>
-                    <div className="hero-v3-before-field"><span className="lbl">Phone</span><span className="inp" /></div>
-                    <div className="hero-v3-before-field"><span className="lbl">Email</span><span className="inp" /></div>
-                    <div className="hero-v3-before-field"><span className="lbl">Preferred Date</span><span className="inp" /></div>
-                    <div className="hero-v3-before-field"><span className="lbl">Preferred Time</span><span className="inp" /></div>
-                    <div className="hero-v3-before-field hero-v3-before-msg"><span className="lbl">Message</span><span className="inp tall" /></div>
-                    <div className="hero-v3-before-submit">Submit</div>
-                    <p className="hero-v3-before-disclaimer">
-                      We'll get back to you within 1-3 business days.
-                    </p>
+                  </div>
+
+                  {/* Step 2 view — time slot selection */}
+                  <div className="hero-v3-funnel-view hero-v3-funnel-time">
+                    <p className="hero-v3-funnel-eyebrow">Step 2 &mdash; Time</p>
+                    <h3 className="hero-v3-funnel-title">Pick your time</h3>
+                    <p className="hero-v3-funnel-sub">Showing earliest available.</p>
+                    <div className="hero-v3-funnel-times">
+                      <button type="button" tabIndex={-1} className="hero-v3-funnel-slot slot-1 is-highlight">
+                        <span className="day">Wed</span><span className="time">10:00 AM</span>
+                      </button>
+                      <button type="button" tabIndex={-1} className="hero-v3-funnel-slot slot-2">
+                        <span className="day">Wed</span><span className="time">2:30 PM</span>
+                      </button>
+                      <button type="button" tabIndex={-1} className="hero-v3-funnel-slot slot-3">
+                        <span className="day">Thu</span><span className="time">9:00 AM</span>
+                      </button>
+                      <button type="button" tabIndex={-1} className="hero-v3-funnel-slot slot-4">
+                        <span className="day">Thu</span><span className="time">1:00 PM</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Arrow / chevron between the two states. Horizontal on desktop,
-                vertical (chevron down) on mobile via CSS rotate. */}
-            <div className="hero-v3-arrow">
-              <svg viewBox="0 0 24 24" width="28" height="28">
-                <path d="M5 12h14M13 6l6 6-6 6"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none" />
-              </svg>
-            </div>
-
-            {/* AFTER — tight RIVR funnel fragment in RIVR's editorial register
-                (Geist display, Source Serif 4 body, mono eyebrow). NOT the
-                Lumera animation — that's later on the page. */}
-            <div className="hero-v3-after">
-              <div className="hero-v3-after-stepbar">
-                <span className="hero-v3-after-stepcount">STEP 1 OF 4</span>
-                <ol className="hero-v3-after-steps">
-                  <li className="is-active"><span className="dot" /></li>
-                  <li><span className="dot" /></li>
-                  <li><span className="dot" /></li>
-                  <li><span className="dot" /></li>
-                </ol>
-              </div>
-              <div className="hero-v3-after-body">
-                <p className="hero-v3-after-eyebrow">Step 1 — Service</p>
-                <h3 className="hero-v3-after-title">Select a service</h3>
-                <p className="hero-v3-after-sub">Earliest availability, in real time.</p>
-                <div className="hero-v3-after-cards">
-                  <article className="hero-v3-after-card is-pulse">
-                    <div className="hero-v3-after-card-row">
-                      <h4>Injectables</h4>
-                      <span className="hero-v3-after-price">from $450</span>
-                    </div>
-                    <p>Botox, fillers, biostimulators.</p>
-                    <div className="hero-v3-after-meta">
-                      <span className="dot" />
-                      <span>Next: Wed 10:00 AM</span>
-                    </div>
-                  </article>
-                  <article className="hero-v3-after-card">
-                    <div className="hero-v3-after-card-row">
-                      <h4>Skin</h4>
-                      <span className="hero-v3-after-price">from $180</span>
-                    </div>
-                    <p>Facials, peels, skin-renewal.</p>
-                    <div className="hero-v3-after-meta">
-                      <span className="dot" />
-                      <span>Next: Tue 2:30 PM</span>
-                    </div>
-                  </article>
-                </div>
-              </div>
+              {/* Reduced-motion labels — visible ONLY when prefers-reduced-motion
+                  is active, in which case the cycling is disabled and all three
+                  states stack vertically. Otherwise visually hidden. */}
+              <p className="hero-v3-stage-rmlabel hero-v3-stage-rmlabel-1">Pattern 1 &mdash; Phone-only</p>
+              <p className="hero-v3-stage-rmlabel hero-v3-stage-rmlabel-2">Pattern 2 &mdash; Contact form</p>
+              <p className="hero-v3-stage-rmlabel hero-v3-stage-rmlabel-3">Pattern 3 &mdash; RIVR funnel (what we build)</p>
             </div>
           </Reveal>
         </div>

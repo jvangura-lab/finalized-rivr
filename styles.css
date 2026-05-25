@@ -665,364 +665,220 @@ img { display: block; max-width: 100%; }
 .hero-v3-cta-secondary .arr { display: inline-block; transition: transform var(--dur-fast) var(--ease-rivr); }
 .hero-v3-cta-secondary:hover .arr { transform: translateY(2px); }
 
-/* ── Before/after visual ────────────────────────────────────────────────── */
+/* ── Hero single-panel stage cycling 3 booking-page states (Polish 7) ────
+   Replaces the side-by-side .hero-v3-broken + .hero-v3-arrow + .hero-v3-after
+   layout from Polish 6. The chevron arrow is gone: sequential storytelling
+   through time replaces the spatial directional cue. The stage holds three
+   absolutely-positioned children that crossfade across a ~15s cycle.
+   ======================================================================== */
 .hero-v3-visual {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 18px;
+  display: block;
+  width: 100%;
 }
-@media (max-width: 1024px) {
-  .hero-v3-visual {
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto auto auto;
-    gap: 14px;
-  }
+.hero-v3-stage {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  margin-block: 4px;
 }
-.hero-v3-arrow {
-  display: flex; align-items: center; justify-content: center;
-  color: var(--color-text-muted);
-  opacity: 0.55;
-}
-@media (max-width: 1024px) {
-  .hero-v3-arrow { transform: rotate(90deg); }
-}
+@media (max-width: 1024px) { .hero-v3-stage { min-height: 460px; } }
 
-/* ── BEFORE — broken contact-form booking page (stylized, intentionally
-   dull: plain sans-serif, flat fields, generic gray, no hierarchy) ───── */
-.hero-v3-before {
+/* All three states overlap absolutely inside the stage. Crossfade via
+   opacity (+ subtle translateY on State 3 for the "lands" entrance).
+   pointer-events: none across the board — this is a visual demo, not
+   interactive. */
+.hero-v3-state {
+  position: absolute; inset: 0;
   background: #FFFFFF;
   border: 1px solid #D8D5CF;
-  border-radius: 6px;
-  /* No shadow; dated/flat. */
+  border-radius: 8px;
   overflow: hidden;
-  font-family: 'Inter', system-ui, sans-serif;   /* deliberately not Geist */
+  display: flex; flex-direction: column;
+  pointer-events: none;
+  opacity: 0;
+}
+.hero-v3-state-phone { opacity: 1; }   /* default first-render state */
+
+/* Shared head + foot (states 1 + 2 — dated, muted register) */
+.hero-v3-state-head {
+  padding: 12px 18px;
+  border-bottom: 1px solid #D8D5CF;
+  background: #FBF8F3;
+}
+.hero-v3-state-brand {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.0625rem; font-weight: 500;
+  letter-spacing: 0.01em;
   color: #2B2620;
 }
-.hero-v3-before-head {
-  background: #EFEDE6;
-  padding: 10px 14px;
-  border-bottom: 1px solid #D8D5CF;
-}
-.hero-v3-before-brand {
-  font-family: 'Inter', system-ui, sans-serif;
+.hero-v3-state-foot {
+  margin-top: auto;
+  padding: 10px 18px;
+  border-top: 1px solid #EFEDE6;
+  background: #FBF8F3;
+  font-family: var(--font-mono);
   font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: #6E6157;
+  letter-spacing: 0.06em;
+  color: #8A8278;
 }
-.hero-v3-before-body {
-  padding: 20px 22px 22px;
+.hero-v3-state-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--color-walnut);
+  margin: 0;
 }
-.hero-v3-before-title {
+.hero-v3-state-h3 {
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: 1.0625rem;
-  font-weight: 600;
+  font-size: 1.5rem; font-weight: 600;
+  letter-spacing: -0.012em;
+  color: #2B2620;
+  line-height: 1.2;
+  margin: 0;
+}
+.hero-v3-state-sub {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.8125rem;
+  color: #6E6157;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Overlay shared by states 1 + 2 ("Doesn't call/submit → books elsewhere") */
+.hero-v3-state-overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(43, 38, 32, 0.04) 0%,
+    rgba(43, 38, 32, 0.18) 100%);
+  opacity: 0;
+  z-index: 3;
+}
+.hero-v3-state-overlay span {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--color-walnut);
+  background: var(--bg-cream-hover);
+  border: 1px solid var(--color-walnut);
+  padding: 10px 16px;
+  border-radius: 999px;
+}
+.hero-v3-state-overlay small {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+/* ── State 1 — phone "Call to book" booking page ─────────────────────── */
+.hero-v3-phone-body {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 32px 28px;
+  gap: 16px;
+  text-align: center;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #2B2620;
+}
+.hero-v3-phone-cta {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 18px 26px;
+  background: #F7F5F0;
+  border: 1px solid #D8D5CF;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+.hero-v3-phone-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #6E6157;
+  width: 28px; height: 28px;
+}
+.hero-v3-phone-icon svg { display: block; }
+.hero-v3-phone-num {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 2rem; font-weight: 600;
   letter-spacing: -0.005em;
   color: #2B2620;
-  margin-bottom: 14px;
+  white-space: nowrap;
 }
-.hero-v3-before-form {
+.hero-v3-phone-hours {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.875rem;
+  color: #6E6157;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+.hero-v3-phone-location {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  color: #8A8278;
+  margin: 0;
+  max-width: 320px;
+  line-height: 1.5;
+}
+.hero-v3-phone-location em { font-style: italic; }
+
+/* ── State 2 — contact form booking page ─────────────────────────────── */
+.hero-v3-form-body {
+  flex: 1;
+  padding: 22px 24px 20px;
+  display: flex; flex-direction: column;
+  gap: 12px;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #2B2620;
+  overflow: hidden;
+}
+.hero-v3-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 9px 12px;
+  margin-top: 4px;
 }
-.hero-v3-before-field { display: flex; flex-direction: column; gap: 4px; }
-.hero-v3-before-msg { grid-column: 1 / -1; }
-.hero-v3-before-field .lbl {
+.hero-v3-form-field { display: flex; flex-direction: column; gap: 4px; }
+.hero-v3-form-full { grid-column: 1 / -1; }
+.hero-v3-form-field label {
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 0.6875rem; font-weight: 500;
   color: #6E6157;
 }
-.hero-v3-before-field .inp {
+.hero-v3-form-field .inp {
   display: block;
   height: 28px;
   background: #F7F5F0;
   border: 1px solid #D8D5CF;
   border-radius: 3px;
+  position: relative;
 }
-.hero-v3-before-field .inp.tall { height: 56px; }
-.hero-v3-before-submit {
-  grid-column: 1 / -1;
-  align-self: start;
-  justify-self: start;
-  padding: 8px 14px;
-  background: #6E6157;     /* mid-gray — deliberately uninviting */
+.hero-v3-form-field .inp.tall { height: 52px; }
+.hero-v3-form-field .inp.select {
+  background-image:
+    linear-gradient(135deg, transparent 50%, #6E6157 50%),
+    linear-gradient(45deg,  transparent 50%, #6E6157 50%);
+  background-position: calc(100% - 18px) 13px, calc(100% - 13px) 13px;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  background-color: #F7F5F0;
+}
+.hero-v3-form-submit {
+  align-self: flex-start;
+  padding: 9px 16px;
+  background: #6E6157;
   color: #FFFFFF;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 0.8125rem;
   font-weight: 500;
   border-radius: 3px;
-  margin-top: 4px;
-}
-.hero-v3-before-disclaimer {
-  grid-column: 1 / -1;
-  font-size: 0.6875rem;
-  color: #8A8278;
-  margin-top: 6px;
-  font-style: italic;       /* small-print disclaimer-italic, NOT display */
+  border: 0;
+  cursor: default;
+  margin-top: 2px;
 }
 
-/* ── AFTER — tight RIVR funnel fragment in RIVR's editorial register ──── */
-.hero-v3-after {
-  background: var(--color-surface);
-  border: 1px solid var(--color-rule);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 18px 36px -22px rgba(0, 0, 0, 0.16);
-}
-.hero-v3-after-stepbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 11px 16px;
-  background: var(--color-bg-elevated);
-  border-bottom: 1px solid var(--color-rule);
-}
-.hero-v3-after-stepcount {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-.hero-v3-after-steps {
-  list-style: none;
-  display: inline-flex; align-items: center; gap: 6px;
-}
-.hero-v3-after-steps li {
-  width: 8px; height: 8px;
-}
-.hero-v3-after-steps .dot {
-  display: block;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--color-rule);
-}
-.hero-v3-after-steps li.is-active .dot {
-  background: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.18);
-}
-.hero-v3-after-body {
-  padding: 18px 18px 20px;
-}
-.hero-v3-after-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-accent-strong);
-  margin: 0 0 6px;
-}
-.hero-v3-after-title {
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-  margin: 0 0 4px;
-  color: var(--color-text);
-}
-.hero-v3-after-sub {
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  color: var(--color-text-muted);
-  margin: 0 0 14px;
-}
-.hero-v3-after-cards {
-  display: grid; gap: 10px;
-}
-.hero-v3-after-card {
-  background: #FFFFFF;
-  border: 1px solid var(--color-rule);
-  border-radius: 6px;
-  padding: 12px 14px 14px;
-  transition: border-color var(--dur-fast) var(--ease-rivr), background var(--dur-fast) var(--ease-rivr);
-}
-.hero-v3-after-card.is-pulse {
-  border-color: var(--color-accent);
-  background: rgba(var(--color-accent-rgb), 0.045);
-}
-.hero-v3-after-card-row {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 2px;
-}
-.hero-v3-after-card h4 {
-  font-family: var(--font-display);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--color-text);
-  letter-spacing: -0.003em;
-  margin: 0;
-}
-.hero-v3-after-price {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  color: var(--color-text-muted);
-  letter-spacing: 0.04em;
-}
-.hero-v3-after-card p {
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  color: var(--color-text-muted);
-  line-height: 1.45;
-  margin: 0 0 8px;
-}
-.hero-v3-after-meta {
-  display: flex; align-items: center; gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
-  color: var(--color-secondary);
-}
-.hero-v3-after-meta .dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--color-secondary);
-}
-
-/* ── Hero before/after 8-second narrative loop (Polish 6 — two-pattern) ──
-   Cycle (8s total):
-     0-3s    Beat 1  Phone-only "call to book" panel visible; phone icon
-                     pulses 2× to draw the eye to the literal CTA.
-     3-3.5s  Beat 2  "Doesn't call" overlay surfaces over the phone;
-                     phone body dims; chevron pulses walnut.
-     3.5-4s  Beat 3  Phone fades out; form fades in beneath it.
-     4-6s    Beat 4a Typing "Sarah" in the Name field (steps(5)) +
-                     caret blink.
-     6-6.5s  Beat 4b "Doesn't submit" overlay surfaces over the form;
-                     form dims; chevron pulses walnut a second time.
-     6.5-7s  Beat 4c Hold dim-form state.
-     7-7.5s  Beat 5  RIVR funnel card brightens + slides up; Injectables
-                     service card emits a brief box-shadow ring.
-     7.5-8s  Beat 6  All elements reset to Beat-1 state for the loop.
-   Keyframe percentages mapped against 8s total:
-     12.5%=1s · 25%=2s · 37.5%=3s · 43.75%=3.5s · 50%=4s
-     62.5%=5s · 75%=6s · 81.25%=6.5s · 87.5%=7s · 93.75%=7.5s · 100%=8s
-   Polish 5's 6-second single-pattern loop replaced wholesale. */
-
-/* Wrapper that contains both broken-pattern panels. The form panel
-   (.hero-v3-before) sits in normal flow and defines the wrapper's
-   intrinsic height; the phone panel (.hero-v3-phone) overlays
-   absolutely, visible during Beats 1-2. */
-.hero-v3-broken { position: relative; }
-.hero-v3-before { position: relative; }
-
-/* ── Phone-only "call to book" panel (Polish 6) ────────────────────────── */
-.hero-v3-phone {
-  position: absolute; inset: 0;
-  z-index: 1;
-  background: #FFFFFF;
-  border: 1px solid #D8D5CF;
-  border-radius: 6px;
-  overflow: hidden;
-  /* Deliberately a different sans than Geist; dated marketing-page register. */
-  font-family: 'Inter', system-ui, sans-serif;
-  color: #2B2620;
-  display: flex; flex-direction: column;
-}
-.hero-v3-phone-head {
-  background: #EFEDE6;
-  padding: 10px 14px;
-  border-bottom: 1px solid #D8D5CF;
-}
-.hero-v3-phone-brand {
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: #6E6157;
-}
-.hero-v3-phone-body {
-  flex: 1;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 36px 24px;
-  text-align: center;
-  gap: 18px;
-}
-.hero-v3-phone-title {
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-  color: #2B2620;
-  margin: 0;
-  line-height: 1.3;
-}
-.hero-v3-phone-number {
-  display: inline-flex; align-items: center; gap: 12px;
-  padding: 14px 22px;
-  background: #F7F5F0;
-  border: 1px solid #D8D5CF;
-  border-radius: 6px;
-  color: #2B2620;
-}
-.hero-v3-phone-icon {
-  display: inline-flex; align-items: center; justify-content: center;
-  color: #6E6157;
-  /* Pulse anchor — keyframe scales the SVG inside */
-}
-.hero-v3-phone-icon svg { display: block; }
-.hero-v3-phone-num {
-  font-family: 'Inter', system-ui, sans-serif;
-  /* Sized to fit "(305) 555-0148" on one line at the column width that
-     the broken-stack takes inside the hero grid. Smaller than the title
-     above, larger than the hours line below. */
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  color: #2B2620;
-  white-space: nowrap;
-}
-.hero-v3-phone-number { flex-wrap: nowrap; }
-.hero-v3-phone-hours {
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.8125rem;
-  color: #6E6157;
-  margin: 0;
-  letter-spacing: 0.02em;
-}
-.hero-v3-phone-overlay {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 6px;
-  pointer-events: none;
-  background: linear-gradient(180deg,
-    rgba(43, 38, 32, 0) 0%,
-    rgba(43, 38, 32, 0.18) 100%);
-  opacity: 0;
-  z-index: 2;
-}
-.hero-v3-phone-overlay span,
-.hero-v3-before-overlay span {
-  font-family: var(--font-mono);
-  font-size: 0.75rem; font-weight: 500;
-  letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--color-walnut);
-  background: var(--bg-cream-hover);
-  border: 1px solid var(--color-walnut);
-  padding: 8px 14px;
-  border-radius: 999px;
-}
-.hero-v3-phone-overlay small,
-.hero-v3-before-overlay small {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem; font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--color-text-muted);
-}
-
-/* ── Form-panel overlay (kept from Polish 5; selector reused above) ───── */
-.hero-v3-before-overlay {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 6px;
-  pointer-events: none;
-  background: linear-gradient(180deg,
-    rgba(43, 38, 32, 0) 0%,
-    rgba(43, 38, 32, 0.18) 100%);
-  opacity: 0;
-  z-index: 2;
-}
-
-/* Typing text inside the Name input — only renders when animating. */
+/* Typing text inside the Name input — only renders while animating. */
 .hero-v3-typing {
   display: inline-block;
   overflow: hidden;
@@ -1045,155 +901,438 @@ img { display: block; max-width: 100%; }
   opacity: 0;
 }
 
-/* ── Animation bindings — all run on the same 8s clock for phase sync ── */
-.hero-v3-visual.is-animating .hero-v3-phone {
-  animation: hero-anim-phone-show 8s ease-in-out infinite;
+/* ── State 3 — RIVR funnel resolution ────────────────────────────────── */
+.hero-v3-state-funnel {
+  background: var(--color-surface);
+  border-color: var(--color-rule);
+  box-shadow: 0 20px 40px -24px rgba(0, 0, 0, 0.16);
 }
-.hero-v3-visual.is-animating .hero-v3-phone-icon {
-  animation: hero-anim-phone-pulse 8s ease-out infinite;
+.hero-v3-funnel-head {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--color-rule);
+  background: var(--color-background);
 }
-.hero-v3-visual.is-animating .hero-v3-phone-body {
-  animation: hero-anim-phone-body-dim 8s ease-in-out infinite;
+.hero-v3-funnel-brand {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
 }
-.hero-v3-visual.is-animating .hero-v3-phone-overlay {
-  animation: hero-anim-phone-overlay 8s ease-in-out infinite;
+.hero-v3-funnel-stepbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-rule);
+  background: var(--color-background);
 }
-.hero-v3-visual.is-animating .hero-v3-before {
-  animation: hero-anim-form-dim 8s ease-in-out infinite;
+.hero-v3-funnel-stepcount {
+  position: relative;
+  min-width: 88px;
+  height: 14px;
+  display: inline-block;
 }
-.hero-v3-visual.is-animating .hero-v3-before-overlay {
-  animation: hero-anim-form-overlay 8s ease-in-out infinite;
+.step-label {
+  position: absolute; left: 0; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  opacity: 0;
 }
-.hero-v3-visual.is-animating .hero-v3-typing {
-  animation: hero-anim-type 8s steps(5, end) infinite;
+.step-label-1 { opacity: 1; }
+.hero-v3-funnel-steps {
+  list-style: none;
+  display: flex; align-items: center; gap: 8px;
+  margin: 0; padding: 0;
 }
-.hero-v3-visual.is-animating .hero-v3-caret {
-  animation: hero-anim-caret 8s ease-in-out infinite;
+.step-dot {
+  width: 12px; height: 12px;
+  display: flex; align-items: center; justify-content: center;
 }
-.hero-v3-visual.is-animating .hero-v3-arrow {
-  animation: hero-anim-arrow 8s ease-in-out infinite;
+.step-dot .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-rule);
+  background: transparent;
 }
-.hero-v3-visual.is-animating .hero-v3-after {
-  animation: hero-anim-after 8s ease-out infinite;
+.step-dot-1 .dot { background: var(--color-walnut); border-color: var(--color-walnut); }
+
+.hero-v3-funnel-body {
+  flex: 1;
+  position: relative;
+  padding: 22px 22px 18px;
 }
-.hero-v3-visual.is-animating .hero-v3-after-card.is-pulse {
-  animation: hero-anim-card-pulse 8s ease-out infinite;
+.hero-v3-funnel-view {
+  position: absolute;
+  inset: 22px 22px 18px;
+  opacity: 0;
+}
+.hero-v3-funnel-service { opacity: 1; }
+
+.hero-v3-funnel-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--color-walnut);
+  margin: 0 0 6px;
+}
+.hero-v3-funnel-title {
+  font-family: var(--font-display);
+  font-size: 1.3125rem; font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--color-text);
+  margin: 0 0 4px;
+}
+.hero-v3-funnel-sub {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 0 0 14px;
+}
+.hero-v3-funnel-cards { display: grid; gap: 10px; }
+.hero-v3-funnel-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-rule);
+  border-radius: 6px;
+  padding: 12px 14px 12px;
+}
+.hero-v3-funnel-card.is-highlight {
+  border-color: var(--color-walnut);
+  background: var(--bg-cream-hover);
+}
+.hero-v3-funnel-card .row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+.hero-v3-funnel-card h4 {
+  font-family: var(--font-display);
+  font-size: 0.9375rem; font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+.hero-v3-funnel-card .price {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+}
+.hero-v3-funnel-card p {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 0 0 6px;
+  line-height: 1.42;
+}
+.hero-v3-funnel-card .meta {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  color: var(--color-secondary);
+}
+.hero-v3-funnel-card .meta .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--color-secondary);
+}
+.hero-v3-funnel-more {
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 8px;
+  border: 1px dashed var(--color-rule);
+  border-radius: 6px;
+  opacity: 0.7;
 }
 
-/* ── Keyframes (all 8s, percentages match the cycle map above) ────────── */
-@keyframes hero-anim-phone-show {
-  /* Visible Beat 1-2 (0-3.5s = 0-43.75%), fades out during Beat 3
-     (3.5-4s = 43.75-50%), hidden through Beats 4-5, snaps back for loop. */
-  0%, 43.75% { opacity: 1; }
-  50%, 93.75% { opacity: 0; }
+.hero-v3-funnel-times {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.hero-v3-funnel-slot {
+  background: #FFFFFF;
+  border: 1px solid var(--color-rule);
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex; flex-direction: column;
+  align-items: flex-start; gap: 4px;
+  cursor: default;
+  opacity: 0;
+}
+.hero-v3-funnel-slot.is-highlight {
+  border-color: var(--color-walnut);
+  background: var(--bg-cream-hover);
+}
+.hero-v3-funnel-slot .day {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.hero-v3-funnel-slot .time {
+  font-family: var(--font-display);
+  font-size: 0.9375rem; font-weight: 500;
+  color: var(--color-text);
+}
+
+/* ── Animation bindings (15s loop) ───────────────────────────────────── */
+.hero-v3-visual.is-animating .hero-v3-state-phone {
+  animation: hero-anim-state1-show 15s linear infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-state-form {
+  animation: hero-anim-state2-show 15s linear infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-state-funnel {
+  animation: hero-anim-state3-show 15s linear infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-state-phone .hero-v3-phone-icon {
+  animation: hero-anim-phone-icon-pulse 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-state-phone .hero-v3-phone-body {
+  animation: hero-anim-state1-body-dim 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-state-phone .hero-v3-state-overlay {
+  animation: hero-anim-state1-overlay 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-state-form .hero-v3-form-body {
+  animation: hero-anim-state2-body-dim 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-state-form .hero-v3-state-overlay {
+  animation: hero-anim-state2-overlay 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-typing {
+  animation: hero-anim-type 15s steps(5, end) infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-caret {
+  animation: hero-anim-caret 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .step-label-1 {
+  animation: hero-anim-step-label-1 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .step-label-2 {
+  animation: hero-anim-step-label-2 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .step-dot-1 .dot {
+  animation: hero-anim-step-dot-1 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .step-dot-2 .dot {
+  animation: hero-anim-step-dot-2 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-funnel-service {
+  animation: hero-anim-funnel-service 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-funnel-time {
+  animation: hero-anim-funnel-time 15s ease-in-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-funnel-slot.slot-1 {
+  animation: hero-anim-slot-1 15s ease-out infinite, hero-anim-slot-highlight 15s ease-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-funnel-slot.slot-2 {
+  animation: hero-anim-slot-2 15s ease-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-funnel-slot.slot-3 {
+  animation: hero-anim-slot-3 15s ease-out infinite;
+}
+.hero-v3-visual.is-animating .hero-v3-funnel-slot.slot-4 {
+  animation: hero-anim-slot-4 15s ease-out infinite;
+}
+
+/* ── Keyframes (all 15s, percentages map: 1s≈6.67%, 5s≈33.33%, 9s=60%) ─ */
+@keyframes hero-anim-state1-show {
+  0%, 23.33% { opacity: 1; }
+  26.67% { opacity: 0; }
+  96.67% { opacity: 0; }
   100% { opacity: 1; }
 }
-@keyframes hero-anim-phone-pulse {
-  /* Two pulses during Beat 1 — at ~1s and ~2s. */
+@keyframes hero-anim-state2-show {
+  0%, 26.67% { opacity: 0; }
+  30%, 53.33% { opacity: 1; }
+  56.67%, 100% { opacity: 0; }
+}
+@keyframes hero-anim-state3-show {
+  0%, 56.67% { opacity: 0; transform: translateY(12px); }
+  60% { opacity: 1; transform: translateY(0); }
+  96.67% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(12px); }
+}
+@keyframes hero-anim-phone-icon-pulse {
+  /* Two pulses during State 1 — at ~1s (6.67%) and ~2s (13.33%) */
   0% { transform: scale(1); }
-  12.5% { transform: scale(1.08); }
-  18.75% { transform: scale(1); }
-  25% { transform: scale(1.08); }
-  31.25% { transform: scale(1); }
+  6.67% { transform: scale(1.06); }
+  10% { transform: scale(1); }
+  13.33% { transform: scale(1.06); }
+  16.67% { transform: scale(1); }
   100% { transform: scale(1); }
 }
-@keyframes hero-anim-phone-body-dim {
-  /* Dim during Beat 2 (overlay window: 37.5-43.75% = 3-3.5s). */
-  0%, 34% { opacity: 1; }
-  37.5% { opacity: 0.4; }
-  43.75% { opacity: 0.4; }
-  46%, 100% { opacity: 1; }
+@keyframes hero-anim-state1-body-dim {
+  /* Phone body dims during overlay window (20-23.33% = 3-3.5s) */
+  0%, 18% { opacity: 1; }
+  20%, 23.33% { opacity: 0.4; }
+  25%, 100% { opacity: 1; }
 }
-@keyframes hero-anim-phone-overlay {
-  /* "Doesn't call" overlay surfaces 3-3.5s (37.5%-43.75%). */
-  0%, 34% { opacity: 0; }
-  37.5% { opacity: 1; }
-  43.75% { opacity: 1; }
-  47%, 100% { opacity: 0; }
+@keyframes hero-anim-state1-overlay {
+  /* "Doesn't call" surfaces at 3s (20%), holds until 3.5s (23.33%), fades */
+  0%, 18% { opacity: 0; }
+  20% { opacity: 1; }
+  23.33% { opacity: 1; }
+  26.67%, 100% { opacity: 0; }
 }
-@keyframes hero-anim-form-dim {
-  /* Form revealed at 50% (4s after phone fade). Dim during Beat 4b-4c
-     (75%-93.75% = 6-7.5s). Reset at 100% for loop continuity. */
-  0%, 75% { opacity: 1; }
-  81.25%, 93.75% { opacity: 0.4; }
+@keyframes hero-anim-state2-body-dim {
+  /* Form dims during overlay window (50-53.33% = 7.5-8s) */
+  0%, 46% { opacity: 1; }
+  50%, 53.33% { opacity: 0.4; }
+  56% { opacity: 1; }
   100% { opacity: 1; }
 }
-@keyframes hero-anim-form-overlay {
-  /* "Doesn't submit" overlay surfaces 6-7s (75%-87.5%), fades by 93.75%. */
-  0%, 71% { opacity: 0; }
-  75% { opacity: 1; }
-  87.5% { opacity: 1; }
-  93.75%, 100% { opacity: 0; }
+@keyframes hero-anim-state2-overlay {
+  /* "Doesn't submit" surfaces at 7.5s (50%), holds until 8s (53.33%) */
+  0%, 48% { opacity: 0; }
+  50% { opacity: 1; }
+  53.33% { opacity: 1; }
+  56.67%, 100% { opacity: 0; }
 }
 @keyframes hero-anim-type {
-  /* Typing 4-5.5s (50%-68.75%): width grows char-by-char via steps(5).
-     Hold full width through hesitate + give-up + RIVR, then reset. */
-  0%, 50% { max-width: 0; }
-  54% { max-width: 0; }
-  68.75% { max-width: 40px; }
-  93% { max-width: 40px; }
-  94%, 100% { max-width: 0; }
+  /* Typing "Sarah" 5.5-6.7s (36.67-44.67%): width grows via steps(5) */
+  0%, 36.67% { max-width: 0; }
+  44.67% { max-width: 40px; }
+  53.33% { max-width: 40px; }
+  56.67%, 100% { max-width: 0; }
 }
 @keyframes hero-anim-caret {
-  /* Caret on during typing 4-5.5s (50-68.75%), off otherwise. */
-  0%, 50% { opacity: 0; }
-  54%, 68.75% { opacity: 1; }
-  72%, 100% { opacity: 0; }
+  /* Caret visible during typing window, then off as cursor "drifts" */
+  0%, 33.33% { opacity: 0; }
+  35%, 44.67% { opacity: 1; }
+  46.67%, 100% { opacity: 0; }
 }
-@keyframes hero-anim-arrow {
-  /* Two walnut pulses — once during phone-doesn't-call (37.5-43.75%),
-     once during form-doesn't-submit (75-87.5%). */
-  0%, 34% { opacity: 0.55; transform: scale(1); color: var(--color-text-muted); }
-  37.5% { opacity: 1; transform: scale(1.18); color: var(--color-walnut); }
-  43.75% { opacity: 1; transform: scale(1); color: var(--color-walnut); }
-  47%, 71% { opacity: 0.55; transform: scale(1); color: var(--color-text-muted); }
-  75% { opacity: 1; transform: scale(1.18); color: var(--color-walnut); }
-  87.5% { opacity: 1; transform: scale(1); color: var(--color-walnut); }
-  93.75%, 100% { opacity: 0.55; transform: scale(1); color: var(--color-text-muted); }
+@keyframes hero-anim-step-label-1 {
+  /* "STEP 1 of 4" label visible 60-66.67% (9-10s), fades 66.67-70% */
+  0%, 60% { opacity: 0; }
+  62% { opacity: 1; }
+  66.67% { opacity: 1; }
+  70%, 100% { opacity: 0; }
 }
-@keyframes hero-anim-after {
-  /* RIVR card sits dim+translated through Beats 1-4 (0-87.5%), brightens
-     + slides up during Beat 5 (87.5-93.75% = 7-7.5s), holds, then resets
-     during Beat 6 (93.75-100% = 7.5-8s). */
-  0%, 87.5% { opacity: 0.5; transform: translateY(12px); }
-  93.75% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0.5; transform: translateY(12px); }
+@keyframes hero-anim-step-label-2 {
+  /* "STEP 2 of 4" fades in at step transition (66.67-70%) */
+  0%, 67.5% { opacity: 0; }
+  70%, 96.67% { opacity: 1; }
+  100% { opacity: 0; }
 }
-@keyframes hero-anim-card-pulse {
-  /* Injectables card emits an accent ring right after RIVR brightens. */
-  0%, 90% { box-shadow: none; }
-  93% { box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.28); }
-  96% { box-shadow: 0 0 0 6px rgba(var(--color-accent-rgb), 0); }
+@keyframes hero-anim-step-dot-1 {
+  /* Dot 1 active 60-66.67%, returns inactive at step transition */
+  0%, 60% { background: var(--color-walnut); border-color: var(--color-walnut); }
+  66.67% { background: var(--color-walnut); border-color: var(--color-walnut); }
+  70%, 100% { background: transparent; border-color: var(--color-rule); }
+}
+@keyframes hero-anim-step-dot-2 {
+  /* Dot 2 inactive until step transition, then active */
+  0%, 67% { background: transparent; border-color: var(--color-rule); }
+  70%, 96.67% { background: var(--color-walnut); border-color: var(--color-walnut); }
+  100% { background: transparent; border-color: var(--color-rule); }
+}
+@keyframes hero-anim-funnel-service {
+  /* Service-step view fades in at 60%, visible 60-69%, fades out 69-71.33% */
+  0%, 60% { opacity: 0; transform: translateY(0); }
+  61% { opacity: 1; transform: translateY(0); }
+  69% { opacity: 1; transform: translateY(0); }
+  71.33% { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 0; transform: translateY(0); }
+}
+@keyframes hero-anim-funnel-time {
+  /* Time-step view fades in 69.33-73.33% (10.4-11s), visible through end */
+  0%, 69.33% { opacity: 0; transform: translateY(8px); }
+  73.33% { opacity: 1; transform: translateY(0); }
+  96.67% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(8px); }
+}
+@keyframes hero-anim-slot-1 {
+  0%, 70% { opacity: 0; transform: translateY(8px); }
+  72% { opacity: 1; transform: translateY(0); }
+  96.67% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(8px); }
+}
+@keyframes hero-anim-slot-2 {
+  0%, 70.5% { opacity: 0; transform: translateY(8px); }
+  72.5% { opacity: 1; transform: translateY(0); }
+  96.67% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(8px); }
+}
+@keyframes hero-anim-slot-3 {
+  0%, 71% { opacity: 0; transform: translateY(8px); }
+  73% { opacity: 1; transform: translateY(0); }
+  96.67% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(8px); }
+}
+@keyframes hero-anim-slot-4 {
+  0%, 71.5% { opacity: 0; transform: translateY(8px); }
+  73.5% { opacity: 1; transform: translateY(0); }
+  96.67% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(8px); }
+}
+@keyframes hero-anim-slot-highlight {
+  /* Highlighted "Wed 10:00 AM" pulses at 83-87% (~12.5-13s) */
+  0%, 83% { box-shadow: none; }
+  85% { box-shadow: 0 0 0 4px rgba(139, 90, 60, 0.28); }
+  87% { box-shadow: 0 0 0 8px rgba(139, 90, 60, 0); }
   100% { box-shadow: none; }
 }
 
-/* Reduced-motion fallback — no cycling, stack both broken panels vertically
-   on the left so the prospect still sees both patterns reflected back. */
+/* Reduced-motion fallback labels — hidden by default */
+.hero-v3-stage-rmlabel { display: none; }
+
+/* Reduced-motion fallback — stack all three states vertically with labels */
 @media (prefers-reduced-motion: reduce) {
-  .hero-v3-visual.is-animating .hero-v3-phone,
-  .hero-v3-visual.is-animating .hero-v3-phone-icon,
-  .hero-v3-visual.is-animating .hero-v3-phone-body,
-  .hero-v3-visual.is-animating .hero-v3-phone-overlay,
-  .hero-v3-visual.is-animating .hero-v3-before,
-  .hero-v3-visual.is-animating .hero-v3-before-overlay,
-  .hero-v3-visual.is-animating .hero-v3-typing,
-  .hero-v3-visual.is-animating .hero-v3-caret,
-  .hero-v3-visual.is-animating .hero-v3-arrow,
-  .hero-v3-visual.is-animating .hero-v3-after,
-  .hero-v3-visual.is-animating .hero-v3-after-card.is-pulse {
+  .hero-v3-visual.is-animating *,
+  .hero-v3-visual.is-animating *::before,
+  .hero-v3-visual.is-animating *::after {
     animation: none !important;
+    transition: none !important;
   }
-  /* Stack the two broken panels vertically — both visible, both dim,
-     so the prospect sees themselves regardless of pattern. */
-  .hero-v3-broken {
+  .hero-v3-stage {
+    position: static;
     display: grid;
-    grid-template-rows: auto auto;
-    gap: 12px;
+    grid-template-rows: auto auto auto auto auto auto;
+    gap: 16px;
+    min-height: auto;
   }
-  .hero-v3-phone { position: static; opacity: 0.7; }
-  .hero-v3-before { opacity: 0.7; }
+  .hero-v3-state {
+    position: static;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-v3-state-overlay { display: none; }
   .hero-v3-typing { max-width: 40px; }
+  .hero-v3-funnel-view {
+    position: static;
+    opacity: 1 !important;
+    transform: none !important;
+    margin-bottom: 14px;
+  }
+  .step-label-1, .step-label-2 { opacity: 1; }
+  .step-dot-2 .dot {
+    background: var(--color-walnut); border-color: var(--color-walnut);
+  }
+  .hero-v3-stage-rmlabel {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0 0 4px;
+  }
+  .hero-v3-stage-rmlabel-1 { order: 0; }
+  .hero-v3-state-phone     { order: 1; }
+  .hero-v3-stage-rmlabel-2 { order: 2; }
+  .hero-v3-state-form      { order: 3; }
+  .hero-v3-stage-rmlabel-3 { order: 4; }
+  .hero-v3-state-funnel    { order: 5; }
 }
+
 
 /* ========================================================================
    Pipeline (How It Works) — sticky scroll sequence
