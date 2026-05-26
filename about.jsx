@@ -47,7 +47,7 @@ function AboutHero() {
           />
           <Reveal delay={620}>
             <p className="text-body-lg" style={{ marginTop: 40, maxWidth: 620 }}>
-              RIVR builds custom booking funnels for medical spas and aesthetic practices. Both of us write the code, design the page, and ship the work. There&rsquo;s no agency layer, no template install, no platform migration sales pitch &mdash; when you describe what your practice needs, the people who heard the call are the same people building the page.
+              RIVR builds custom booking funnels for medical spas and aesthetic practices. Both of us write the code, design the page, and ship the work. There&rsquo;s no agency layer, no template install, no platform migration sales pitch. When you describe what your practice needs, the people who heard the call are the same people building the page.
             </p>
           </Reveal>
         </div>
@@ -186,7 +186,7 @@ function FoundersSection() {
                   section — the one allowed 3-declarative rhythm on the
                   page lives here. */}
               <p>
-                I&rsquo;m 18 and started RIVR with Jonas instead of taking on debt or a service-wage job through college. I head to FIU next fall. On the build side I own the booking funnels, the three live demos at <em>the build</em>, and the marketing site you&rsquo;re reading right now. When I&rsquo;m not on a build I&rsquo;m reading or running. RIVR is my full focus, not a side project. We pick up the phone. We sign the BAA. We answer in 48 hours.
+                I&rsquo;m 18 and started RIVR with Jonas instead of taking on debt or a service-wage job through college. I head to FIU next fall. On the build side I own the booking funnels, the three live demos at <em>the build</em>, and the marketing site you&rsquo;re reading right now. When I&rsquo;m not on a build I&rsquo;m reading or running, and RIVR is my full focus rather than a side project. We pick up the phone. We sign the BAA. We answer in 48 hours.
               </p>
             </div>
           </FadeUp>
@@ -225,7 +225,7 @@ function WhereWeAreFrom() {
 
           <Reveal delay={240}>
             <p>
-              The practices we build for &mdash; concierge surgical groups, multi-tier studios, retail med spas &mdash; are the kinds of practices that exist within five miles of where we grew up. We&rsquo;ve been around the patient register, the price points, the way a coordinator answers the phone. When you describe your practice on the walkthrough call, we recognize it.
+              The practices we build for (concierge surgical groups, multi-tier studios, retail med spas) are the kinds of practices that exist within five miles of where we grew up. We&rsquo;ve been around the patient register, the price points, the way a coordinator answers the phone. When you describe your practice on the walkthrough call, we recognize it.
             </p>
           </Reveal>
 
@@ -262,7 +262,7 @@ function WhatWereBuilding() {
             small-shop affirmative. */}
         <Reveal delay={300}>
           <p className="text-body-lg" style={{ marginTop: 40, maxWidth: 600, marginInline: "auto" }}>
-            Every reference build on our site &mdash; Sela, Devereaux, Lumera &mdash; was built by us end to end. Walk through any of them. The work argues for itself.
+            Every reference build on our site &mdash; Sela, Devereaux, Lumera &mdash; was built by us end to end. Walk through any of them.
           </p>
         </Reveal>
         <Reveal delay={420}>
