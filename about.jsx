@@ -165,15 +165,12 @@ function FoundersSection() {
             <div className="founder">
               <p className="label">Co-founder</p>
               <h2>Jonas Vangura</h2>
+              {/* Polish 12 / B5: existing bio kept (already strong). Smart
+                  quotes around &lsquo;no migration&rsquo; were already correct
+                  via &ldquo;&rdquo; entities. Visible placeholder block
+                  removed — paragraph 1 does the work alone. */}
               <p>
-                I study at Florida International University&rsquo;s Honors College and train Muay Thai when I&rsquo;m not in front of a screen. On the build side, I own the backend integrations &mdash; calendar APIs, intake handoff, the parts that connect a RIVR booking page to whatever software a practice already runs. That&rsquo;s the work that makes &ldquo;no migration&rdquo; actually true.
-              </p>
-              {/* [PLACEHOLDER: Jonas — fill in 2-3 sentences of personal
-                  narrative. Hometown, path to RIVR, what you care about
-                  outside the work. Keep it concrete; avoid generic founder
-                  bio voice.] */}
-              <p>
-                <em>[PLACEHOLDER &mdash; Jonas, fill in 2&ndash;3 sentences here: hometown / path to this work / what you care about outside RIVR. Concrete details, not generic founder voice.]</em>
+                I study at Florida International University&rsquo;s Honors College and train Muay Thai when I&rsquo;m not in front of a screen. On the build side, I own the backend integrations: calendar APIs, intake handoff, the parts that connect a RIVR booking page to whatever software a practice already runs. That&rsquo;s the work that makes &ldquo;no migration&rdquo; actually true.
               </p>
             </div>
           </FadeUp>
@@ -216,45 +213,28 @@ function WhereWeAreFrom() {
           lines={[<>Ponte Vedra Beach, Florida.</>]}
         />
         <div style={{ marginTop: 56, fontSize: "1.125rem", lineHeight: 1.7, maxWidth: 720 }}>
-          {/* [PLACEHOLDER: founder will rewrite — paragraph 1 sets the
-              place. PV/TPC/Northeast Florida specifics. Avoid postcard
-              language.] */}
+          {/* Polish 12 / B6 Edit 1: "your mom's friend" off-demographic
+              for the 35-55 practice-owner reader. Reframed to "social
+              fabric / friends recommend" so the geographic claim lands
+              with the actual audience. */}
           <Reveal delay={120}>
             <p style={{ marginBottom: 24 }}>
-              We grew up here. A few miles from TPC Sawgrass, a short drive from Jacksonville Beach, in the kind of Northeast Florida town where the local aesthetic-medicine practice is the same one your mom&rsquo;s friend goes to. That proximity isn&rsquo;t a marketing line &mdash; it&rsquo;s the reason we know what a boutique practice actually looks like.
+              We grew up here. A few miles from TPC Sawgrass, a short drive from Jacksonville Beach, in the kind of Northeast Florida town where the local boutique med spa is part of the social fabric &mdash; the place your friends recommend. That proximity isn&rsquo;t a marketing line: it&rsquo;s the reason we know what a boutique practice actually looks like.
             </p>
           </Reveal>
 
-          {/* [PLACEHOLDER: founder will rewrite — paragraph 2 connects
-              place to product instinct. Why this geography gives us an
-              edge in this market specifically.] */}
           <Reveal delay={240}>
-            <p style={{ marginBottom: 24 }}>
+            <p>
               The practices we build for &mdash; concierge surgical groups, multi-tier studios, retail med spas &mdash; are the kinds of practices that exist within five miles of where we grew up. We&rsquo;ve been around the patient register, the price points, the way a coordinator answers the phone. When you describe your practice on the walkthrough call, we recognize it.
             </p>
           </Reveal>
 
-          {/* [PLACEHOLDER: founder will add personal specifics — childhood,
-              family, formative experiences. Concrete + brief.] */}
-          <Reveal delay={360}>
-            <p>
-              <em>[PLACEHOLDER &mdash; one paragraph of personal specifics: childhood / family / a formative moment that connects to why this work feels right. Brief and concrete.]</em>
-            </p>
-          </Reveal>
+          {/* Polish 12 / B6 Edit 2 + B7: visible italic PLACEHOLDER block
+              for a third paragraph removed (two paragraphs above do the
+              work). Photo placeholder grid below also removed — dashed
+              placeholder blocks in a shipping page read "AI gen incomplete"
+              and undermine the rest of the work. */}
         </div>
-
-        {/* Photo grid — placeholder block until founder uploads real shots.
-            Clearly marked so it doesn't ship to production accidentally. */}
-        <Reveal delay={480}>
-          <div className="about-from-photos" aria-hidden>
-            <div className="about-from-photo-ph">
-              <span>[PHOTO: PONTE VEDRA / TPC]</span>
-            </div>
-            <div className="about-from-photo-ph">
-              <span>[PHOTO: HOMETOWN / FOUNDERS GROWING UP]</span>
-            </div>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
@@ -275,17 +255,27 @@ function WhatWereBuilding() {
           as="h2" className="text-display-2" baseDelay={60}
           lines={[<>If this resonates,</>, <>let&rsquo;s talk.</>]}
         />
+        {/* Polish 12 / B3 + B8: new demos-prove-it lead absorbed from the
+            dropped AgeQuestion section. The "We're not the agency choice"
+            opener was an over-used negation pattern (page already has too
+            many negative-space definitions) — dropped, kept the
+            small-shop affirmative. */}
         <Reveal delay={300}>
           <p className="text-body-lg" style={{ marginTop: 40, maxWidth: 600, marginInline: "auto" }}>
-            We&rsquo;re not the agency choice. We&rsquo;re the small-shop choice &mdash; two founders, fast, focused on doing this one thing well.
+            Every reference build on our site &mdash; Sela, Devereaux, Lumera &mdash; was built by us end to end. Walk through any of them. The work argues for itself.
           </p>
         </Reveal>
         <Reveal delay={420}>
           <p className="text-body-lg" style={{ marginTop: 18, maxWidth: 600, marginInline: "auto" }}>
+            We&rsquo;re the small-shop choice: two founders, fast, focused on doing this one thing well.
+          </p>
+        </Reveal>
+        <Reveal delay={540}>
+          <p className="text-body-lg" style={{ marginTop: 18, maxWidth: 600, marginInline: "auto" }}>
             If you&rsquo;ve read this far, you probably want to see what we&rsquo;d build for your practice. Fifteen minutes, one screen share, no pitch deck.
           </p>
         </Reveal>
-        <Reveal delay={560}>
+        <Reveal delay={660}>
           <div style={{ marginTop: 44, display: "flex", justifyContent: "center" }}>
             <Button href="book.html" variant="primary">Book a 15-min walkthrough</Button>
           </div>
