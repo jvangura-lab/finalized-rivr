@@ -1225,7 +1225,8 @@ img { display: block; max-width: 100%; }
   color: #6E6157;
 }
 .hero-v3-form-field .inp {
-  display: block;
+  display: flex;
+  align-items: center;
   height: 28px;
   background: #F7F5F0;
   border: 1px solid #D8D5CF;
@@ -1256,25 +1257,27 @@ img { display: block; max-width: 100%; }
   margin-top: 2px;
 }
 
-/* Typing text inside the Name input — only renders while animating. */
+/* Typing text inside the Name input — only renders while animating.
+   Parent .inp uses display: flex + align-items: center so the typing
+   and caret render vertically centered without depending on line-height
+   math. (Earlier line-height: 26px overflowed the new 26px input box
+   by 3px on the bottom.) */
 .hero-v3-typing {
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  vertical-align: middle;
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 12px;
+  line-height: 1;
   color: #2B2620;
   padding-left: 8px;
-  line-height: 26px;
   max-width: 0;
 }
 .hero-v3-caret {
   display: inline-block;
   width: 1px;
-  height: 14px;
+  height: 12px;
   background: #6E6157;
-  vertical-align: middle;
   margin-left: 2px;
   opacity: 0;
 }
@@ -1859,22 +1862,63 @@ img { display: block; max-width: 100%; }
   100% { box-shadow: none; }
 }
 
-/* ── Polish 9: initial cursor + delayed-highlight on State 3 entry ────
+/* ── Cursor across all 4 State 3 phases (Polish 12 Part A / Fix A1) ──
+   Cursor persists through Service → Time → Confirm → Done, clicking
+   each phase's CTA. Each click is ~400-600ms after phase begin.
    Beat layout (relative to 18s = 100%):
-     50%   (9.00s) State 3 enters; cursor begins glide-in from upper-right
-     54%   (9.72s) Cursor lands on Injectables card
-     54.5% (9.81s) Click pulse (cursor scale 0.88)
-     55%   (9.90s) Cursor releases; Injectables card highlight ACTIVATES
-     56.5% (10.17s) Cursor fades out
-     >57%          Standard State 3 progression continues unchanged    */
+     50%   (9.00s)  State 3 enters; cursor glides in from upper-right
+     54%   (9.72s)  Cursor lands on Injectables card (Service)
+     54.5% (9.81s)  Click pulse (scale 0.88); Injectables highlight activates
+     58.8%-61.8%   Cursor transitions to Time view between phases
+     63%   (11.34s) Cursor lands on Wed 10:00 AM slot (Time)
+     63.5% (11.43s) Click pulse
+     70.6%-73.5%   Cursor transitions to Confirm view between phases
+     75%   (13.50s) Cursor lands on "Confirm booking" button (Confirm)
+     75.5% (13.59s) Click pulse
+     82.3%-83%     Cursor briefly visible at start of Done phase
+     85%   (15.30s) Cursor fades out so "You're booked." reads clean
+     >85%           Done payoff lands without cursor in frame          */
 @keyframes hero-anim-funnel-cursor {
+  /* 0-50%: hidden, off-stage upper right */
   0%, 50% { opacity: 0; transform: translate(70px, -30px); }
+
+  /* Service phase (50-58.82%) */
   51% { opacity: 1; transform: translate(80px, 60px) scale(1); }
   54% { opacity: 1; transform: translate(150px, 215px) scale(1); }
   54.5% { opacity: 1; transform: translate(150px, 215px) scale(0.88); }
   55% { opacity: 1; transform: translate(150px, 215px) scale(1); }
-  56.5% { opacity: 0; transform: translate(150px, 215px) scale(1); }
-  100% { opacity: 0; transform: translate(150px, 215px) scale(1); }
+  58% { opacity: 1; transform: translate(150px, 215px) scale(1); }
+
+  /* Service → Time transition: cursor slides toward the time slot
+     (slot-1 = "Wed 10:00 AM" — top-left of the 2×2 grid) */
+  61% { opacity: 1; transform: translate(130px, 240px) scale(1); }
+
+  /* Time phase (61.76-70.59%) — lands on "Wed 10:00 AM" slot,
+     measured at (131, 264) center, tip-offset adjusted */
+  63% { opacity: 1; transform: translate(125px, 250px) scale(1); }
+  63.5% { opacity: 1; transform: translate(125px, 250px) scale(0.88); }
+  64% { opacity: 1; transform: translate(125px, 250px) scale(1); }
+  70% { opacity: 1; transform: translate(125px, 250px) scale(1); }
+
+  /* Time → Confirm transition: cursor slides toward the Confirm button
+     (measured center y=434 — was at 400 which is 10px above button top) */
+  73% { opacity: 1; transform: translate(220px, 410px) scale(1); }
+
+  /* Confirm phase (73.53-79.41%) — lands on "Confirm booking" CTA */
+  75% { opacity: 1; transform: translate(240px, 432px) scale(1); }
+  75.5% { opacity: 1; transform: translate(240px, 432px) scale(0.88); }
+  76% { opacity: 1; transform: translate(240px, 432px) scale(1); }
+  79% { opacity: 1; transform: translate(240px, 432px) scale(1); }
+
+  /* Confirm → Done transition: cursor drifts off to the side */
+  82% { opacity: 1; transform: translate(320px, 220px) scale(1); }
+
+  /* Done phase — cursor briefly visible, fades out before payoff lands */
+  83% { opacity: 0.7; transform: translate(320px, 220px) scale(1); }
+  85% { opacity: 0; transform: translate(320px, 220px) scale(1); }
+
+  /* Hidden through rest of cycle */
+  100% { opacity: 0; transform: translate(70px, -30px); }
 }
 @keyframes hero-anim-card-delay-highlight {
   /* Suppress .is-highlight visuals until the cursor clicks at 55%. */
