@@ -41,13 +41,13 @@ function AboutHero() {
             as="h1" className="text-display-1" baseDelay={60} gap={110}
             lines={[
               <>Two founders.</>,
-              <>Both code.</>,
-              <>Built for practices that have <span className="serif" style={{ color: "var(--color-accent)" }}>outgrown templates</span>.</>,
+              <>Both build.</>,
+              <>No handoffs.</>,
             ]}
           />
-          <Reveal delay={680}>
+          <Reveal delay={620}>
             <p className="text-body-lg" style={{ marginTop: 40, maxWidth: 620 }}>
-              RIVR is a two-person studio. We build custom booking funnels for medical spas and aesthetic practices &mdash; not template installs, not platform migrations. The two people who design your page also ship it and support it.
+              RIVR builds custom booking funnels for medical spas and aesthetic practices. Both of us write the code, design the page, and ship the work. There&rsquo;s no agency layer, no template install, no platform migration sales pitch &mdash; when you describe what your practice needs, the people who heard the call are the same people building the page.
             </p>
           </Reveal>
         </div>
@@ -181,14 +181,15 @@ function FoundersSection() {
             <div className="founder">
               <p className="label">Co-founder</p>
               <h2>Thor Gyulai</h2>
+              {/* Polish 12 / B4: bio rewritten. Opening grounds RIVR in
+                  honest origin (not heroic startup story). FIU next-fall
+                  detail anchors the timeline. "Reading or running" matches
+                  Jonas's Muay Thai personal anchor. Closing absorbs the
+                  commitment-stack content from the dropped AgeQuestion
+                  section — the one allowed 3-declarative rhythm on the
+                  page lives here. */}
               <p>
-                I&rsquo;m 18 and RIVR is my full-time work. On the build side I own the booking funnels themselves, the three live demos at <em>the build</em>, and the marketing site you&rsquo;re reading right now. Jonas and I run checks on each other&rsquo;s work so the deliverables hold up.
-              </p>
-              {/* [PLACEHOLDER: Thor — fill in 2-3 sentences of personal
-                  narrative. Hometown specifics, what you were doing before
-                  RIVR, what you care about outside the work.] */}
-              <p>
-                <em>[PLACEHOLDER &mdash; Thor, fill in 2&ndash;3 sentences here: where you grew up, what you were doing before RIVR, what you care about outside the work. Concrete, not generic.]</em>
+                I&rsquo;m 18 and started RIVR with Jonas instead of taking on debt or a service-wage job through college. I head to FIU next fall. On the build side I own the booking funnels, the three live demos at <em>the build</em>, and the marketing site you&rsquo;re reading right now. When I&rsquo;m not on a build I&rsquo;m reading or running. RIVR is my full focus, not a side project. We pick up the phone. We sign the BAA. We answer in 48 hours.
               </p>
             </div>
           </FadeUp>
@@ -296,12 +297,16 @@ function WhatWereBuilding() {
 
 // ─── Compose ─────────────────────────────────────────────────────────────────
 function Page() {
+  // Polish 12 / B1: <AgeQuestion /> unmounted (component definition above kept
+  // intact). Dedicated section announced age concern more loudly than the
+  // bare fact would. The strongest beats from that section live in:
+  //   - Thor's bio closing (commitment stack: phone / BAA / 48h response)
+  //   - WhatWereBuilding lead (the demos argue for the work)
   return (
     <>
       <Nav current="about" />
       <main id="main">
         <AboutHero />
-        <AgeQuestion />
         <FoundersSection />
         <WhereWeAreFrom />
         <WhatWereBuilding />
