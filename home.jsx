@@ -174,6 +174,19 @@ function Hero() {
                     </div>
                   </div>
 
+                  {/* 3b. Services strip — adds visual density between the phone
+                       CTA and the info row, and signals "real practice site
+                       with real services" instead of a phone-number callout. */}
+                  <div className="hero-v3-site-services" aria-hidden>
+                    <span>Injectables</span>
+                    <span className="dot" aria-hidden>&middot;</span>
+                    <span>Skin</span>
+                    <span className="dot" aria-hidden>&middot;</span>
+                    <span>Laser</span>
+                    <span className="dot" aria-hidden>&middot;</span>
+                    <span>Membership</span>
+                  </div>
+
                   {/* 4. Info row — hours + address */}
                   <div className="hero-v3-site-info">
                     <span>Mon&ndash;Fri 9&ndash;6 &middot; Sat 10&ndash;4</span>

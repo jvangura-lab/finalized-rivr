@@ -978,31 +978,60 @@ img { display: block; max-width: 100%; }
   font-size: 1.4rem;
 }
 
-/* 3. CTA wrapper (State 1) — centers the phone CTA box on a fresh row */
+/* 3. CTA wrapper (State 1) — centers the phone CTA box on a fresh row.
+   Coastal panel pass: top padding 18→20 (hero→CTA gap = 20px per spec),
+   bottom padding stays 14 (CTA→services gap = 14px). */
 .hero-v3-site-cta-wrap {
   display: flex; align-items: center; justify-content: center;
-  padding: 18px 24px 14px;
+  padding: 20px 24px 14px;
   flex-shrink: 0;
 }
 .hero-v3-state-phone .hero-v3-phone-cta {
   /* Polish 11 / Fix 2: padding 14/22 → 14/24 for slightly more breathing
      room; gap 12 → 14 between icon and number; full pill border-radius
-     so the card reads as an intentional designed component. */
+     so the card reads as an intentional designed component.
+     Coastal panel pass: constrain to ~70% of the inner content width
+     (panel inner is roughly 360px → max 252px) and centre, so the CTA
+     stops dominating the panel as the only "real" element. */
   padding: 14px 24px;
   gap: 14px;
   margin-top: 0;
   border-radius: 999px;
+  width: 70%;
+  max-width: 260px;
+  justify-content: center;
 }
 .hero-v3-state-phone .hero-v3-phone-num {
   /* Was 1.625/700/-0.012 — overweighted relative to the new restrained
-     CTA card. Now 1.5/500/-0.01 — designed, not bombastic. */
+     CTA card. Now 1.5/500/-0.01 — designed, not bombastic.
+     Coastal panel pass: 1.5 → 1.3125rem so the number stops out-shouting
+     the headline + services strip; weight + colour unchanged. */
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.3125rem;
   font-weight: 500;
   letter-spacing: -0.01em;
   color: #3B5266;
 }
 .hero-v3-state-phone .hero-v3-phone-icon { width: 22px; height: 22px; }
+
+/* 3b. Services strip (State 1) — small mono category labels separated
+   by mid-dots. Sits between the phone CTA and the info row to add
+   visual density and signal "real practice with real services" rather
+   than a phone-number callout. State 1 only — State 2 (Magnolia) uses
+   the form for the equivalent role. */
+.hero-v3-site-services {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 18px;
+  border-top: 1px solid rgba(59, 82, 102, 0.06);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #7A8794;
+  flex-shrink: 0;
+}
+.hero-v3-site-services .dot { opacity: 0.5; }
 
 /* 4. Info row */
 .hero-v3-site-info {
