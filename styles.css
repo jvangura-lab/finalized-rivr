@@ -4178,3 +4178,102 @@ img { display: block; max-width: 100%; }
   }
 }
 
+/* ========================================================================
+   .termly-policy — namespace scope for Termly Starter-plan HTML exports.
+   The Termly snippet ships Arial + #595959 grey via inline styles and a
+   <style> block scoped to [data-custom-class='…'] selectors. These rules
+   re-map the typography and link colour to the rivr-web palette so the
+   policy reads as part of the site, while leaving Termly's structural
+   styles (lists, indentation, BDT spans, branding watermark) intact.
+   Used by privacy.jsx and terms.jsx via <div class="termly-policy">.
+   ======================================================================== */
+.termly-policy {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+.termly-policy h1,
+.termly-policy h2,
+.termly-policy h3,
+.termly-policy h4 {
+  font-family: var(--font-display);
+  color: var(--color-text);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 2rem 0 0.75rem;
+}
+.termly-policy p {
+  margin: 0 0 1rem 0;
+}
+.termly-policy ul,
+.termly-policy ol {
+  margin: 1rem 0 1rem 1.5rem;
+}
+.termly-policy li {
+  margin-bottom: 0.5rem;
+}
+.termly-policy a,
+.termly-policy a * {
+  color: var(--color-accent-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.termly-policy a:hover,
+.termly-policy a:hover * {
+  color: var(--color-walnut);
+}
+/* Re-paint Termly's [data-custom-class] inline overrides so its !important
+   colours/families don't survive into the rendered policy. We win the
+   specificity battle by matching the same attribute + adding !important. */
+.termly-policy [data-custom-class='title'],
+.termly-policy [data-custom-class='title'] * {
+  font-family: var(--font-display) !important;
+  color: var(--color-text) !important;
+  font-size: 1.75rem !important;
+}
+.termly-policy [data-custom-class='subtitle'],
+.termly-policy [data-custom-class='subtitle'] * {
+  font-family: var(--font-body) !important;
+  color: var(--color-text-subtle) !important;
+}
+.termly-policy [data-custom-class='heading_1'],
+.termly-policy [data-custom-class='heading_1'] * {
+  font-family: var(--font-display) !important;
+  color: var(--color-text) !important;
+  font-size: 1.25rem !important;
+}
+.termly-policy [data-custom-class='heading_2'],
+.termly-policy [data-custom-class='heading_2'] * {
+  font-family: var(--font-display) !important;
+  color: var(--color-text) !important;
+  font-size: 1.0625rem !important;
+}
+.termly-policy [data-custom-class='body_text'],
+.termly-policy [data-custom-class='body_text'] * {
+  font-family: var(--font-body) !important;
+  color: var(--color-text) !important;
+}
+.termly-policy [data-custom-class='link'],
+.termly-policy [data-custom-class='link'] * {
+  color: var(--color-accent-strong) !important;
+  text-decoration: underline !important;
+}
+.termly-policy [data-custom-class='link']:hover,
+.termly-policy [data-custom-class='link']:hover * {
+  color: var(--color-walnut) !important;
+}
+/* Termly Starter-plan branding/watermark must stay visible (ToS requires it
+   on the Starter tier). Just nudge it into the prose rhythm. */
+.termly-policy [data-custom-class='body'] {
+  background: transparent !important;
+}
+
+/* Hero shim for /privacy and /terms — narrower container than the home/about
+   heroes, and the grid-bg fades a touch faster so it doesn't compete with
+   the policy text below. */
+.policy-hero .hero-grid-bg {
+  opacity: 0.4;
+}
+
+
