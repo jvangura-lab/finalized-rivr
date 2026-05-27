@@ -429,13 +429,13 @@ function Footer() {
 
           <div>
             <h4>Legal</h4>
-            {/* Privacy + Terms now live on-site (Termly Starter HTML wrapped in
-                /privacy + /terms routes). Cookies stays placeholder until
-                Termly cookie scan runs against the live production URL. */}
+            {/* All three Termly policies (Privacy, Terms, Cookies) now live
+                on-site as branded routes — same .termly-policy scope and
+                PolicyHero treatment across all three. */}
             <ul>
               <li><a href="privacy.html">Privacy</a></li>
               <li><a href="terms.html">Terms</a></li>
-              <li><a href="https://rivrsystems.com/cookies">Cookies</a></li>
+              <li><a href="cookies.html">Cookies</a></li>
             </ul>
           </div>
         </div>
