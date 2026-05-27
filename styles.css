@@ -2780,6 +2780,30 @@ img { display: block; max-width: 100%; }
   .about-photo--split figcaption { font-size: 1rem; top: 12px; left: 14px; }
 }
 
+/* Photo placeholder — stand-in for Thor's headshot while the replacement
+   shot is taken. Matches the dimensions of a real <img> inside an
+   .about-photo--split figure (full width/height, object-fit cover) so
+   the two-up grid keeps its 1:1 rhythm. Understated treatment: warm
+   cream ground, dashed walnut hairline, small mono caption. Reads as
+   "intentionally blank for now" rather than broken. */
+.about-photo-placeholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-cream-hover);
+  border: 1px dashed rgba(139, 90, 60, 0.2);
+}
+.about-photo-placeholder span {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-walnut);
+}
+
 /* About / Where We're From — photo placeholder grid. Replace with real
    shots before deploy (founder is uploading TPC + hometown photos). */
 .about-from-photos {

@@ -145,9 +145,19 @@ function FoundersSection() {
             <figcaption>Jonas</figcaption>
           </figure>
           <figure>
-            {/* PLACEHOLDER: replace imagery/thor-headshot.jpg tonight before
-                deploy. The src path stays the same; just swap the file. */}
-            <img src="imagery/thor-headshot.jpg" alt="Thor Gyulai, co-founder of RIVR" />
+            {/* Thor headshot is being retaken; the current shot was tired and
+                shipping with it would weaken the founder section. Until the
+                replacement lands, render a "PHOTO PENDING" placeholder that
+                matches Jonas's photo dimensions so the two-up layout doesn't
+                collapse. Swap back to <img src="imagery/thor-headshot.jpg" />
+                when the new photo lands. */}
+            <div
+              className="about-photo-placeholder"
+              role="img"
+              aria-label="Thor Gyulai photo placeholder — replacement headshot coming"
+            >
+              <span>Photo pending</span>
+            </div>
             <figcaption>Thor</figcaption>
           </figure>
           <div style={{
