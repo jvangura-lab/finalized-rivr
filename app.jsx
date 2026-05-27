@@ -429,10 +429,12 @@ function Footer() {
 
           <div>
             <h4>Legal</h4>
-            {/* TODO(thor): confirm these match the real Termly URLs. See BLOCKED_ON_THOR.md. */}
+            {/* Privacy + Terms now live on-site (Termly Starter HTML wrapped in
+                /privacy + /terms routes). Cookies stays placeholder until
+                Termly cookie scan runs against the live production URL. */}
             <ul>
-              <li><a href="https://rivrsystems.com/privacy">Privacy</a></li>
-              <li><a href="https://rivrsystems.com/terms">Terms</a></li>
+              <li><a href="privacy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
               <li><a href="https://rivrsystems.com/cookies">Cookies</a></li>
             </ul>
           </div>
